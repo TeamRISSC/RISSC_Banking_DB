@@ -1,18 +1,17 @@
 -- delete data from existing tables
-delete from loan_installment;
-delete from bank_account;
-delete from branch;
-delete from manager;
-delete from customer;
-
+delete from deposit;
 delete from fixed_deposit;
+delete from transfer;
+delete from loan;
 delete from withdrawal;
 delete from online_loan;
-delete from deposit;
-delete from loan;
 delete from employee;
-delete from transfer;
+delete from bank_account;
+delete from branch;
 
+delete from customer;
+delete from loan_installment;
+delete from manager;
 
 -- Insert managers
 insert into manager values ('00001', 'Supun',1000,'0771234561');
