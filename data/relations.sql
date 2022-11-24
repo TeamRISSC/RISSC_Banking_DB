@@ -1,4 +1,8 @@
 -- create the tables of the database
+drop database bank;
+create database bank;
+use bank;
+-- create the tables of the database
 
 CREATE TABLE loan_installment (
   loan_ID                 VARCHAR(20),
@@ -21,11 +25,21 @@ CREATE TABLE customer (
   UNIQUE(username)
 );
 
+CREATE TABLE manager (
+  manager_ID             VARCHAR(20),
+  name                    VARCHAR(100),
+  salary                  NUMERIC(10,2),
+  contact_number          VARCHAR(10),
+  PRIMARY KEY(manager_ID)
+);
+
 CREATE TABLE branch (
   branch_ID               VARCHAR(20) NOT NULL,
   name                    VARCHAR(50) NOT NULL,
   address                 VARCHAR(256) NOT NULL,
-  PRIMARY KEY(branch_ID)
+  manager_ID              VARCHAR(20),
+  PRIMARY KEY(branch_ID),
+  FOREIGN KEY (manager_ID) REFERENCES manager(manager_ID)
 );
 
 CREATE TABLE employee (
@@ -35,16 +49,6 @@ CREATE TABLE employee (
   salary                  NUMERIC(10,2),
   contact_number          VARCHAR(10),
   PRIMARY KEY(employee_ID),
-  FOREIGN KEY (branch_ID) REFERENCES branch(branch_ID)
-);
-
-CREATE TABLE manager (
-  manager_ID             VARCHAR(20),
-  branch_ID               VARCHAR(20),
-  name                    VARCHAR(100),
-  salary                  NUMERIC(10,2),
-  contact_number          VARCHAR(10),
-  PRIMARY KEY(manager_ID),
   FOREIGN KEY (branch_ID) REFERENCES branch(branch_ID)
 );
 

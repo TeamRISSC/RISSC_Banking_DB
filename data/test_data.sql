@@ -23,17 +23,17 @@ insert into branch values ('006', 'Kurunegala', '600, Kurunegala', '00006');
 insert into branch values ('007', 'Gampaha', '700, Gampaha', '00007');
 
 -- Insert customers
-insert into customer values ('00001', 'Individual', 'Chathura', '001, Kandy', \
+insert into customer values ('00001', 'Individual', 'Chathura', '001, Kandy',
                              '076652613', 'Chathura', '12345');
-insert into customer value ('00002', 'Individual', 'Kasun', '002, Colombo', \
+insert into customer value ('00002', 'Individual', 'Kasun', '002, Colombo',
                             '076652614', 'Kasun', '12345');
-insert into customer value ('00003', 'Organisation', 'Nimal pvt ltd', '003, Galle', \
+insert into customer value ('00003', 'Organisation', 'Nimal pvt ltd', '003, Galle',
                             '076652615', 'Nimal', '12345');
 
 -- Insert fixed deposits
-insert into fixed_deposit values ('00001', '00001', '00001', 10000, 1, 5, \
+insert into fixed_deposit values ('00001', '00001', '00001', 10000, 1, 5,
                                   '2023-12-31');
-insert into fixed_deposit values ('00002', '00002', '00002', 20000, 2, 5, \
+insert into fixed_deposit values ('00002', '00002', '00002', 20000, 2, 5,
                                     '2023-12-31');
    
 
