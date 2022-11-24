@@ -51,3 +51,18 @@ insert into transfer values ('12346', '00002', '00001', '2017-01-01', 2000.00,"r
 insert into transfer values ('12347', '00001', '00003', '2017-01-01', 1000.00,"education expense");
 
 -- Insert deposits
+insert into deposit value ('00001', '00001', 1000, '2017-01-01');
+insert into deposit value ('00002', '00002', 2000, '2017-01-01');
+
+-- Insert managers
+insert into manager values ('00001', 'Supun',1000,'0771234561');
+insert into manager values ('00002', 'Kasun',1000,'0771234562');
+
+
+-- Insert employees
+insert into employee values ('00001', '001', 'Sandun', 1000, '0771234561');
+insert into employee values ('00002', '002', 'Saman', 1000, '0771234562');
+
+-- Insert loans
+insert into loan values ('00001', '001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business');
+insert into loan values ('00002', '002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal');
