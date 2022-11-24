@@ -5,15 +5,20 @@ CS3043 - Database systems group project, Banking system project
 
 ### file naming guide 
 - filenames are all lowercase, words are separated by underscores
-- `src` file eke monawada thiyenne???
+- `src` contains all source code
+- `lib` contains all graphics and other resources
 ### Commit Guide
 - commit messages should be in the following format
   - lowercase present tense verb + description
-### t00ls
+### Stack
+- MYSQL / database
+- Express / backend
 - REACT / frontend
 - Node.js / backend
-- javascript / language
+
 
 ### users
 - admin
-- Chathura update this
+- customer
+- manager
+- employee
