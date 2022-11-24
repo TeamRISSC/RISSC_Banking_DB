@@ -40,6 +40,7 @@ CREATE TABLE branch (
   manager_ID              VARCHAR(20),
   PRIMARY KEY(branch_ID),
   FOREIGN KEY (manager_ID) REFERENCES manager(manager_ID)
+		on delete cascade 
 );
 
 CREATE TABLE employee (
@@ -61,7 +62,7 @@ CREATE TABLE bank_account (
   min_balance             NUMERIC(10,2),
   account_type            VARCHAR(50)
       check (account_type in ('Savings', 'Checking')),
-  interest_rate           NUMERIC(2,2),
+  interest_rate           NUMERIC(5,2),
   max_withdrawals         NUMERIC(10,0),
   current_withdrawals     NUMERIC(10,0),
   PRIMARY KEY(account_number),
@@ -78,7 +79,7 @@ CREATE TABLE fixed_deposit (
       check(amount > 0),
   period                  VARCHAR(50)
       check(period > 0),
-  interest_rate           NUMERIC(2,2),
+  interest_rate           NUMERIC(5,2),
   maturity_date           DATETIME,
   PRIMARY KEY(fixed_deposit_ID),
   FOREIGN KEY (linked_account_ID) REFERENCES bank_account(account_number),
