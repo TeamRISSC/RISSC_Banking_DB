@@ -3,7 +3,7 @@ import mysql from 'mysql';
 class MySQLDatabase {
     connection;
 
-    constructor (host: string, db: string, user: string, pwd: string){
+    constructor (host, db, user, pwd){
         this.connection = mysql.createConnection({
             host: host,
             user: user,
@@ -12,11 +12,11 @@ class MySQLDatabase {
         })
     }
 
-    query(sql:string, callback:Function){
+    query(sql, callback){
         return this.connection.query(sql, callback);
     }
 
-    preparedStatement(sql:string, values:string, callback:Function){
+    preparedStatement(sql, values, callback){
         return this.connection.query(sql, values, callback)
     }
 }
