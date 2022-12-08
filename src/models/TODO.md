@@ -1,0 +1,14 @@
+-   [x] customer
+-   [ ] fixed deposit
+-   [ ] Loans
+    -   [ ] online loan
+    -   [ ] loan
+    -   [ ] loan installment
+-   [x] transaction
+    -   [x] transfer
+    -   [x] deposit
+    -   [x] withdrawal
+-   [ ] branch
+-   [ ] bank account
+-   [ ] employee
+-   [ ] manager
