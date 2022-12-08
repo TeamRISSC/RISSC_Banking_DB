@@ -3,7 +3,7 @@ let configurations = {
     host:"localhost",
     user:"root",
     password:"root",
-    database:"db"
+    database:"bank"
 };
 
-export {configurations};
+module.exports = {configurations};
