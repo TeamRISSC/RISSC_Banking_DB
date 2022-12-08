@@ -1,0 +1,30 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "RISSC Backend system to manage the backend services and database connection",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsuruGunarathne/RISSC_Banking.git"
+  },
+  "keywords": [
+    "backend",
+    "RISSC"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IsuruGunarathne/RISSC_Banking/issues"
+  },
+  "homepage": "https://github.com/IsuruGunarathne/RISSC_Banking#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
