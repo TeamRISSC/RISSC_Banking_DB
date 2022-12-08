@@ -1,9 +1,9 @@
 -   [x] customer
 -   [ ] fixed deposit
--   [ ] Loans
-    -   [ ] online loan
-    -   [ ] loan
-    -   [ ] loan installment
+-   [x] Loans
+    -   [x] online loan
+    -   [x] loan
+    -   [x] loan installment
 -   [x] transaction
     -   [x] transfer
     -   [x] deposit
