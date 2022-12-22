@@ -10,5 +10,5 @@
     -   [x] withdrawal
 -   [x] branch
 -   [x] bank account
--   [ ] employee
--   [ ] manager
+-   [x] employee
+-   [x] manager
