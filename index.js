@@ -9,7 +9,7 @@ const port = server_config.port
 app.get('/api/users', handleCustomerGet)
 
 // Transaction routes
-app.get('api/transactions', handleTransactionGet)
+app.get('/api/transactions', handleTransactionGet)
   
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
