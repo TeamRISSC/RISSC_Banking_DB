@@ -1,3 +1,7 @@
+const {MySQLDatabase} = require('../services/database')
+const db = MySQLDatabase.getInstance()
+
+
 // Customer functions
 const handleCustomerGet = (req, res, next) => {
     let context = {};
@@ -13,4 +17,8 @@ const handleCustomerGet = (req, res, next) => {
 
 const handleCustomerPost = (req, res, next) => {
     
+}
+
+module.exports = {
+    handleCustomerGet
 }

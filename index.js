@@ -5,14 +5,13 @@ const { handleCustomerGet } = require("./src/routes/customer")
 const app = express()
 const port = server_config.port
 
+// Default Route
+app.get('/', () => "Welcome to RISSC Banking API")
+
 // User routes
 app.get('/api/users', handleCustomerGet)
 
-// Transaction routes
-app.get('api/transactions', handleTransactionGet)
   
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-
-module.exports = {db}

@@ -11,6 +11,13 @@ class MySQLDatabase {
         })
     }
 
+    static getInstance(){
+        if(!MySQLDatabase.instance){
+            MySQLDatabase.instance = new MySQLDatabase()
+        }
+        return MySQLDatabase.instance
+    }
+
     query(sql, callback){
         return this.connection.query(sql, callback);
     }

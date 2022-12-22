@@ -1,4 +1,4 @@
-const {MySQLDatabase} = require("./src/services/database")
-const db = new MySQLDatabase()
+const {MySQLDatabase} = require('../services/database')
+const db = MySQLDatabase.getInstance()
 
 const handleTransactionGet = () => {};
