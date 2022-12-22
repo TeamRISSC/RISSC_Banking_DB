@@ -6,7 +6,7 @@ const app = express()
 const port = server_config.port
 
 // Default Route
-app.get('/', () => "Welcome to RISSC Banking API")
+app.get('/', (req, res, next) => res.send("Welcome to RISSC Banking API"))
 
 // User routes
 app.get('/api/users', handleCustomerGet)
