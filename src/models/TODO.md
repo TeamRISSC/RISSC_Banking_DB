@@ -1,5 +1,5 @@
 -   [x] customer
--   [ ] fixed deposit
+-   [x] fixed deposit
 -   [x] Loans
     -   [x] online loan
     -   [x] loan
