@@ -14,3 +14,11 @@ const handleCustomerGet = (req, res, next) => {
 const handleCustomerPost = (req, res, next) => {
     
 }
+
+const handleCustomerPut = (req, res, next) => {
+        
+}
+
+const handleCustomerDelete = (req, res, next) => {
+        
+}
