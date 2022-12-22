@@ -9,6 +9,6 @@
     -   [x] deposit
     -   [x] withdrawal
 -   [x] branch
--   [ ] bank account
+-   [x] bank account
 -   [ ] employee
 -   [ ] manager
