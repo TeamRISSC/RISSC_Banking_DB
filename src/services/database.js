@@ -1,18 +1,13 @@
 const mysql = require("mysql")
-const {configurations} = require("../config/config")
+const {db_config} = require("../config/config")
 
 class MySQLDatabase {
     constructor (){
-        this.connection = mysql.createConnection({
-            host: configurations.host,
-            user: configurations.user,
-            password: configurations.password,
-            database: configurations.database
-        })
-
-        this.connection.connect((err)=>{
-            if(err) throw err;
-            console.log("Connected");
+        this.connection = mysql.createPool({
+            host: db_config.host,
+            user: db_config.user,
+            password: db_config.password,
+            database: db_config.database
         })
     }
 
@@ -20,14 +15,11 @@ class MySQLDatabase {
         return this.connection.query(sql, callback);
     }
 
-    preparedStatement(sql, values, callback){
-        return this.connection.query(sql, values, callback)
+    preparedStatement(sql, params, callback){
+        return this.connection.query(sql, params, callback)
     }
 }
 
-let db = new MySQLDatabase
-
-db.query("Select * from bank_account", (err, results) =>{
-    if(err) throw err;
-    else console.log(results)
-})
+module.exports = {
+    MySQLDatabase
+}

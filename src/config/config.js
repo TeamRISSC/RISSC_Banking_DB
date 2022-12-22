@@ -1,9 +1,17 @@
 // Contains the configurations for the server
-let configurations = {
+let db_config = {
     host:"localhost",
     user:"root",
     password:"root",
-    database:"bank"
+    database:"bank",
 };
 
-module.exports = {configurations};
+let server_config = {
+    port:5000,
+    baseURI:"api/rissc/"
+}
+
+module.exports = {
+    db_config,
+    server_config
+};
