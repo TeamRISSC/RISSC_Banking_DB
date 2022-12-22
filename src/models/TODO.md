@@ -8,7 +8,7 @@
     -   [x] transfer
     -   [x] deposit
     -   [x] withdrawal
--   [ ] branch
+-   [x] branch
 -   [ ] bank account
 -   [ ] employee
 -   [ ] manager
