@@ -1,17 +1,19 @@
-class transaction{
+const {MySQLDBMySQLDB} = require('database.js')
+const db = new MySQLDBMySQLDB()
+class Transaction{
     static count = 0;
-    constructor(id, date, amount){
-        this.id = id;
-        this.date = date;
-        this.amount = amount;
+    constructor(req){
+        this.ID = req.body.ID;
+        this.date = req.body.date;
+        this.amount = req.body.amount;
     }   
 
     // setters and getters
-    setID(id){
-        this.id = id;
+    setID(ID){
+        this.ID = ID;
     }
     getID(){
-        return this.id;
+        return this.ID;
     }
     setDate(date){
         this.date = date;
@@ -28,4 +30,4 @@ class transaction{
 }
 
 // export 
-module.exports = transaction;
+module.exports = { Transaction };
