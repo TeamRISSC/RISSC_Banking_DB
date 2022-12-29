@@ -13,7 +13,7 @@ CREATE TABLE loan_installment (
 );
 
 CREATE TABLE customer (
-  ID            VARCHAR(50),
+  ID            VARCHAR(50) NOT NULL,
   type           VARCHAR(10)
       check (type in ('Individual', 'Organization')),
   name                    VARCHAR(100) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE bank_account (
   maxWithdrawals         NUMERIC(10,0),
   currentWithdrawals     NUMERIC(10,0),
   PRIMARY KEY(accountNumber),
-  FOREIGN KEY (branchID) REFERENCES branch(branchID),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID)
 );
 
@@ -140,5 +140,5 @@ CREATE TABLE loan (
   loanType               VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
-  FOREIGN KEY (branchID) REFERENCES branch(branchID)
+  FOREIGN KEY (branchID) REFERENCES branch(ID)
 );

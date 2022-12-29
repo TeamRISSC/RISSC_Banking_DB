@@ -1,18 +1,21 @@
 const mysql = require('mysql2/promise');
 
-class MySQLDBMySQLDB {
+ class MySQLDBMySQLDB {
   constructor() {
      if (!MySQLDBMySQLDB.instance) {
-       this.connection = awaitmysql.createConnection({
-         host: 'localhost',
-         user: 'root',
-         password: '',
-         database: 'mydatabase'
-       });
-       MySQLDBMySQLDB.instance = this;
+       this.init()
      }
-     
      return MySQLDBMySQLDB.instance;
+  }
+
+  async init(){
+    this.connection = await mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'bank'
+    });
+    MySQLDBMySQLDB.instance = this;
   }
 }
 

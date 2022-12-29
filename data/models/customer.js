@@ -1,4 +1,4 @@
-const {MySQLDBMySQLDB} = require('database.js')
+const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 
 class Customer{
@@ -64,10 +64,9 @@ class Customer{
     }
 }
 
-module.exports = {Customer}
 
 // Async function to create a new customer
-exports.createCustomerAsync = async (req, res) => {
+const createCustomerAsync = async (req, res) => {
     try{  
     const customer = new Customer(req)
     
@@ -87,9 +86,10 @@ exports.createCustomerAsync = async (req, res) => {
 };
 
 // Async function to get a single customer
-exports.getCustomerAsync = async (customerId) => {
+const getCustomerAsync = async (req, res) => {
     try{
     // Select the customer from the customer table
+    const customerId = req.params.customerId
     const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [customerId]);
     const customer = rows[0];
 
@@ -107,10 +107,26 @@ exports.getCustomerAsync = async (customerId) => {
   }
 };
 
+// Async function to get all customer
+const getCustomersAsync = async (req, res) => {
+  try{
+  // Select the customer from the customer table
+  const [rows] = await db.connection.query('SELECT * FROM customer');
+  res.json(rows);
+  
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
+};
+
 // Async function to update a customer
-exports.updateCustomerAsync = async (customerId, updatedCustomer) => {
+const updateCustomerAsync = async (req, res) => {
   try {
     // Update the customer in the customer table
+    const customerId = req.params.customerId
+    const updatedCustomer = new Customer(req)
     await db.connection.query('UPDATE customer SET ? WHERE ID = ?', [updatedCustomer, customerId]);
 
     // Select the updated customer from the customer table
@@ -127,9 +143,10 @@ exports.updateCustomerAsync = async (customerId, updatedCustomer) => {
 };
 
 // Async function to delete a customer
-exports.deleteCustomerAsync = async (customerId) => {
+const deleteCustomerAsync = async (req, res) => {
   try {
     // Delete the customer from the customer table
+    const customerId = req.params.customerId
     await db.connection.query('DELETE FROM customer WHERE ID = ?', [customerId]);
     
     res.status(200).json({
@@ -142,3 +159,9 @@ exports.deleteCustomerAsync = async (customerId) => {
     });
   } 
 };
+
+
+module.exports = {
+  Customer,
+  getCustomersAsync
+}

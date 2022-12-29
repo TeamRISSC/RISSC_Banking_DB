@@ -1,6 +1,6 @@
 const express = require('express')
 const {server_config} = require("./src/config/config")
-const { handleCustomerGet } = require("./src/routes/customer")
+const customerAPI = require("./data/models/customer") 
 
 const app = express()
 const port = server_config.port
@@ -9,7 +9,7 @@ const port = server_config.port
 app.get('/', (req, res, next) => res.send("Welcome to RISSC Banking API"))
 
 // User routes
-app.get('/api/users', handleCustomerGet)
+app.get('/api/users', customerAPI.getCustomersAsync)
 
   
 app.listen(port, () => {
