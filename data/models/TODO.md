@@ -45,3 +45,8 @@ Make attributes consistent with the database
 -   [x] bank account
 -   [x] employee
 -   [x] manager
+
+Testing
+Chathura - Employee, Customer, Manager, Branch, Bank Account
+Isuru - loan_installment, online_loan, withdrawal, deposit, fixed_deposit, transfer, loan
+Supun, Rovin - Create the Front End
