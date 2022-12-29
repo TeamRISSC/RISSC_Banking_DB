@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 
@@ -10,7 +11,7 @@ class Customer{
         this.phone = req.body.phone;
         this.username = req.body.username;
         this.email = req.body.email;
-        this.password = req.body.pw;
+        this.password = hashPassword(req.body.password);
     }
 
     // setters and getters
@@ -62,16 +63,23 @@ class Customer{
     getPassword(){
         return this.password;
     }
+
+   
+
 }
 
+
+// Hashing the passwords
+const hashPassword = (password) => crypto.pbkdf2Sync(password, 'salt', 1000, 32, 'sha256').toString('hex');  
 
 // Async function to create a new customer
 const createCustomerAsync = async (req, res) => {
     try{  
+    console.log(req.body);
     const customer = new Customer(req)
     
     // Insert the customer into the customer table
-    const [result] = await db.connection.query('INSERT INTO customer SET ?', customer);
+    const [result] = await db.connection.query('INSERT INTO customer SET ?', {...customer});
     const insertedCustomerId = result.insertId;
     
     res.status(200).json({
@@ -80,7 +88,7 @@ const createCustomerAsync = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error,
     });
   }
 };
@@ -89,13 +97,13 @@ const createCustomerAsync = async (req, res) => {
 const getCustomerAsync = async (req, res) => {
     try{
     // Select the customer from the customer table
-    const customerId = req.params.customerId
-    const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [customerId]);
+    const [rows] = await db.connection.query('SELECT * FROM customer WHERE username = ? AND password = ?', 
+                                            [req.body.username, hashPassword(req.body.password)]);
     const customer = rows[0];
 
     if (!customer) {
       return res.status(404).json({
-      message: 'Customer not found'
+      message: 'Invalid Customer ID or Password'
      });
    }
    res.json(customer);
@@ -163,5 +171,7 @@ const deleteCustomerAsync = async (req, res) => {
 
 module.exports = {
   Customer,
-  getCustomersAsync
+  getCustomersAsync,
+  createCustomerAsync,
+  getCustomerAsync
 }
