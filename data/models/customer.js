@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const {hashPassword} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 
@@ -7,7 +7,7 @@ class Customer{
         this.type = req.body.type;
         this.name = req.body.name;
         this.address = req.body.address;
-        this.phone = req.body.phone;
+        this.contactNumber = req.body.contactNumber;
         this.username = req.body.username;
         this.email = req.body.email;
         this.password = hashPassword(req.body.password);
@@ -38,11 +38,11 @@ class Customer{
     getAddress(){
         return this.address;
     }
-    setPhone(phone){
-        this.phone = phone;
+    setPhone(contactNumber){
+        this.contactNumber = contactNumber;
     }
     getPhone(){
-        return this.phone;
+        return this.contactNumber;
     }
     setCustomername(username){
         this.username = username;
@@ -67,14 +67,9 @@ class Customer{
 
 }
 
-
-// Hashing the passwords
-const hashPassword = (password) => crypto.pbkdf2Sync(password, 'salt', 1000, 32, 'sha256').toString('hex');  
-
 // Async function to create a new customer
 const createCustomerAsync = async (req, res) => {
     try{  
-    console.log(req.body);
     const customer = new Customer(req)
     
     // Insert the customer into the customer table
@@ -96,7 +91,6 @@ const createCustomerAsync = async (req, res) => {
 const getCustomerAsync = async (req, res) => {
   try{
   // Select the customer from the customer table
-  console.log(req.params)
   const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [req.params.customerID]);
   const customer = rows[0];
 
@@ -127,7 +121,7 @@ const signInCustomerAsync = async (req, res) => {
       message: 'Invalid Customer ID or Password'
      });
    }
-   res.json(customer);
+   res.status(200).json(customer);
     
   } catch (error) {
     res.status(500).json({
@@ -136,12 +130,12 @@ const signInCustomerAsync = async (req, res) => {
   }
 };
 
-// Async function to get all customer
+// Async function to get all customers
 const getCustomersAsync = async (req, res) => {
   try{
   // Select the customer from the customer table
   const [rows] = await db.connection.query('SELECT * FROM customer');
-  res.json(rows);
+  res.status(200).json(rows);
   
 } catch (error) {
   res.status(500).json({
@@ -176,7 +170,7 @@ const deleteCustomerAsync = async (req, res) => {
   try {
     // Delete the customer from the customer table
     const customerID = req.params.customerID
-    const val = await db.connection.query('DELETE FROM customer WHERE ID = ?', [customerID]);
+    await db.connection.query('DELETE FROM customer WHERE ID = ?', [customerID]);
 
     res.status(200).json({
       message: `Customer deleted successfully!`

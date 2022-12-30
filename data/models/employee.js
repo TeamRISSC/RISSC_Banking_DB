@@ -1,10 +1,16 @@
+const {hashPassword} = require('../../src/services/utils')
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
+
 class Employee{
     constructor(req){
-        this.ID = req.body.ID;
         this.branchID = req.body.branchID;
         this.name = req.body.name;
         this.salary = req.body.salary;
         this.contactNumber = req.body.contactNumber;
+        this.username = req.body.username;
+        this.email = req.body.email;
+        this.password = hashPassword(req.body.password);
     }
     // setters and getters
     setID(ID){
@@ -41,10 +47,8 @@ class Employee{
 }
 
 
-module.exports = {Employee}
-
 // Async function to create a new employee
-exports.createEmployeeAsync = async (req, res) => {
+const createEmployeeAsync = async (req, res) => {
     try{  
     const employee = new Employee(req)
     
@@ -64,18 +68,18 @@ exports.createEmployeeAsync = async (req, res) => {
 };
 
 // Async function to get a single employee
-exports.getEmployeeAsync = async (employeeId) => {
+const getEmployeeAsync = async (req, res) => {
     try{
     // Select the employee from the employee table
-    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [employeeId]);
+    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [req.params.employeeID]);
     const employee = rows[0];
 
     if (!employee) {
       return res.status(404).json({
-      message: 'Employee not found'
+      message: 'Employee does not exist'
      });
    }
-   res.json(employee);
+   res.status(200).json(employee);
     
   } catch (error) {
     res.status(500).json({
@@ -84,17 +88,55 @@ exports.getEmployeeAsync = async (employeeId) => {
   }
 };
 
+// Async function to get all employees
+const getEmployeesAsync = async (req, res) => {
+  try{
+  // Select the employee from the employee table
+  const [rows] = await db.connection.query('SELECT * FROM employee');
+  res.status(200).json(rows);
+  
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+const signInEmployeeAsync = async (req, res) => {
+  try{
+  // Select the employee from the employee table
+  const [rows] = await db.connection.query('SELECT * FROM employee WHERE username = ? AND password = ?', 
+                                          [req.body.username, hashPassword(req.body.password)]);
+  const employee = rows[0];
+
+  if (!employee) {
+    return res.status(404).json({
+    message: 'Invalid Employee ID or Password'
+   });
+ }
+ res.status(200).json(employee);
+  
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
+};
+
+
 // Async function to update a employee
-exports.updateEmployeeAsync = async (employeeId, updatedEmployee) => {
+const updateEmployeeAsync = async (req, res) => {
   try {
     // Update the employee in the employee table
-    await db.connection.query('UPDATE employee SET ? WHERE ID = ?', [updatedEmployee, employeeId]);
+    const employeeID = req.params.employeeID
+    const updatedEmployee = new Employee(req)
+    await db.connection.query('UPDATE employee SET ? WHERE ID = ?', [updatedEmployee, employeeID]);
 
     // Select the updated employee from the employee table
-    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [employeeId]);
+    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [employeeID]);
     const employee = rows[0];
 
-    res.json(employee);
+    res.status(200).json(employee);
     
     } catch (error) {
     res.status(500).json({
@@ -104,13 +146,14 @@ exports.updateEmployeeAsync = async (employeeId, updatedEmployee) => {
 };
 
 // Async function to delete a employee
-exports.deleteEmployeeAsync = async (employeeId) => {
+const deleteEmployeeAsync = async (req, res) => {
   try {
     // Delete the employee from the employee table
-    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employeeId]);
+    const employeeID = req.params.employeeID
+    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employeeID]);
     
     res.status(200).json({
-      message: `Employee ${insertedEmployeeId} created successfully!`
+      message: `Employee deleted successfully!`
     });
 
   } catch (error) {
@@ -119,3 +162,14 @@ exports.deleteEmployeeAsync = async (employeeId) => {
     });
   } 
 };
+
+module.exports = {
+  Employee,
+  createEmployeeAsync,
+  getEmployeeAsync,
+  getEmployeesAsync,
+  signInEmployeeAsync,
+  updateEmployeeAsync,
+  deleteEmployeeAsync
+}
+

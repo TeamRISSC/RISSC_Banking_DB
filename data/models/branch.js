@@ -2,8 +2,6 @@ class Branch{
     constructor(req){
         this.name = req.body.name;
         this.address = req.body.address;
-        this.ID = req.body.ID;
-        this.managerID = req.body.managerID;
     }
     // setters and getters
     setName(name){

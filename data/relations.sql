@@ -18,7 +18,7 @@ CREATE TABLE customer (
       check (type in ('Individual', 'Organization')),
   name                    VARCHAR(100) NOT NULL,
   address                 VARCHAR(500) NOT NULL,
-  phone            CHAR(10) NULL,
+  contactNumber            CHAR(10) NULL,
   username                VARCHAR(30) NOT NULL,
   email                VARCHAR(256) NOT NULL,
   password                VARCHAR(256) NOT NULL,
@@ -26,22 +26,25 @@ CREATE TABLE customer (
   UNIQUE(username)
 );
 
+CREATE TABLE branch (
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  name               VARCHAR(50) NOT NULL,
+  address            VARCHAR(256) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
 CREATE TABLE manager (
   ID                    INT NOT NULL AUTO_INCREMENT,
   name                    VARCHAR(100),
   salary                  NUMERIC(10,2),
   contactNumber          VARCHAR(10),
-  PRIMARY KEY(ID)
-);
-
-CREATE TABLE branch (
-  ID                 INT NOT NULL AUTO_INCREMENT,
-  name               VARCHAR(50) NOT NULL,
-  address            VARCHAR(256) NOT NULL,
-  manager_ID         INT NOT NULL,
+  branchID         INT NOT NULL,
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
   PRIMARY KEY(ID),
-  FOREIGN KEY (manager_ID) REFERENCES manager(ID)
-		on delete cascade 
+  UNIQUE(username)
 );
 
 CREATE TABLE employee (
@@ -50,8 +53,12 @@ CREATE TABLE employee (
   name                    VARCHAR(100),
   salary                  NUMERIC(10,2),
   contactNumber          VARCHAR(10),
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
   PRIMARY KEY(ID),
-  FOREIGN KEY (branchID) REFERENCES branch(ID)
+  UNIQUE(username)
 );
 
 CREATE TABLE bank_account (
