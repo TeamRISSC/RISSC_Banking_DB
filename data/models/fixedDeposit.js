@@ -4,7 +4,7 @@ class FixedDeposit {
     constructor(req){
         this.ID = req.body.ID;
         this.linkedAccountID = req.body.linkedAccountID;
-        this.customer_ID = req.body.customer_ID;
+        this.customerID = req.body.customerID;
         this.amount = req.body.amount;
         this.period = req.body.period;
         this.interestRate = req.body.interestRate;
@@ -23,11 +23,11 @@ class FixedDeposit {
     getLinkedAccountID(){
         return this.linkedAccountID;
     }
-    setCustomerID(customer_ID){
-        this.customer_ID = customer_ID;
+    setCustomerID(customerID){
+        this.customerID = customerID;
     }
     getCustomerID(){
-        return this.customer_ID;
+        return this.customerID;
     }
     setAmount(amount){
         this.amount = amount;
@@ -110,6 +110,48 @@ const deleteFixedDepositAsync = async (req,res) => {
   } 
 };
 
+// Async function to get fixed deposits by customer ID
+const getFixedDepositsByCustomerIDAsync = async (req, res) => {
+  try{
+  // Select all fixed_deposits from the fixed_deposit table
+  console.log(req.params)
+  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.params.customerID]);
+  res.json(rows);
+
+  if (!rows[0]) {
+    return res.status(404).json({
+    message: 'No Fixed Deposits found'
+   });
+  }
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+
+// Async function to get fixed deposits by linked account ID
+const getFixedDepositsByLinkedAccountIDAsync = async (req, res) => {
+  try{
+  // Select all fixed_deposits from the fixed_deposit table
+  console.log(req.params)
+  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE linkedAccountID = ?', [req.params.linkedAccountID]);
+  res.json(rows);
+
+  if (!rows[0]) {
+    return res.status(404).json({
+    message: 'No Fixed Deposits found'
+    });
+  }
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+
 /// WIP bellow this point /////////////////////////////
 
 // Async function to create a new fixed_deposit
@@ -158,6 +200,8 @@ module.exports = {
   getFixedDepositsAsync,
   createFixedDepositAsync,
   getFixedDepositAsync,
+  getFixedDepositsByCustomerIDAsync,
+  getFixedDepositsByLinkedAccountIDAsync,
   updateFixedDepositAsync,
   deleteFixedDepositAsync
 };
