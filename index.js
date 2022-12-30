@@ -24,6 +24,7 @@ app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
 // fixed deposit routes
 app.get('/api/fixeddeposits', FixedDepositAPI.getFixedDepositsAsync)
 app.get('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.getFixedDepositAsync)
+app.delete('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.deleteFixedDepositAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

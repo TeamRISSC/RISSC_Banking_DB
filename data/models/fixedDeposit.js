@@ -92,6 +92,24 @@ const getFixedDepositAsync = async (req,res) => {
 }
 };
 
+// Async function to delete a fixed_deposit
+const deleteFixedDepositAsync = async (req,res) => {
+  try {
+    // Delete the fixed_deposit from the fixed_deposit table
+    fixedDepositID = req.params.fixedDepositID
+    await db.connection.query('DELETE FROM fixed_deposit WHERE id = ?', [fixedDepositID]);
+    
+    res.status(200).json({
+      message: `FixedDeposit ${insertedFixedDepositId} created successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
+
 /// WIP bellow this point /////////////////////////////
 
 // Async function to create a new fixed_deposit
@@ -116,7 +134,7 @@ const createFixedDepositAsync = async (req, res) => {
 
 
 // Async function to update a fixed_deposit
-const updateFixedDepositAsync = async (fixed_depositId, updatedFixedDeposit) => {
+const updateFixedDepositAsync = async (req, res) => {
   try {
     // Update the fixed_deposit in the fixed_deposit table
     await db.connection.query('UPDATE fixed_deposit SET ? WHERE id = ?', [updatedFixedDeposit, fixed_depositId]);
@@ -134,22 +152,6 @@ const updateFixedDepositAsync = async (fixed_depositId, updatedFixedDeposit) => 
     }
 };
 
-// Async function to delete a fixed_deposit
-const deleteFixedDepositAsync = async (fixed_depositId) => {
-  try {
-    // Delete the fixed_deposit from the fixed_deposit table
-    await db.connection.query('DELETE FROM fixed_deposit WHERE id = ?', [fixed_depositId]);
-    
-    res.status(200).json({
-      message: `FixedDeposit ${insertedFixedDepositId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};
 
 module.exports = {
   FixedDeposit,
