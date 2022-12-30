@@ -2,13 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {server_config} = require("./src/config/config")
 
-const FixedDepositAPI = require('./data/models/fixedDeposit')
-
 // API route functions from the data models
 const customerAPI = require('./data/models/customer')
 const employeeAPI = require('./data/models/employee')
 const managerAPI = require('./data/models/manager')
 const branchAPI = require('./data/models/branch')
+const FixedDepositAPI = require('./data/models/fixedDeposit')
 
 const app = express()
 const port = server_config.port
