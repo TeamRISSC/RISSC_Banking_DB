@@ -28,9 +28,11 @@ CREATE TABLE customer (
 
 CREATE TABLE branch (
   ID                 INT NOT NULL AUTO_INCREMENT,
+  branchCode         INT NOT NULL,
   name               VARCHAR(50) NOT NULL,
   address            VARCHAR(256) NOT NULL,
-  PRIMARY KEY(ID)
+  PRIMARY KEY(ID),
+  UNIQUE(branchCode)
 );
 
 CREATE TABLE manager (

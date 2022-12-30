@@ -73,7 +73,7 @@ const createCustomerAsync = async (req, res) => {
     const customer = new Customer(req)
     
     // Insert the customer into the customer table
-    const [result] = await db.connection.query('INSERT INTO customer SET ?', {...customer});
+    const [result] = await db.connection.query('INSERT INTO customer SET ?', customer);
     const insertedCustomerId = result.insertId;
     
     res.status(200).json({
@@ -137,11 +137,11 @@ const getCustomersAsync = async (req, res) => {
   const [rows] = await db.connection.query('SELECT * FROM customer');
   res.status(200).json(rows);
   
-} catch (error) {
-  res.status(500).json({
-    error: error
-  });
-}
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
 };
 
 // Async function to update a customer

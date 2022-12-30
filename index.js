@@ -8,6 +8,7 @@ const FixedDepositAPI = require('./data/models/fixedDeposit')
 const customerAPI = require('./data/models/customer')
 const employeeAPI = require('./data/models/employee')
 const managerAPI = require('./data/models/manager')
+const branchAPI = require('./data/models/branch')
 
 const app = express()
 const port = server_config.port
@@ -53,6 +54,14 @@ app.post('/api/manager/signin', managerAPI.signInManagerAsync)
 app.get('/api/manager/:managerID', managerAPI.getManagerAsync)
 app.patch('/api/manager/:managerID', managerAPI.updateManagerAsync)
 app.delete('/api/manager/:managerID', managerAPI.deleteManagerAsync)
+
+
+// Branch routes
+app.get('/api/branches', branchAPI.getBranchesAsync)
+app.post('/api/branch/register', branchAPI.createBranchAsync)
+app.get('/api/branch/:branchID', branchAPI.getBranchAsync)
+app.patch('/api/branch/:branchID', branchAPI.updateBranchAsync)
+app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

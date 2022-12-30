@@ -61,7 +61,7 @@ Supun, Rovin - Create the Front End
     -   [ ] transfer
     -   [ ] deposit
     -   [ ] withdrawal
--   [ ] branch
+-   [x] branch
 -   [ ] bank account
--   [ ] employee
--   [ ] manager
+-   [x] employee
+-   [x] manager

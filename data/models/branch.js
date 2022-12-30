@@ -1,7 +1,10 @@
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
 class Branch{
     constructor(req){
-        this.name = req.body.name;
-        this.address = req.body.address;
+      this.branchCode = req.body.branchCode
+      this.name = req.body.name;
+      this.address = req.body.address;
     }
     // setters and getters
     setName(name){
@@ -31,10 +34,8 @@ class Branch{
     
 }
 
-module.exports = {Branch}
-
 // Async function to create a new branch
-exports.createBranchAsync = async (req, res) => {
+const createBranchAsync = async (req, res) => {
     try{  
     const branch = new Branch(req)
     
@@ -54,10 +55,10 @@ exports.createBranchAsync = async (req, res) => {
 };
 
 // Async function to get a single branch
-exports.getBranchAsync = async (branchId) => {
+const getBranchAsync = async (req, res) => {
     try{
     // Select the branch from the branch table
-    const [rows] = await db.connection.query('SELECT * FROM branch WHERE ID = ?', [branchId]);
+    const [rows] = await db.connection.query('SELECT * FROM branch WHERE ID = ?', [req.params.branchID]);
     const branch = rows[0];
 
     if (!branch) {
@@ -65,7 +66,7 @@ exports.getBranchAsync = async (branchId) => {
       message: 'Branch not found'
      });
    }
-   res.json(branch);
+   res.status(200).json(branch);
     
   } catch (error) {
     res.status(500).json({
@@ -74,17 +75,35 @@ exports.getBranchAsync = async (branchId) => {
   }
 };
 
+
+// Async function to get all branches
+const getBranchesAsync = async (req, res) => {
+  try{
+  // Select the branch from the branch table
+  const [rows] = await db.connection.query('SELECT * FROM branch');
+  res.status(200).json(rows);
+  
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+
 // Async function to update a branch
-exports.updateBranchAsync = async (branchId, updatedBranch) => {
+const updateBranchAsync = async (req, res) => {
   try {
     // Update the branch in the branch table
-    await db.connection.query('UPDATE branch SET ? WHERE ID = ?', [updatedBranch, branchId]);
+    const branchID = req.params.branchID
+    const updatedBranch = new Branch(req)
+    await db.connection.query('UPDATE branch SET ? WHERE ID = ?', [updatedBranch, branchID]);
 
     // Select the updated branch from the branch table
-    const [rows] = await db.connection.query('SELECT * FROM branch WHERE ID = ?', [branchId]);
+    const [rows] = await db.connection.query('SELECT * FROM branch WHERE ID = ?', [branchID]);
     const branch = rows[0];
 
-    res.json(branch);
+    res.status(200).json(branch);
     
     } catch (error) {
     res.status(500).json({
@@ -94,13 +113,27 @@ exports.updateBranchAsync = async (branchId, updatedBranch) => {
 };
 
 // Async function to delete a branch
-exports.deleteBranchAsync = async (branchId) => {
+const deleteBranchAsync = async (req, res) => {
   try {
+    // Branch should be free of any manager and employee to be deleted
+    const [resManager] = await db.connection.query('SELECT COUNT(ID) from manager WHERE branchID = ?', [req.params.branchID])
+    const [resEmployee] = await db.connection.query('SELECT COUNT(ID) from employee WHERE branchID = ?', [req.params.branchID])
+    
+    const managerCount = resManager[0]['COUNT(ID)'];
+    const employeeCount = resEmployee[0]['COUNT(ID)'];
+    
+    if (managerCount + employeeCount != 0){
+      res.status(400).json({
+        message:"Cannot delete branch as employed staff has not been released"
+      })
+      return
+    }
+    
     // Delete the branch from the branch table
-    await db.connection.query('DELETE FROM branch WHERE ID = ?', [branchId]);
+    await db.connection.query('DELETE FROM branch WHERE ID = ?', [req.params.branchID]);
     
     res.status(200).json({
-      message: `Branch ${insertedBranchId} created successfully!`
+      message: `Branch deleted successfully!`
     });
 
   } catch (error) {
@@ -109,3 +142,13 @@ exports.deleteBranchAsync = async (branchId) => {
     });
   } 
 };
+
+
+module.exports = {
+  Branch,
+  createBranchAsync,
+  getBranchAsync,
+  getBranchesAsync,
+  updateBranchAsync,
+  deleteBranchAsync
+}
