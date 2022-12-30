@@ -50,3 +50,18 @@ Testing
 Chathura - Employee, Customer, Manager, Branch, Bank Account
 Isuru - loan_installment, online_loan, withdrawal, deposit, fixed_deposit, transfer, loan
 Supun, Rovin - Create the Front End
+
+-   [x] customer
+-   [ ] fixed deposit
+-   [ ] loan_super
+    -   [ ] online loan
+    -   [ ] loan
+    -   [ ] loan installment
+-   [ ] transaction
+    -   [ ] transfer
+    -   [ ] deposit
+    -   [ ] withdrawal
+-   [ ] branch
+-   [ ] bank account
+-   [ ] employee
+-   [ ] manager
