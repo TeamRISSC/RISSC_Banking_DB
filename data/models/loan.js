@@ -1,4 +1,6 @@
-const LoanSuper = require("./loanSuper");
+const {LoanSuper} = require("./loanSuper");
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
 
 class Loan extends LoanSuper{
     constructor(req){
@@ -22,10 +24,47 @@ class Loan extends LoanSuper{
     }
 }
 
-module.exports = {Loan}
+// Async function to get a single loan
+const getLoanAsync = async (req,res) => {
+  try{
+  // Select the loan from the loan table
+  const [rows] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [req.params.loanID]);
+  const loan = rows[0];
+
+  if (!loan) {
+    return res.status(404).json({
+    message: 'Loan not found'
+    });
+  }
+  res.json(loan);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+// Async function to get all loans
+const getLoansAsync = async (req, res) => {
+  try{
+  // Select the loan from the loan table
+  const [rows] = await db.connection.query('SELECT * FROM bank.loan');
+  res.status(200).json(rows);
+
+  } catch (error) {
+    res.status(500).json({
+      message : "Error",
+      error: error
+    });
+  }
+};
+
+
+///// WIP below this point ////////////////
 
 // Async function to create a new loan
-exports.createLoanAsync = async (req, res) => {
+const createLoanAsync = async (req, res) => {
     try{  
     const loan = new Loan(req)
     
@@ -44,29 +83,9 @@ exports.createLoanAsync = async (req, res) => {
   }
 };
 
-// Async function to get a single loan
-exports.getLoanAsync = async (loanId) => {
-    try{
-    // Select the loan from the loan table
-    const [rows] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [loanId]);
-    const loan = rows[0];
-
-    if (!loan) {
-      return res.status(404).json({
-      message: 'Loan not found'
-     });
-   }
-   res.json(loan);
-    
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
-};
 
 // Async function to update a loan
-exports.updateLoanAsync = async (loanId, updatedLoan) => {
+const updateLoanAsync = async (loanId, updatedLoan) => {
   try {
     // Update the loan in the loan table
     await db.connection.query('UPDATE loan SET ? WHERE id = ?', [updatedLoan, loanId]);
@@ -85,7 +104,7 @@ exports.updateLoanAsync = async (loanId, updatedLoan) => {
 };
 
 // Async function to delete a loan
-exports.deleteLoanAsync = async (loanId) => {
+const deleteLoanAsync = async (loanId) => {
   try {
     // Delete the loan from the loan table
     await db.connection.query('DELETE FROM loan WHERE id = ?', [loanId]);
@@ -100,3 +119,12 @@ exports.deleteLoanAsync = async (loanId) => {
     });
   } 
 };
+
+module.exports = {
+    Loan,
+    createLoanAsync,
+    getLoanAsync,
+    updateLoanAsync,
+    deleteLoanAsync,
+    getLoansAsync
+}

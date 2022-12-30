@@ -13,18 +13,18 @@ delete from customer;
 delete from loan_installment;
 delete from manager;
 
--- Insert managers
-insert into manager (name,salary,contactNumber) values ('Supun',1000,'0771234561');
-insert into manager (name,salary,contactNumber) values ('Kasun',1000,'0771234562');
-
 -- Insert branches  
-insert into branch (name,address,manager_ID) values ('Kandy', '100, Kandy', '00001');
-insert into branch (name,address,manager_ID) values ('Colombo', '200, Colombo', '00002');
+insert into branch (branchCode,name,address) values ('692','Kandy', '100, Kandy');
+insert into branch (branchCode,name,address) values ('512','Colombo', '200, Colombo');
+
+-- Insert managers
+insert into manager (name,salary,contactNumber, branchID, username, email, password) values ('Supun',1000,'0771234561','1','supun','supun@gmail.com','12345');
+insert into manager (name,salary,contactNumber, branchID, username, email, password) values ('Kasun',1000,'0771234562','2','kasun','kasun@gmail.com','12345');
 
 -- Insert customers
-insert into customer (type,name,address, phone, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
+insert into customer (type,name,address, contactNumber, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
                              '076652613', 'Chathura','chathura@gmail.com', '12345');
-insert into customer (type,name,address, phone, username,email, password) value ('Individual', 'Kasun', '002, Colombo',
+insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kasun', '002, Colombo',
                             '076652614', 'Kasun','kasun@gmail.com', '12345');
  
 -- Insert bank_accounts
@@ -51,8 +51,8 @@ insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-01-0
    
 
 -- Insert employees
-insert into employee (branchID,name,salary,contactNumber) values ('001', 'Sandun', 1000, '0771234561');
-insert into employee (branchID,name,salary,contactNumber) values ('002', 'Saman', 1000, '0771234562');
+insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('001', 'Sandun', 1000, '0771234561','sandun','sandun@gmail.com','12345');
+insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('002', 'Saman', 1000, '0771234562','saman','saman@gmail.com','12345');
 
 -- Insert loans
 insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business');
