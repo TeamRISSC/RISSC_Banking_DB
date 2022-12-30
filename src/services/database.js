@@ -1,4 +1,5 @@
 const mysql = require('mysql2/promise');
+const {db_config} = require("../config/config");
 
  class MySQLDBMySQLDB {
   constructor() {
@@ -10,10 +11,10 @@ const mysql = require('mysql2/promise');
 
   async init(){
     this.connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'bank'
+      host: db_config.host,
+      user: db_config.user,
+      password: db_config.password,
+      database: db_config.database
     });
     MySQLDBMySQLDB.instance = this;
   }

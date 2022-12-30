@@ -95,7 +95,7 @@ CREATE TABLE fixed_deposit (
 );
 
 CREATE TABLE withdrawal (
-  ID           VARCHAR(10),
+  ID            INT NOT NULL AUTO_INCREMENT,
   accountNumber          VARCHAR(10),
   amount                  NUMERIC(10,2)
     check(amount > 0),
@@ -108,13 +108,15 @@ CREATE TABLE online_loan (
   ID                 INT NOT NULL AUTO_INCREMENT,
   branchID           INT NOT NULL,
   customerID         INT NOT NULL,
-  FDID                   VARCHAR(20),
+  FDID               INT NOT NULL,
   amount                  NUMERIC(10,2)
       check(amount > 0),
   applyDate              DATE,
   timePeriod             NUMERIC(3,0),
   PRIMARY KEY(ID),
-  FOREIGN KEY (customerID) REFERENCES customer(ID)
+  FOREIGN KEY (customerID) REFERENCES customer(ID),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  FOREIGN KEY (FDID) REFERENCES fixed_deposit(ID)
 );
 
 CREATE TABLE deposit (
@@ -144,6 +146,7 @@ CREATE TABLE loan (
   branchID               INT NOT NULL,
   customerID             INT NOT NULL,
   amount                  NUMERIC(10,2),
+  applyDate               DATE,
   approveDate            DATE,
   timePeriod             NUMERIC(3,0),
   loanType               VARCHAR(20),

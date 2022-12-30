@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {server_config} = require("./src/config/config")
 
+const FixedDepositAPI = require('./data/models/fixedDeposit')
+
 // API route functions from the data models
 const customerAPI = require('./data/models/customer')
 const employeeAPI = require('./data/models/employee')
@@ -24,6 +26,10 @@ app.get('/api/user/:customerID', customerAPI.getCustomerAsync)
 app.patch('/api/user/:customerID', customerAPI.updateCustomerAsync)
 app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
 
+// fixed deposit routes
+app.get('/api/fixeddeposits', FixedDepositAPI.getFixedDepositsAsync)
+app.get('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.getFixedDepositAsync)
+app.delete('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.deleteFixedDepositAsync)
 
 // Employee routes
 app.get('/api/employees', employeeAPI.getEmployeesAsync)
