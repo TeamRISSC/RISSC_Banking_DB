@@ -1,5 +1,6 @@
 const {LoanSuper} = require("./loanSuper");
-
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
 class OnlineLoan extends LoanSuper {
     constructor(req) {
         super(req);

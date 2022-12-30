@@ -1,3 +1,6 @@
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
+
 class LoanInstallment{
     constructor(req){
         this.loanID = req.body.loanID;
