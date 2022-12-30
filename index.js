@@ -15,7 +15,10 @@ app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
 // User routes
 app.get('/api/users', customerAPI.getCustomersAsync)
 app.post('/api/user/register', customerAPI.createCustomerAsync)
-app.post('/api/user/signin', customerAPI.getCustomerAsync)
+app.post('/api/user/signin', customerAPI.signInCustomerAsync)
+app.get('/api/user/:customerID', customerAPI.getCustomerAsync)
+app.patch('/api/user/:customerID', customerAPI.updateCustomerAsync)
+app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
 
 
 app.listen(port, () => {
