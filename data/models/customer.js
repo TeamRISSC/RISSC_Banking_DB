@@ -94,6 +94,28 @@ const createCustomerAsync = async (req, res) => {
 
 // Async function to get a single customer
 const getCustomerAsync = async (req, res) => {
+  try{
+  // Select the customer from the customer table
+  console.log(req.params)
+  const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [req.params.customerID]);
+  const customer = rows[0];
+
+  if (!customer) {
+    return res.status(404).json({
+    message: 'Customer does not exist'
+   });
+ }
+ res.status(200).json(customer);
+  
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
+};
+
+// Async function to sign in a customer
+const signInCustomerAsync = async (req, res) => {
     try{
     // Select the customer from the customer table
     const [rows] = await db.connection.query('SELECT * FROM customer WHERE username = ? AND password = ?', 
@@ -132,15 +154,15 @@ const getCustomersAsync = async (req, res) => {
 const updateCustomerAsync = async (req, res) => {
   try {
     // Update the customer in the customer table
-    const customerId = req.params.customerId
+    const customerID = req.params.customerID
     const updatedCustomer = new Customer(req)
-    await db.connection.query('UPDATE customer SET ? WHERE ID = ?', [updatedCustomer, customerId]);
+    await db.connection.query('UPDATE customer SET ? WHERE ID = ?', [updatedCustomer, customerID]);
 
     // Select the updated customer from the customer table
-    const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [customerId]);
+    const [rows] = await db.connection.query('SELECT * FROM customer WHERE ID = ?', [customerID]);
     const customer = rows[0];
 
-    res.json(customer);
+    res.status(200).json(customer);
     
     } catch (error) {
     res.status(500).json({
@@ -153,11 +175,11 @@ const updateCustomerAsync = async (req, res) => {
 const deleteCustomerAsync = async (req, res) => {
   try {
     // Delete the customer from the customer table
-    const customerId = req.params.customerId
-    await db.connection.query('DELETE FROM customer WHERE ID = ?', [customerId]);
-    
+    const customerID = req.params.customerID
+    const val = await db.connection.query('DELETE FROM customer WHERE ID = ?', [customerID]);
+
     res.status(200).json({
-      message: `Customer ${insertedCustomerId} created successfully!`
+      message: `Customer deleted successfully!`
     });
 
   } catch (error) {
@@ -172,5 +194,8 @@ module.exports = {
   Customer,
   getCustomersAsync,
   createCustomerAsync,
-  getCustomerAsync
+  getCustomerAsync,
+  signInCustomerAsync,
+  updateCustomerAsync,
+  deleteCustomerAsync
 }
