@@ -1,4 +1,4 @@
-const {hashPassword} = require('../../src/services/utils')
+const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 
@@ -71,15 +71,9 @@ const createEmployeeAsync = async (req, res) => {
 const getEmployeeAsync = async (req, res) => {
     try{
     // Select the employee from the employee table
-    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [req.params.employeeID]);
-    const employee = rows[0];
-
-    if (!employee) {
-      return res.status(404).json({
-      message: 'Employee does not exist'
-     });
-   }
-   res.status(200).json(employee);
+    const token = req.headers['x-access-token']
+    let employee = verifyToken(token)
+    res.status(200).json(employee);
     
   } catch (error) {
     res.status(500).json({
@@ -113,14 +107,15 @@ const signInEmployeeAsync = async (req, res) => {
     return res.status(404).json({
     message: 'Invalid Employee ID or Password'
    });
- }
- res.status(200).json(employee);
-  
-} catch (error) {
-  res.status(500).json({
-    error: error
-  });
-}
+  }
+  const token = signToken(employee)
+  res.status(200).json(token);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
 };
 
 
@@ -128,13 +123,15 @@ const signInEmployeeAsync = async (req, res) => {
 const updateEmployeeAsync = async (req, res) => {
   try {
     // Update the employee in the employee table
-    const employeeID = req.params.employeeID
+    const token = req.headers['x-access-token']
+    let employee = verifyToken(token)
+
     const updatedEmployee = new Employee(req)
-    await db.connection.query('UPDATE employee SET ? WHERE ID = ?', [updatedEmployee, employeeID]);
+    await db.connection.query('UPDATE employee SET ? WHERE ID = ?', [updatedEmployee, employee.ID]);
 
     // Select the updated employee from the employee table
-    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [employeeID]);
-    const employee = rows[0];
+    const [rows] = await db.connection.query('SELECT * FROM employee WHERE ID = ?', [employee.ID]);
+    employee = rows[0];
 
     res.status(200).json(employee);
     
@@ -149,8 +146,9 @@ const updateEmployeeAsync = async (req, res) => {
 const deleteEmployeeAsync = async (req, res) => {
   try {
     // Delete the employee from the employee table
-    const employeeID = req.params.employeeID
-    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employeeID]);
+    const token = req.headers['x-access-token']
+    const employee = verifyToken(token)
+    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employee.ID]);
     
     res.status(200).json({
       message: `Employee deleted successfully!`

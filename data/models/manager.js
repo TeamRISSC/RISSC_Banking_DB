@@ -1,4 +1,4 @@
-const {hashPassword} = require('../../src/services/utils')
+const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 class Manager{
@@ -64,15 +64,9 @@ const createManagerAsync = async (req, res) => {
 const getManagerAsync = async (req, res) => {
     try{
     // Select the manager from the manager table
-    const [rows] = await db.connection.query('SELECT * FROM manager WHERE ID = ?', [req.params.managerID]);
-    const manager = rows[0];
-
-    if (!manager) {
-      return res.status(404).json({
-      message: 'Manager not found'
-     });
-   }
-   res.status(200).json(manager);
+    const token = req.headers['x-access-token']
+    const manager = verifyToken(token)
+    res.status(200).json(manager);
     
   } catch (error) {
     res.status(500).json({
@@ -106,27 +100,30 @@ const signInManagerAsync = async (req, res) => {
     return res.status(404).json({
     message: 'Invalid Manager ID or Password'
    });
- }
- res.status(200).json(manager);
-  
-} catch (error) {
-  res.status(500).json({
-    error: error
-  });
-}
+  }
+  const token = signToken(manager)
+  res.status(200).json(token);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
 };
 
 // Async function to update a manager
 const updateManagerAsync = async (req, res) => {
   try {
+    // Verify the token
+    const token = req.headers['x-access-token']
+    let manager = verifyToken(token)
     // Update the manager in the manager table
-    const managerID = req.params.managerID
     const updatedManager = new Manager(req)
-    await db.connection.query('UPDATE manager SET ? WHERE ID = ?', [updatedManager, managerID]);
+    await db.connection.query('UPDATE manager SET ? WHERE ID = ?', [updatedManager, manager.ID]);
 
     // Select the updated manager from the manager table
-    const [rows] = await db.connection.query('SELECT * FROM manager WHERE ID = ?', [managerID]);
-    const manager = rows[0];
+    const [rows] = await db.connection.query('SELECT * FROM manager WHERE ID = ?', [manager.ID]);
+    manager = rows[0];
 
     res.status(200).json(manager);
     
@@ -140,9 +137,10 @@ const updateManagerAsync = async (req, res) => {
 // Async function to delete a manager
 const deleteManagerAsync = async (req, res) => {
   try {
+    const token = req.headers['x-access-token']
+    const manager = verifyToken(token)
     // Delete the manager from the manager table
-    const managerID = req.params.managerID
-    await db.connection.query('DELETE FROM manager WHERE ID = ?', [managerID]);
+    await db.connection.query('DELETE FROM manager WHERE ID = ?', [manager.ID]);
     
     res.status(200).json({
       message: `Manager deleted successfully!`

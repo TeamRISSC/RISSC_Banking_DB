@@ -23,9 +23,9 @@ app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
 app.get('/api/users', customerAPI.getCustomersAsync)
 app.post('/api/user/register', customerAPI.createCustomerAsync)
 app.post('/api/user/signin', customerAPI.signInCustomerAsync)
-app.get('/api/user/:customerID', customerAPI.getCustomerAsync)
-app.patch('/api/user/:customerID', customerAPI.updateCustomerAsync)
-app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
+app.get('/api/user', customerAPI.getCustomerAsync)
+app.patch('/api/user', customerAPI.updateCustomerAsync)
+app.delete('/api/user', customerAPI.deleteCustomerAsync)
 
 // fixed deposit routes
 app.get('/api/fixeddeposits', FixedDepositAPI.getFixedDepositsAsync)
@@ -42,18 +42,18 @@ app.patch('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.updateFixedDeposi
 app.get('/api/employees', employeeAPI.getEmployeesAsync)
 app.post('/api/employee/register', employeeAPI.createEmployeeAsync)
 app.post('/api/employee/signin', employeeAPI.signInEmployeeAsync)
-app.get('/api/employee/:employeeID', employeeAPI.getEmployeeAsync)
-app.patch('/api/employee/:employeeID', employeeAPI.updateEmployeeAsync)
-app.delete('/api/employee/:employeeID', employeeAPI.deleteEmployeeAsync)
+app.get('/api/employee', employeeAPI.getEmployeeAsync)
+app.patch('/api/employee', employeeAPI.updateEmployeeAsync)
+app.delete('/api/employee', employeeAPI.deleteEmployeeAsync)
 
 
 // Manager routes
 app.get('/api/managers', managerAPI.getManagersAsync)
 app.post('/api/manager/register', managerAPI.createManagerAsync)
 app.post('/api/manager/signin', managerAPI.signInManagerAsync)
-app.get('/api/manager/:managerID', managerAPI.getManagerAsync)
-app.patch('/api/manager/:managerID', managerAPI.updateManagerAsync)
-app.delete('/api/manager/:managerID', managerAPI.deleteManagerAsync)
+app.get('/api/manager', managerAPI.getManagerAsync)
+app.patch('/api/manager', managerAPI.updateManagerAsync)
+app.delete('/api/manager', managerAPI.deleteManagerAsync)
 
 
 // Branch routes

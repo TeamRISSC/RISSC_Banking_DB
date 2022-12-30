@@ -26,6 +26,7 @@
   "homepage": "https://github.com/IsuruGunarathne/RISSC_Banking#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1"
   }
 }

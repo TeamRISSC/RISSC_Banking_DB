@@ -1,8 +1,14 @@
-const crypto = require('crypto');
+const jwt = require('jsonwebtoken')
+const {secret} = require('../config/config')
 
 // Hashing the passwords
-const hashPassword = (password) => crypto.pbkdf2Sync(password, 'salt', 1000, 32, 'sha256').toString('hex');
+const signToken = (payload) => jwt.sign(payload, secret)
+const verifyToken = (token) => jwt.verify(token, secret, (err, res) => {
+    if(err) throw err
+    return res
+})
 
 module.exports = {
-    hashPassword
+    signToken,
+    verifyToken
 }
