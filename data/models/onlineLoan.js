@@ -1,4 +1,4 @@
-const LoanSuper = require("./loanSuper");
+const {LoanSuper} = require("./loanSuper");
 
 class OnlineLoan extends LoanSuper {
     constructor(req) {
