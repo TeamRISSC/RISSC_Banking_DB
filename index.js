@@ -30,6 +30,12 @@ app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
 app.get('/api/fixeddeposits', FixedDepositAPI.getFixedDepositsAsync)
 app.get('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.getFixedDepositAsync)
 app.delete('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.deleteFixedDepositAsync)
+app.get('/api/fixeddeposit/customer/:customerID', FixedDepositAPI.getFixedDepositsByCustomerIDAsync)
+app.get('/api/fixeddeposit/account/:linkedAccountID', FixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
+/////// test with fronted
+app.post('/api/fixeddeposit', FixedDepositAPI.createFixedDepositAsync)
+app.patch('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.updateFixedDepositAsync)
+
 
 // Employee routes
 app.get('/api/employees', employeeAPI.getEmployeesAsync)
