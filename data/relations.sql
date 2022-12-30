@@ -5,7 +5,7 @@ use bank;
 -- create the tables of the database
 
 CREATE TABLE loan_installment (
-  ID                  VARCHAR(20),
+  ID                 INT NOT NULL AUTO_INCREMENT,
   payment                 NUMERIC(10,2),
   date                    DATETIME,
   installmentNumber       NUMERIC(3,0),
@@ -13,7 +13,7 @@ CREATE TABLE loan_installment (
 );
 
 CREATE TABLE customer (
-  ID            VARCHAR(50) NOT NULL,
+  ID            INT NOT NULL AUTO_INCREMENT,
   type           VARCHAR(10)
       check (type in ('Individual', 'Organization')),
   name                    VARCHAR(100) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE customer (
 );
 
 CREATE TABLE manager (
-  ID                      VARCHAR(20),
+  ID                    INT NOT NULL AUTO_INCREMENT,
   name                    VARCHAR(100),
   salary                  NUMERIC(10,2),
   contactNumber          VARCHAR(10),
@@ -35,18 +35,18 @@ CREATE TABLE manager (
 );
 
 CREATE TABLE branch (
-  ID                      VARCHAR(20) NOT NULL,
-  name                    VARCHAR(50) NOT NULL,
-  address                 VARCHAR(256) NOT NULL,
-  manager_ID              VARCHAR(20),
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  name               VARCHAR(50) NOT NULL,
+  address            VARCHAR(256) NOT NULL,
+  manager_ID         INT NOT NULL,
   PRIMARY KEY(ID),
   FOREIGN KEY (manager_ID) REFERENCES manager(ID)
 		on delete cascade 
 );
 
 CREATE TABLE employee (
-  ID                      VARCHAR(20),
-  branchID               VARCHAR(20),
+  ID                    INT NOT NULL AUTO_INCREMENT,
+  branchID              INT NOT NULL,
   name                    VARCHAR(100),
   salary                  NUMERIC(10,2),
   contactNumber          VARCHAR(10),
@@ -56,8 +56,8 @@ CREATE TABLE employee (
 
 CREATE TABLE bank_account (
   accountNumber          VARCHAR(10),
-  customerID             VARCHAR(50) NOT NULL,
-  branchID               VARCHAR(20) NOT NULL,
+  customerID             INT NOT NULL,
+  branchID               INT NOT NULL,
   name                    VARCHAR(100) NOT NULL,
   balance                 NUMERIC(10,2),
   minBalance             NUMERIC(10,2),
@@ -73,9 +73,9 @@ CREATE TABLE bank_account (
 
 
 CREATE TABLE fixed_deposit (
-  ID        VARCHAR(10),
+  ID        INT NOT NULL AUTO_INCREMENT,
   linkedAccountID       VARCHAR(10),
-  customerID             VARCHAR(50),
+  customerID           INT NOT NULL,
   amount                  NUMERIC(10,2)
       check(amount > 0),
   period                  VARCHAR(50)
@@ -98,9 +98,9 @@ CREATE TABLE withdrawal (
 );
 
 CREATE TABLE online_loan (
-  ID                 VARCHAR(20),
-  branchID               VARCHAR(20),
-  customerID             VARCHAR(50),
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  branchID           INT NOT NULL,
+  customerID         INT NOT NULL,
   FDID                   VARCHAR(20),
   amount                  NUMERIC(10,2)
       check(amount > 0),
@@ -111,29 +111,31 @@ CREATE TABLE online_loan (
 );
 
 CREATE TABLE deposit (
-  ID                     VARCHAR(10),
+  ID                    INT NOT NULL AUTO_INCREMENT,
   accountNumber          VARCHAR(10),
   amount                 NUMERIC(10,2)
       check(amount > 0),
   date                    DATETIME,
+  PRIMARY KEY(ID),
   FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE transfer (
-  ID              VARCHAR(50),
-  fromAccountID         VARCHAR(50),
-  toAccountID           VARCHAR(50),
+  ID              INT NOT NULL AUTO_INCREMENT,
+  fromAccountID         VARCHAR(10) NOT NULL,
+  toAccountID           VARCHAR(10) NOT NULL,
   date                    DATETIME,
   amount                  NUMERIC(10,2),
   remarks                 VARCHAR(50),
+  PRIMARY KEY(ID),
   FOREIGN KEY (toAccountID) REFERENCES bank_account(accountNumber),
   FOREIGN KEY (fromAccountID) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE loan (
-  ID                 VARCHAR(20),
-  branchID               VARCHAR(20),
-  customerID             VARCHAR(50),
+  ID                INT NOT NULL AUTO_INCREMENT,
+  branchID               INT NOT NULL,
+  customerID             INT NOT NULL,
   amount                  NUMERIC(10,2),
   approveDate            DATE,
   timePeriod             NUMERIC(3,0),

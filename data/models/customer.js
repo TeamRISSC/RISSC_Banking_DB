@@ -4,7 +4,6 @@ const db = new MySQLDBMySQLDB()
 
 class Customer{
     constructor(req){
-        this.ID = req.body.ID;
         this.type = req.body.type;
         this.name = req.body.name;
         this.address = req.body.address;
