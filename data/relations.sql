@@ -139,6 +139,7 @@ CREATE TABLE loan (
   branchID               INT NOT NULL,
   customerID             INT NOT NULL,
   amount                  NUMERIC(10,2),
+  applyDate               DATE,
   approveDate            DATE,
   timePeriod             NUMERIC(3,0),
   loanType               VARCHAR(20),
