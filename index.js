@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {server_config} = require("./src/config/config")
 const customerAPI = require("./data/models/customer") 
+const FixedDepositAPI = require('./data/models/fixedDeposit')
 
 const app = express()
 const port = server_config.port
@@ -20,6 +21,9 @@ app.get('/api/user/:customerID', customerAPI.getCustomerAsync)
 app.patch('/api/user/:customerID', customerAPI.updateCustomerAsync)
 app.delete('/api/user/:customerID', customerAPI.deleteCustomerAsync)
 
+// fixed deposit routes
+app.get('/api/fixeddeposits', FixedDepositAPI.getFixedDepositsAsync)
+app.get('/api/fixeddeposit/:fixedDepositID', FixedDepositAPI.getFixedDepositAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
