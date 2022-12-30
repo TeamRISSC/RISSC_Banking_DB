@@ -101,14 +101,14 @@ CREATE TABLE online_loan (
   ID                 INT NOT NULL AUTO_INCREMENT,
   branchID           INT NOT NULL,
   customerID         INT NOT NULL,
-  FDID                   VARCHAR(20),
+  FDID               INT NOT NULL,
   amount                  NUMERIC(10,2)
       check(amount > 0),
   applyDate              DATE,
   timePeriod             NUMERIC(3,0),
   PRIMARY KEY(ID),
-  FOREIGN KEY (customerID) REFERENCES customer(ID)
-  FOREIGN KEY (branchID) REFERENCES branch(ID)
+  FOREIGN KEY (customerID) REFERENCES customer(ID),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
   FOREIGN KEY (FDID) REFERENCES fixed_deposit(ID)
 );
 
