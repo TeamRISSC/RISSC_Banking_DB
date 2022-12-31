@@ -60,6 +60,22 @@ const getLoansAsync = async (req, res) => {
   }
 };
 
+// Async function to delete a loan
+const deleteLoanAsync = async (req,res) => {
+  try {
+    // Delete the loan from the loan table
+    await db.connection.query('DELETE FROM loan WHERE id = ?', [req.params.loanID]);
+    
+    res.status(200).json({
+      message: `Loan ${req.params.loanID} deleted successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
 
 ///// WIP below this point ////////////////
 
@@ -103,22 +119,6 @@ const updateLoanAsync = async (loanId, updatedLoan) => {
     }
 };
 
-// Async function to delete a loan
-const deleteLoanAsync = async (loanId) => {
-  try {
-    // Delete the loan from the loan table
-    await db.connection.query('DELETE FROM loan WHERE id = ?', [loanId]);
-    
-    res.status(200).json({
-      message: `Loan ${insertedLoanId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};
 
 module.exports = {
     Loan,
