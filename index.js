@@ -67,6 +67,7 @@ app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 app.get('/api/loans', loanAPI.getLoansAsync)
 app.get('/api/loan/:loanID', loanAPI.getLoanAsync)
 app.delete('/api/loan/:loanID', loanAPI.deleteLoanAsync)
+app.get('/api/loan/customer/:customerID', loanAPI.getLoanByCustomerIdAsync)
 
 
 app.listen(port, () => {

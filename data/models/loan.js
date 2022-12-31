@@ -77,6 +77,28 @@ const deleteLoanAsync = async (req,res) => {
   } 
 };
 
+
+// Async function to get loan by customer id
+const getLoanByCustomerIdAsync = async (req, res) => {
+  try{
+  // Select the loan from the loan table
+  const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [req.params.customerID]);
+  const loan = rows[0];
+  
+  if (!loan) {
+    return res.status(404).json({
+    message: `No loans found for customer ID : ${req.params.customerID}`
+    });
+  }
+  res.json(loan);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
 ///// WIP below this point ////////////////
 
 // Async function to create a new loan
@@ -126,5 +148,6 @@ module.exports = {
     getLoanAsync,
     updateLoanAsync,
     deleteLoanAsync,
-    getLoansAsync
+    getLoansAsync,
+    getLoanByCustomerIdAsync
 }
