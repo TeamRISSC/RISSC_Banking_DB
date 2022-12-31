@@ -1,0 +1,19 @@
+// Contains the configurations for the server
+// txt file is a reference for the format
+
+let db_config = {
+    host:"localhost",
+    user:"root",
+    password:"potato123",
+    database:"bank",
+};
+
+let server_config = {
+    port:5000,
+    baseURI:"api/rissc/"
+}
+
+module.exports = {
+    db_config,
+    server_config
+};
