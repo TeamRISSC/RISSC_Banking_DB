@@ -4,7 +4,7 @@
 let db_config = {
     host:"localhost",
     user:"root",
-    password:"potato123",
+    password:"root",
     database:"bank",
 };
 
