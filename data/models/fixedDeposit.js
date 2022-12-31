@@ -97,10 +97,21 @@ const deleteFixedDepositAsync = async (req,res) => {
   try {
     // Delete the fixed_deposit from the fixed_deposit table
     fixedDepositID = req.params.fixedDepositID
+
+    // check if there are online_loans for this fd
+    const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE FDID = ?', [fixedDepositID]);
+    const online_loan = rows[0];
+
+    if (online_loan) {
+      return res.status(404).json({
+      message: 'Cannot delete FixedDeposit with online loan'
+      });
+    }
+
     await db.connection.query('DELETE FROM fixed_deposit WHERE id = ?', [fixedDepositID]);
     
     res.status(200).json({
-      message: `FixedDeposit ${insertedFixedDepositId} created successfully!`
+      message: `FixedDeposit ${fixedDepositID} deleted successfully!`
     });
 
   } catch (error) {
