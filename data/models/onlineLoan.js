@@ -16,11 +16,121 @@ class OnlineLoan extends LoanSuper {
     }
 }
 
+// Async function to get all online_loans
+const getOnlineLoansAsync = async (req, res) => {
+  try{
+  // Select all online_loans from the online_loan table
+  const [rows] = await db.connection.query('SELECT * FROM online_loan');
+  const online_loans = rows;
+    
+  if (!online_loans) {
+    return res.status(404).json({
+    message: 'OnlineLoans not found'
+    });
+  }
+  res.json(online_loans);
 
-module.exports = {OnlineLoan}
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+// Async function to get a single online_loan
+const getOnlineLoanAsync = async (req,res) => {
+  try{
+  // Select the online_loan from the online_loan table
+  const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE ID = ?', [req.params.onlineLoanID]);
+  const online_loan = rows[0];
+
+  if (!online_loan) {
+    return res.status(404).json({
+    message: 'OnlineLoan not found'
+   });
+ }
+ res.json(online_loan);
+  
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
+};
+
+// Async function to get a single online_loan using customer ID
+const getOnlineLoanByCustomerIDAsync = async (req,res) => {
+  try{
+  // Select the online_loan from the online_loan table
+  const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE CustomerID = ?', [req.params.customerID]);
+  const online_loan = rows[0];
+    
+  if (!online_loan) {
+    return res.status(404).json({
+    message: `No online loans for customer ID : ${req.params.customerID}`
+    });
+  }
+  res.json(online_loan);
+  
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+// Async function to get a single online_loan using FDID
+const getOnlineLoanByFDIDAsync = async (req,res) => {
+  try{
+  // Select the online_loan from the online_loan table
+  const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE FDID = ?', [req.params.FDID]);
+  const online_loan = rows[0];
+    
+  if (!online_loan) {
+    return res.status(404).json({
+    message: `No online loans for FD ID : ${req.params.FDID}`
+    });
+  }
+  res.json(online_loan);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+// Async function to delete an online_loan
+const deleteOnlineLoanAsync = async (req,res) => {
+  try {
+    // check if the online_loan exists
+    const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE ID = ?', [req.params.onlineLoanID]);
+    const online_loan = rows[0];
+    console.log(`onlineLoanID: ${req.params.onlineLoanID}`);
+
+    if (!online_loan) {
+      return res.status(404).json({
+        message: `OnlineLoan ${req.params.onlineLoanID} not found`
+      });
+    }
+    // Delete the online_loan from the online_loan table
+    await db.connection.query('DELETE FROM online_loan WHERE ID = ?', [req.params.onlineLoanID]);
+    
+    res.status(200).json({
+      message: `OnlineLoan ${req.params.onlineLoanID} deleted successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
+
+//////////// WIP //////////////
 
 // Async function to create a new online_loan
-exports.createOnlineLoanAsync = async (req, res) => {
+const createOnlineLoanAsync = async (req, res) => {
     try{  
     const online_loan = new OnlineLoan(req)
     
@@ -39,29 +149,9 @@ exports.createOnlineLoanAsync = async (req, res) => {
   }
 };
 
-// Async function to get a single online_loan
-exports.getOnlineLoanAsync = async (online_loanId) => {
-    try{
-    // Select the online_loan from the online_loan table
-    const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE id = ?', [online_loanId]);
-    const online_loan = rows[0];
-
-    if (!online_loan) {
-      return res.status(404).json({
-      message: 'OnlineLoan not found'
-     });
-   }
-   res.json(online_loan);
-    
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
-};
 
 // Async function to update a online_loan
-exports.updateOnlineLoanAsync = async (online_loanId, updatedOnlineLoan) => {
+const updateOnlineLoanAsync = async (online_loanId, updatedOnlineLoan) => {
   try {
     // Update the online_loan in the online_loan table
     await db.connection.query('UPDATE online_loan SET ? WHERE id = ?', [updatedOnlineLoan, online_loanId]);
@@ -79,19 +169,14 @@ exports.updateOnlineLoanAsync = async (online_loanId, updatedOnlineLoan) => {
     }
 };
 
-// Async function to delete a online_loan
-exports.deleteOnlineLoanAsync = async (online_loanId) => {
-  try {
-    // Delete the online_loan from the online_loan table
-    await db.connection.query('DELETE FROM online_loan WHERE id = ?', [online_loanId]);
-    
-    res.status(200).json({
-      message: `OnlineLoan ${insertedOnlineLoanId} created successfully!`
-    });
 
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
+module.exports = {
+  OnlineLoan,
+  createOnlineLoanAsync,
+  getOnlineLoanAsync,
+  updateOnlineLoanAsync,
+  deleteOnlineLoanAsync,
+  getOnlineLoansAsync,
+  getOnlineLoanByCustomerIDAsync,
+  getOnlineLoanByFDIDAsync
 };

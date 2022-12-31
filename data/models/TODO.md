@@ -54,7 +54,7 @@ Supun, Rovin - Create the Front End
 -   [x] customer
 -   [x] fixed deposit
 -   [ ] loan_super
-    -   [ ] online loan
+    -   [x] online loan
     -   [x] loan
     -   [ ] loan installment
 -   [ ] transaction
