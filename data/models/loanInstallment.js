@@ -4,9 +4,9 @@ const db = new MySQLDBMySQLDB()
 class LoanInstallment{
     constructor(req){
         this.loanID = req.body.loanID;
-        this.payment = req.body.amount;
+        this.payment = req.body.payment;
         this.date = req.body.date;
-        this.installmentNumber = req.body.insNum
+        this.installmentNumber = req.body.installmentNumber
     }
 
     // setters and getters

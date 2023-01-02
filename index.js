@@ -91,9 +91,9 @@ app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
 app.get('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.getLoanInstallmentAsync)
 app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteLoanInstallmentAsync)
+app.post('/api/loaninstallment', loanInstallmentAPI.createLoanInstallmentAsync)
 // if needed can get installments by customer id, just join with loan table and compare customer ID
 // test with fronted
-app.post('/api/loaninstallment', loanInstallmentAPI.createLoanInstallmentAsync)
 app.patch('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.updateLoanInstallmentAsync)
 
 // online loan Installment routes
@@ -101,8 +101,8 @@ app.get('/api/onlineloaninstallments', onlineLoanInstallmentAPI.getonlineLoanIns
 app.get('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDAsync)
 app.get('/api/onlineloaninstallment/onlineloan/:onlineLoanID', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsByonlineLoanIDAsync)
 app.delete('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.deleteonlineLoanInstallmentIDAsync)
-// test with frontend
 app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoanInstallmentIDAsync)
+// test with frontend
 app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
 
 app.listen(port, () => {

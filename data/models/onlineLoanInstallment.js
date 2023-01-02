@@ -4,9 +4,9 @@ const db = new MySQLDBMySQLDB()
 class onlineLoanInstallmentID{
     constructor(req){
         this.onlineLoanID = req.body.onlineLoanID;
-        this.payment = req.body.amount;
+        this.payment = req.body.payment;
         this.date = req.body.date;
-        this.installmentNumber = req.body.insNum
+        this.installmentNumber = req.body.installmentNumber
     }
 
     // setters and getters
@@ -116,27 +116,27 @@ const deleteonlineLoanInstallmentIDAsync = async (req,res) => {
   } 
 };
 
-///////////// WIP /////////////
-
 // Async function to create a new online_loan_installment
 const createonlineLoanInstallmentIDAsync = async (req, res) => {
-    try{  
-    const online_loan_installment = new onlineLoanInstallmentID(req)
-    
-    // Insert the online_loan_installment into the online_loan_installment table
-    const [result] = await db.connection.query('INSERT INTO online_loan_installment SET ?', online_loan_installment);
-    const insertedonlineLoanInstallmentIDId = result.insertId;
-    
-    res.status(200).json({
-      message: `onlineLoanInstallmentID ${insertedonlineLoanInstallmentIDId} created successfully!`
-    });
+  try{  
+  const online_loan_installment = new onlineLoanInstallmentID(req)
+  
+  // Insert the online_loan_installment into the online_loan_installment table
+  const [result] = await db.connection.query('INSERT INTO online_loan_installment SET ?', online_loan_installment);
+  const insertedonlineLoanInstallmentIDId = result.insertId;
+  
+  res.status(200).json({
+    message: `onlineLoanInstallmentID ${insertedonlineLoanInstallmentIDId} created successfully!`
+  });
 
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
 };
+
+///////////// WIP /////////////
 
 
 // Async function to update a online_loan_installment

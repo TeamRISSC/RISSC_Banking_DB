@@ -2,7 +2,7 @@ const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 class LoanSuper {
     constructor(req) {
-        this.ID = req.body.ID;
+        //this.ID = req.body.ID;
         this.branchID = req.body.branchID;
         this.customerID = req.body.customerID;
         this.amount = req.body.amount;
