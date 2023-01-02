@@ -85,6 +85,8 @@ const getLoanByCustomerIdAsync = async (req, res) => {
   // Select the loan from the loan table
   const token = req.headers['x-access-token']
   console.log(token);
+  const customer = verifyToken(token);
+  console.log(customer)
   const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [customer.ID]);
   const loan = rows[0];
   
