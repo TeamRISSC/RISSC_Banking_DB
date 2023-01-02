@@ -57,3 +57,7 @@ insert into employee (branchID,name,salary,contactNumber,username,email,password
 -- Insert loans
 insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business');
 insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal');
+
+-- Insert loan_installments
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2022-11-25', 1);
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-11-25', 1);

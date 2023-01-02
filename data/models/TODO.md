@@ -57,6 +57,7 @@ Supun, Rovin - Create the Front End
     -   [x] online loan
     -   [x] loan
     -   [ ] loan installment
+    -   [ ] online loan installment
 -   [ ] transaction
     -   [ ] transfer
     -   [ ] deposit

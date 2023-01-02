@@ -10,6 +10,7 @@ const branchAPI = require('./data/models/branch')
 const fixedDepositAPI = require('./data/models/fixedDeposit')
 const loanAPI = require('./data/models/loan')
 const onlineLoanAPI = require('./data/models/onlineLoan')
+const loanInstallmentAPI = require('./data/models/loanInstallment')
 
 
 const app = express()
@@ -83,6 +84,9 @@ app.delete('/api/onlineloan/:onlineLoanID', onlineLoanAPI.deleteOnlineLoanAsync)
 // test with fronted
 app.post('/api/onlineloan', onlineLoanAPI.createOnlineLoanAsync)
 app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
+
+// loan Installment routes
+app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

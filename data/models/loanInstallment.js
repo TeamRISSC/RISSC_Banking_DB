@@ -36,11 +36,26 @@ class LoanInstallment{
     }
 }
 
+// Async function to get all loan_installments
+const getLoanInstallmentsAsync = async (req, res) => {
+  try{
+    // Select all loan_installments from the loan_installment table
+    const [rows] = await db.connection.query('SELECT * FROM loan_installment');
+    const loan_installments = rows;
+    
+    res.json(loan_installments);
 
-module.exports = {LoanInstallment}
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+///////////// WIP /////////////
 
 // Async function to create a new loan_installment
-exports.createLoanInstallmentAsync = async (req, res) => {
+const createLoanInstallmentAsync = async (req, res) => {
     try{  
     const loan_installment = new LoanInstallment(req)
     
@@ -60,7 +75,7 @@ exports.createLoanInstallmentAsync = async (req, res) => {
 };
 
 // Async function to get a single loan_installment
-exports.getLoanInstallmentAsync = async (loan_installmentId) => {
+const getLoanInstallmentAsync = async (loan_installmentId) => {
     try{
     // Select the loan_installment from the loan_installment table
     const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE id = ?', [loan_installmentId]);
@@ -81,7 +96,7 @@ exports.getLoanInstallmentAsync = async (loan_installmentId) => {
 };
 
 // Async function to update a loan_installment
-exports.updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstallment) => {
+const updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstallment) => {
   try {
     // Update the loan_installment in the loan_installment table
     await db.connection.query('UPDATE loan_installment SET ? WHERE id = ?', [updatedLoanInstallment, loan_installmentId]);
@@ -100,7 +115,7 @@ exports.updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInsta
 };
 
 // Async function to delete a loan_installment
-exports.deleteLoanInstallmentAsync = async (loan_installmentId) => {
+const deleteLoanInstallmentAsync = async (loan_installmentId) => {
   try {
     // Delete the loan_installment from the loan_installment table
     await db.connection.query('DELETE FROM loan_installment WHERE id = ?', [loan_installmentId]);
@@ -114,4 +129,13 @@ exports.deleteLoanInstallmentAsync = async (loan_installmentId) => {
       error: error
     });
   } 
+};
+
+module.exports = {
+  LoanInstallment,
+  createLoanInstallmentAsync,
+  getLoanInstallmentAsync,
+  updateLoanInstallmentAsync,
+  deleteLoanInstallmentAsync,
+  getLoanInstallmentsAsync
 };

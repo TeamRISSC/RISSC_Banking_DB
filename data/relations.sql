@@ -4,14 +4,6 @@ create database bank;
 use bank;
 -- create the tables of the database
 
-CREATE TABLE loan_installment (
-  ID                 INT NOT NULL AUTO_INCREMENT,
-  payment                 NUMERIC(10,2),
-  date                    DATETIME,
-  installmentNumber       NUMERIC(3,0),
-  PRIMARY KEY(ID)
-);
-
 CREATE TABLE customer (
   ID            INT NOT NULL AUTO_INCREMENT,
   type           VARCHAR(10)
@@ -155,4 +147,24 @@ CREATE TABLE loan (
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
   FOREIGN KEY (branchID) REFERENCES branch(ID)
+);
+
+CREATE TABLE loan_installment (
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  loanID             INT NOT NULL,
+  payment                 NUMERIC(10,2),
+  date                    DATETIME,
+  installmentNumber       NUMERIC(3,0),
+  PRIMARY KEY(ID),
+  FOREIGN KEY(loanID) REFERENCES loan(ID)
+  );
+
+CREATE TABLE online_loan_installment (
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  onlineLoanID             INT NOT NULL,
+  payment                 NUMERIC(10,2),
+  date                    DATETIME,
+  installmentNumber       NUMERIC(3,0),
+  PRIMARY KEY(ID),
+  FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
 );
