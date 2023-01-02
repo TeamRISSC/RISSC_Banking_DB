@@ -4,7 +4,7 @@ const {verifyToken} = require('../../src/services/utils')
 const db = new MySQLDBMySQLDB()
 class FixedDeposit {
     constructor(req){
-        this.ID = req.body.ID;
+        // this.ID = req.body.ID;
         this.linkedAccountID = req.body.linkedAccountID;
         this.customerID = req.body.customerID;
         this.amount = req.body.amount;

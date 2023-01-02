@@ -42,12 +42,12 @@ insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) v
 insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) values ('00002', '00002','00002',20000,'2022-11-23', 5);
                                     
 -- Insert transfers
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00001', '00002', '2017-01-01', 1000.00,"opening account");
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00002', '00001', '2017-01-01', 2000.00,"returning open account amount");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00001', '00002', '2017-01-01', 1000.00,"opening account","transfer");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00002', '00001', '2017-01-01', 2000.00,"returning open account amount","transfer");
 
 -- Insert deposits
-insert into deposit (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
-insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
+insert into deposit (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"deposit");
+insert into deposit (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"deposit");
    
 
 -- Insert employees

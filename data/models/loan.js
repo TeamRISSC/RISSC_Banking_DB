@@ -89,13 +89,13 @@ const getLoanByCustomerIdAsync = async (req, res) => {
   console.log(customer)
   const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [customer.ID]);
   const loan = rows[0];
-  
+
   if (!loan) {
     return res.status(404).json({
     message: `No loans found for ${customer.ID}`
     });
   }
-  res.json(loan);
+  res.json({"loans": rows});
 
   } catch (error) {
     res.status(500).json({

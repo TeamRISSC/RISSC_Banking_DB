@@ -8,6 +8,7 @@ class Transfer extends Transaction{
         this.fromAccountID = req.body.fromAccountID;
         this.toAccountID = req.body.toAccountID;
         this.remarks = req.body.remarks;
+        this.type = "Transfer";
     }
 
     // setters and getters
