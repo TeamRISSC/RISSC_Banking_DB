@@ -96,6 +96,23 @@ const getLoanInstallmentsByLoanIdAsync = async (req, res) => {
   }
 };
 
+// Async function to delete a loan_installment
+const deleteLoanInstallmentAsync = async (req,res) => {
+  try {
+    // Delete the loan_installment from the loan_installment table
+    console.log(req.params.loanInstallmentID);
+    await db.connection.query('DELETE FROM loan_installment WHERE id = ?', [req.params.loanInstallmentID]);
+    
+    res.status(200).json({
+      message: `LoanInstallment ${req.params.loanInstallmentID} deleted successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
 
 ///////////// WIP /////////////
 
@@ -137,23 +154,6 @@ const updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstall
       error: error
     });
     }
-};
-
-// Async function to delete a loan_installment
-const deleteLoanInstallmentAsync = async (loan_installmentId) => {
-  try {
-    // Delete the loan_installment from the loan_installment table
-    await db.connection.query('DELETE FROM loan_installment WHERE id = ?', [loan_installmentId]);
-    
-    res.status(200).json({
-      message: `LoanInstallment ${insertedLoanInstallmentId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
 };
 
 module.exports = {
