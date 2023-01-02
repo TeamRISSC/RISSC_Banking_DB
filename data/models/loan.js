@@ -29,7 +29,7 @@ class Loan extends LoanSuper{
 const getLoanAsync = async (req,res) => {
   try{
   // Select the loan from the loan table
-  const [rows] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [req.params.loanID]);
+  const [rows] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [req.body.loanID]);
   const loan = rows[0];
 
   if (!loan) {
@@ -65,10 +65,10 @@ const getLoansAsync = async (req, res) => {
 const deleteLoanAsync = async (req,res) => {
   try {
     // Delete the loan from the loan table
-    await db.connection.query('DELETE FROM loan WHERE id = ?', [req.params.loanID]);
+    await db.connection.query('DELETE FROM loan WHERE id = ?', [req.body.loanID]);
     
     res.status(200).json({
-      message: `Loan ${req.params.loanID} deleted successfully!`
+      message: `Loan ${req.body.loanID} deleted successfully!`
     });
 
   } catch (error) {
@@ -83,13 +83,14 @@ const deleteLoanAsync = async (req,res) => {
 const getLoanByCustomerIdAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
-  const customer = verifyToken(token)
+  const token = req.headers['x-access-token']
+  console.log(token);
   const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [customer.ID]);
   const loan = rows[0];
   
   if (!loan) {
     return res.status(404).json({
-    message: `No loans found for customer ID : ${req.params.customerID}`
+    message: `No loans found for ${customer.ID}`
     });
   }
   res.json(loan);

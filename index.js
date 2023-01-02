@@ -69,12 +69,12 @@ app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 
 // loan routes
 app.get('/api/loans', loanAPI.getLoansAsync)
-app.get('/api/loan/:loanID', loanAPI.getLoanAsync)
-app.delete('/api/loan/:loanID', loanAPI.deleteLoanAsync)
+app.get('/api/loan/', loanAPI.getLoanAsync)
+app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/loan/customer', loanAPI.getLoanByCustomerIdAsync)
 ////// test with fronted
 app.post('/api/loan', loanAPI.createLoanAsync)
-app.patch('/api/loan/:loanID', loanAPI.updateLoanAsync)
+app.patch('/api/loan/', loanAPI.updateLoanAsync)
 
 // online loan routes
 app.get('/api/onlineloans', onlineLoanAPI.getOnlineLoansAsync)

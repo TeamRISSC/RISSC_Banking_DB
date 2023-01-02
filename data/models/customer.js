@@ -92,6 +92,8 @@ const getCustomerAsync = async (req, res) => {
   // Verify the token
   const token = req.headers['x-access-token']
   const customer = verifyToken(token)
+
+  console.log(customer);
   res.status(200).json(customer);
     
   } catch (error) {
