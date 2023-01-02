@@ -1,4 +1,6 @@
+const {LoanSuper} = require("./loanSuper");
 const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
 const db = new MySQLDBMySQLDB()
 class FixedDeposit {
     constructor(req){
@@ -126,6 +128,8 @@ const getFixedDepositsByCustomerIDAsync = async (req, res) => {
   try{
   // Select all fixed_deposits from the fixed_deposit table
   console.log(req.params)
+  const token = req.headers['x-access-token']
+  console.log(token);
   const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.params.customerID]);
   res.json(rows);
 

@@ -31,16 +31,6 @@ app.get('/api/user', customerAPI.getCustomerAsync)
 app.patch('/api/user', customerAPI.updateCustomerAsync)
 app.delete('/api/user', customerAPI.deleteCustomerAsync)
 
-// fixed deposit routes
-app.get('/api/fixeddeposits', fixedDepositAPI.getFixedDepositsAsync)
-app.get('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.getFixedDepositAsync)
-app.delete('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.deleteFixedDepositAsync)
-app.get('/api/fixeddeposit/customer/:customerID', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
-app.get('/api/fixeddeposit/account/:linkedAccountID', fixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
-/////// test with fronted
-app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
-app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDepositAsync)
-
 
 // Employee routes
 app.get('/api/employees', employeeAPI.getEmployeesAsync)
@@ -66,6 +56,16 @@ app.post('/api/branch/register', branchAPI.createBranchAsync)
 app.get('/api/branch/:branchID', branchAPI.getBranchAsync)
 app.patch('/api/branch/:branchID', branchAPI.updateBranchAsync)
 app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
+
+// fixed deposit routes
+app.get('/api/fixeddeposits', fixedDepositAPI.getFixedDepositsAsync)
+app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
+app.delete('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.deleteFixedDepositAsync)
+app.get('/api/fixeddeposit/customer/', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
+app.get('/api/fixeddeposit/account/:linkedAccountID', fixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
+/////// test with fronted
+app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
+app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDepositAsync)
 
 // loan routes
 app.get('/api/loans', loanAPI.getLoansAsync)

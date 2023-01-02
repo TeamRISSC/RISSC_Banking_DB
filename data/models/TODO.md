@@ -48,14 +48,14 @@ Make attributes consistent with the database
 
 Testing
 Chathura - Employee, Customer, Manager, Branch, Bank Account
-Isuru - loan_installment, online_loan, withdrawal, deposit, fixed_deposit, transfer, loan
+Isuru - loan_installment,online_loan_installment, online_loan, loan, withdrawal, deposit, fixed_deposit, transfer
 Supun, Rovin - Create the Front End
 
 -   [x] customer
--   [x] fixed deposit
+-   [ ] fixed deposit
 -   [ ] loan_super
-    -   [x] online loan
-    -   [x] loan
+    -   [ ] online loan
+    -   [ ] loan
     -   [ ] loan installment
     -   [ ] online loan installment
 -   [ ] transaction
