@@ -1,5 +1,6 @@
 const {LoanSuper} = require("./loanSuper");
 const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
 const db = new MySQLDBMySQLDB()
 
 class Loan extends LoanSuper{
@@ -82,7 +83,8 @@ const deleteLoanAsync = async (req,res) => {
 const getLoanByCustomerIdAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
-  const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [req.params.customerID]);
+  const customer = verifyToken(token)
+  const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [customer.ID]);
   const loan = rows[0];
   
   if (!loan) {
