@@ -61,3 +61,7 @@ insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,lo
 -- Insert loan_installments
 insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2022-11-25', 1);
 insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-11-25', 1);
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2022-12-25', 2);
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-12-25', 2);
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2023-01-25', 3);
+insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2023-01-25', 3);

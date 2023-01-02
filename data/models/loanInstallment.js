@@ -52,6 +52,51 @@ const getLoanInstallmentsAsync = async (req, res) => {
   }
 };
 
+// Async function to get a single loan_installment
+const getLoanInstallmentAsync = async (req,res) => {
+  try{
+  // Select the loan_installment from the loan_installment table
+  const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE id = ?', [req.params.loanInstallmentID]);
+  const loan_installment = rows[0];
+
+  if (!loan_installment) {
+    return res.status(404).json({
+    message: 'LoanInstallment not found'
+   });
+ }
+ res.json(loan_installment);
+  
+} catch (error) {
+  res.status(500).json({
+    error: error
+  });
+}
+};
+
+
+// Async function to get loan installments by loan id
+const getLoanInstallmentsByLoanIdAsync = async (req, res) => {
+  try{
+    // Select all loan_installments from the loan_installment table
+    const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE loanID = ?', [req.params.loanID]);
+    const loan_installments = rows;
+
+    if (!loan_installments) {
+      return res.status(404).json({
+      message: `LoanInstallments not found for loanID ${req.params.loanID}`
+        
+      });
+    }
+    res.json(loan_installments);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+
 ///////////// WIP /////////////
 
 // Async function to create a new loan_installment
@@ -74,26 +119,6 @@ const createLoanInstallmentAsync = async (req, res) => {
   }
 };
 
-// Async function to get a single loan_installment
-const getLoanInstallmentAsync = async (loan_installmentId) => {
-    try{
-    // Select the loan_installment from the loan_installment table
-    const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE id = ?', [loan_installmentId]);
-    const loan_installment = rows[0];
-
-    if (!loan_installment) {
-      return res.status(404).json({
-      message: 'LoanInstallment not found'
-     });
-   }
-   res.json(loan_installment);
-    
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
-};
 
 // Async function to update a loan_installment
 const updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstallment) => {
@@ -137,5 +162,6 @@ module.exports = {
   getLoanInstallmentAsync,
   updateLoanInstallmentAsync,
   deleteLoanInstallmentAsync,
+  getLoanInstallmentsByLoanIdAsync,
   getLoanInstallmentsAsync
 };

@@ -87,6 +87,8 @@ app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
 
 // loan Installment routes
 app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
+app.get('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.getLoanInstallmentAsync)
+app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
