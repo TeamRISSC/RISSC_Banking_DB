@@ -11,6 +11,7 @@ const fixedDepositAPI = require('./data/models/fixedDeposit')
 const loanAPI = require('./data/models/loan')
 const onlineLoanAPI = require('./data/models/onlineLoan')
 const loanInstallmentAPI = require('./data/models/loanInstallment')
+const onlineLoanInstallmentAPI = require('./data/models/onlineLoanInstallment')
 
 
 const app = express()
@@ -90,6 +91,19 @@ app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
 app.get('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.getLoanInstallmentAsync)
 app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteLoanInstallmentAsync)
+// if needed can get installments by customer id, just join with loan table and compare customer ID
+// test with fronted
+app.post('/api/loaninstallment', loanInstallmentAPI.createLoanInstallmentAsync)
+app.patch('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.updateLoanInstallmentAsync)
+
+// online loan Installment routes
+app.get('/api/onlineloaninstallments', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsAsync)
+app.get('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDAsync)
+app.get('/api/onlineloaninstallment/onlineloan/:onlineLoanID', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsByonlineLoanIDAsync)
+app.delete('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.deleteonlineLoanInstallmentIDAsync)
+// test with frontend
+app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoanInstallmentIDAsync)
+app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

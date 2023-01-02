@@ -65,3 +65,11 @@ insert into loan_installment (loanID,payment,date,installmentNumber) values ('00
 insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-12-25', 2);
 insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2023-01-25', 3);
 insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2023-01-25', 3);
+
+-- Insert online_loan_installments
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2022-11-25', 1);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2022-11-25', 1);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2022-12-25', 2);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2022-12-25', 2);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2023-01-25', 3);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2023-01-25', 3);
