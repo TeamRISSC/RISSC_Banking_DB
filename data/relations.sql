@@ -7,7 +7,6 @@ use bank;
 CREATE TABLE admin (
   ID            INT NOT NULL AUTO_INCREMENT,
   username                VARCHAR(30) NOT NULL,
-  email                VARCHAR(256) NOT NULL,
   password                VARCHAR(256) NOT NULL,
   PRIMARY KEY(ID),
   UNIQUE(username)
