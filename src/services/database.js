@@ -1,22 +1,19 @@
 const mysql = require('mysql2/promise');
-const {db_config} = require("../config/config");
+const {admin_config} = require('../../src/config/config') 
+
 
  class MySQLDBMySQLDB {
-  constructor() {
-     if (!MySQLDBMySQLDB.instance) {
-       this.init()
-     }
-     return MySQLDBMySQLDB.instance;
+  constructor(config) {
+     this.init(config)
   }
 
-  async init(){
+  async init(config=admin_config){
     this.connection = await mysql.createConnection({
-      host: db_config.host,
-      user: db_config.user,
-      password: db_config.password,
-      database: db_config.database
+      host: config.host,
+      user: config.user,
+      password: config.password,
+      database: config.database
     });
-    MySQLDBMySQLDB.instance = this;
   }
 }
 

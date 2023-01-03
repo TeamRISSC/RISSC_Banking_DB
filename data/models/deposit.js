@@ -1,7 +1,6 @@
 const {Transaction} = require("./transaction");
-const {MySQLDBMySQLDB} = require('../../src/services/database')
-const db = new MySQLDBMySQLDB()
-
+const {init} = require('../../src/services/database')
+const db = init()
 class Deposit extends Transaction{
     constructor(req){
         super(req);

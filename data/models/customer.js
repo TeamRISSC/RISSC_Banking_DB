@@ -1,8 +1,7 @@
 const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
-
-
-const db = new MySQLDBMySQLDB()
+const {customer_config} = require('../../src/config/config') 
+const db = new MySQLDBMySQLDB(customer_config)
 
 class Customer{
     constructor(req){
@@ -71,15 +70,20 @@ const createCustomerAsync = async (req, res) => {
     try{  
     const customer = new Customer(req)
     
+    await db.connection.beginTransaction();
+
     // Insert the customer into the customer table
     const [result] = await db.connection.query('INSERT INTO customer SET ?', customer);
+    await db.connection.execute('grant user to ?', customer.ID)
     const insertedCustomerId = result.insertId;
     
     res.status(200).json({
       message: `Customer ${insertedCustomerId} created successfully!`
     });
+    await db.connection.commit()
 
   } catch (error) {
+    await db.connection.rollback()
     res.status(500).json({
       error: error,
     });

@@ -1,6 +1,7 @@
 const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
-const db = new MySQLDBMySQLDB()
+const {manager_config} = require('../../src/config/config') 
+const db = new MySQLDBMySQLDB(manager_config)
 class Manager{
     constructor(req){
         this.branchID = req.body.branchID;

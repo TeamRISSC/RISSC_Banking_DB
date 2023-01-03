@@ -1,6 +1,7 @@
 const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
-const db = new MySQLDBMySQLDB()
+const {employee_config} = require('../../src/config/config') 
+const db = new MySQLDBMySQLDB(employee_config)
 
 class Employee{
     constructor(req){

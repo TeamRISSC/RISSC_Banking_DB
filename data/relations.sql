@@ -168,3 +168,14 @@ CREATE TABLE online_loan_installment (
   PRIMARY KEY(ID),
   FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
 );
+-- Users for the database
+CREATE USER 'customer'@'localhost' IDENTIFIED BY 'customer';
+CREATE USER 'employee'@'localhost' IDENTIFIED BY 'employee';
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'manager';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+
+-- Grant all priviledges for all users
+grant all privileges on bank.* to admin;
+grant all privileges on bank.* to customer;
+grant all privileges on bank.* to manager;
+grant all privileges on bank.* to employee;
