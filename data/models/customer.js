@@ -135,7 +135,7 @@ const getCustomersAsync = async (req, res) => {
   try{
   // Select the customer from the customer table
   const [rows] = await db.connection.query('SELECT * FROM customer');
-  res.status(200).json(rows);
+  res.status(200).json({"users":rows});
   
   } catch (error) {
     res.status(500).json({

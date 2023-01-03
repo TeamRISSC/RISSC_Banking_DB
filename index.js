@@ -12,6 +12,8 @@ const loanAPI = require('./data/models/loan')
 const onlineLoanAPI = require('./data/models/onlineLoan')
 const loanInstallmentAPI = require('./data/models/loanInstallment')
 const onlineLoanInstallmentAPI = require('./data/models/onlineLoanInstallment')
+const transactionAPI = require('./data/models/transaction')
+const bankAccountAPI = require('./data/models/bankAccount')
 
 
 const app = express()
@@ -24,7 +26,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
 
 // User routes
-app.get('/api/users', customerAPI.getCustomersAsync)
+app.get('/api/admin/listUsers', customerAPI.getCustomersAsync)
 app.post('/api/user/register', customerAPI.createCustomerAsync)
 app.post('/api/user/signin', customerAPI.signInCustomerAsync)
 app.get('/api/user', customerAPI.getCustomerAsync)
@@ -68,18 +70,17 @@ app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
 app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDepositAsync)
 
 // loan routes
-app.get('/api/loans', loanAPI.getLoansAsync)
-app.get('/api/loan/', loanAPI.getLoanAsync)
+app.get('/api/listLoans/', loanAPI.getLoansAsync) // works
+app.get('/api/loan/', loanAPI.getLoanAsync) // works
 app.delete('/api/loan/', loanAPI.deleteLoanAsync)
-app.get('/api/loan/customer', loanAPI.getLoanByCustomerIdAsync)
-////// test with fronted
+app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
 app.post('/api/loan', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
 
 // online loan routes
-app.get('/api/onlineloans', onlineLoanAPI.getOnlineLoansAsync)
+app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)
 app.get('/api/onlineloan/:onlineLoanID', onlineLoanAPI.getOnlineLoanAsync)
-app.get('/api/onlineloan/customer/:customerID', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
+app.get('/api/userOnlineLoans', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
 app.get('/api/onlineloan/fixeddeposit/:FDID', onlineLoanAPI.getOnlineLoanByFDIDAsync)
 app.delete('/api/onlineloan/:onlineLoanID', onlineLoanAPI.deleteOnlineLoanAsync)
 // test with fronted
@@ -104,6 +105,13 @@ app.delete('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInst
 app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoanInstallmentIDAsync)
 // test with frontend
 app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
+
+// transation routes
+app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
+
+// bank account routes
+app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)
+app.get('/api/userCurrentAccounts', bankAccountAPI.getCurrentAccountsByCustomerIDAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

@@ -51,7 +51,7 @@ const getLoansAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
   const [rows] = await db.connection.query('SELECT * FROM bank.loan');
-  res.status(200).json(rows);
+  res.status(200).json({"loans":rows});
 
   } catch (error) {
     res.status(500).json({
@@ -85,15 +85,17 @@ const getLoanByCustomerIdAsync = async (req, res) => {
   // Select the loan from the loan table
   const token = req.headers['x-access-token']
   console.log(token);
+  const customer = verifyToken(token);
+  console.log(customer)
   const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [customer.ID]);
   const loan = rows[0];
-  
+
   if (!loan) {
     return res.status(404).json({
     message: `No loans found for ${customer.ID}`
     });
   }
-  res.json(loan);
+  res.json({"loans": rows});
 
   } catch (error) {
     res.status(500).json({

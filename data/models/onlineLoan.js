@@ -1,5 +1,6 @@
 const {LoanSuper} = require("./loanSuper");
 const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
 const db = new MySQLDBMySQLDB()
 class OnlineLoan extends LoanSuper {
     constructor(req) {
@@ -61,22 +62,26 @@ const getOnlineLoanAsync = async (req,res) => {
 // Async function to get a single online_loan using customer ID
 const getOnlineLoanByCustomerIDAsync = async (req,res) => {
   try{
-  // Select the online_loan from the online_loan table
-  const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE CustomerID = ?', [req.params.customerID]);
-  const online_loan = rows[0];
-    
-  if (!online_loan) {
-    return res.status(404).json({
-    message: `No online loans for customer ID : ${req.params.customerID}`
-    });
-  }
-  res.json(online_loan);
+    // Select the loan from the loan table
+    const token = req.headers['x-access-token']
+    console.log(token);
+    const customer = verifyToken(token);
+    console.log(customer)
+    const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE customerID = ?', [customer.ID]);
+    const loan = rows[0];
   
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
+    if (!loan) {
+      return res.status(404).json({
+      message: `No online loans found for ${customer.ID}`
+      });
+    }
+    res.json({"Online_loans": rows});
+  
+    } catch (error) {
+      res.status(500).json({
+        error: error
+      });
+    }
 };
 
 // Async function to get a single online_loan using FDID

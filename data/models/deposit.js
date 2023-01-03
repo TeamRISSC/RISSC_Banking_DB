@@ -5,6 +5,7 @@ class Deposit extends Transaction{
     constructor(req){
         super(req);
         this.accountNumber = req.body.accountNumber;
+        this.type = "deposit";
     }
 
     // setters and getters

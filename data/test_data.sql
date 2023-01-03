@@ -28,8 +28,15 @@ insert into customer (type,name,address, contactNumber, username,email, password
                             '076652614', 'Kasun','kasun@gmail.com', '12345');
  
 -- Insert bank_accounts
-insert into bank_account values ('00001', '00001', '001', 'Chathura', 10000, 1000, 'Savings', 5,10,2);
+insert into bank_account values ('00001', '00001', '001', 'Chathura', 1000000, 1000, 'Savings', 5,10,2);
 insert into bank_account values ('00002', '00002', '002', 'Kasun', 20000, 1000, 'Savings', 5,10,2); 
+insert into bank_account values ('00007', '00001', '001', 'Chathura', 10000, 1000, 'Savings', 5,10,2);
+insert into bank_account values ('00008', '00002', '002', 'Kasun', 20000, 1000, 'Savings', 5,10,2);
+-- some current accounts
+insert into bank_account values ('00003', '00001', '001', 'Chathura', 10000, 1000, 'Checking', 5,10,2);
+insert into bank_account values ('00004', '00002', '002', 'Kasun', 20000, 1000, 'Checking', 5,10,2);
+insert into bank_account values ('00005', '00001', '001', 'Chathura', 10000, 1000, 'Checking', 5,10,2);
+insert into bank_account values ('00006', '00002', '002', 'Kasun', 20000, 1000, 'Checking', 5,10,2);
                             
 -- Insert fixed deposits
 insert into fixed_deposit (linkedAccountID,customerID,amount,period,interestRate,maturityDate) values ('00001', '00001', 10000, 1, 5,
@@ -42,13 +49,16 @@ insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) v
 insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) values ('00002', '00002','00002',20000,'2022-11-23', 5);
                                     
 -- Insert transfers
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00001', '00002', '2017-01-01', 1000.00,"opening account");
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00002', '00001', '2017-01-01', 2000.00,"returning open account amount");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00001', '00002', '2017-01-02', 1000.00,"opening account","transfer");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00002', '00001', '2017-01-05', 2000.00,"returning open account amount","transfer");
 
 -- Insert deposits
-insert into deposit (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
-insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
+insert into deposit (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"deposit");
+insert into deposit (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"deposit");
    
+-- Insert withdrawals
+insert into withdrawal (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"withdrawal");
+insert into withdrawal (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"withdrawal");
 
 -- Insert employees
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('001', 'Sandun', 1000, '0771234561','sandun','sandun@gmail.com','12345');
