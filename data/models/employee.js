@@ -1,6 +1,8 @@
 const {signToken, verifyToken} = require('../../src/services/utils')
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const {employee_config} = require('../../src/config/config') 
+const {Customer} = require('./customer')
+
 const db = new MySQLDBMySQLDB(employee_config)
 
 class Employee{
@@ -162,9 +164,50 @@ const deleteEmployeeAsync = async (req, res) => {
   } 
 };
 
+// Async function to create a new customer
+const createCustomerAsync = async (req, res) => {
+  try{  
+  const customer = new Customer(req)
+  
+  // Insert the customer into the customer table
+  const [result] = await db.connection.query('INSERT INTO customer SET ?', customer);
+  const insertedCustomerId = result.insertId;
+  
+  res.status(200).json({
+    message: `Customer ${insertedCustomerId} created successfully!`
+  });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+// Async function to delete a customer
+const deleteCustomerAsync = async (req, res) => {
+  try {
+    // Delete the customer from the customer table
+    const token = req.headers['x-access-token']
+    const customer = verifyToken(token)
+    await db.connection.query('DELETE FROM customer WHERE ID = ?', [customer.ID]);
+
+    res.status(200).json({
+      message: `Customer deleted successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
+
+
 module.exports = {
   Employee,
   createEmployeeAsync,
+  createCustomerAsync,
   getEmployeeAsync,
   getEmployeesAsync,
   signInEmployeeAsync,

@@ -65,31 +65,6 @@ class Customer{
     }
 }
 
-// Async function to create a new customer
-const createCustomerAsync = async (req, res) => {
-    try{  
-    const customer = new Customer(req)
-    
-    await db.connection.beginTransaction();
-
-    // Insert the customer into the customer table
-    const [result] = await db.connection.query('INSERT INTO customer SET ?', customer);
-    await db.connection.execute('grant user to ?', customer.ID)
-    const insertedCustomerId = result.insertId;
-    
-    res.status(200).json({
-      message: `Customer ${insertedCustomerId} created successfully!`
-    });
-    await db.connection.commit()
-
-  } catch (error) {
-    await db.connection.rollback()
-    res.status(500).json({
-      error: error,
-    });
-  }
-};
-
 // Async function to get a single customer
 const getCustomerAsync = async (req, res) => {
   try{
@@ -168,30 +143,11 @@ const updateCustomerAsync = async (req, res) => {
     }
 };
 
-// Async function to delete a customer
-const deleteCustomerAsync = async (req, res) => {
-  try {
-    // Delete the customer from the customer table
-    const token = req.headers['x-access-token']
-    const customer = verifyToken(token)
-    await db.connection.query('DELETE FROM customer WHERE ID = ?', [customer.ID]);
-
-    res.status(200).json({
-      message: `Customer deleted successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};
 
 
 module.exports = {
   Customer,
   getCustomersAsync,
-  createCustomerAsync,
   getCustomerAsync,
   signInCustomerAsync,
   updateCustomerAsync,
