@@ -5,7 +5,6 @@ const db = new MySQLDBMySQLDB()
 class Transaction{
     static count = 0;
     constructor(req){
-        //this.ID = req.body.ID;
         this.date = req.body.date;
         this.amount = req.body.amount;
     }   

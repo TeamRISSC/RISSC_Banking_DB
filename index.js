@@ -26,51 +26,51 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
 
 // User routes
-app.get('/api/admin/listUsers', customerAPI.getCustomersAsync)
 app.post('/api/user/signin', customerAPI.signInCustomerAsync)
 app.get('/api/user', customerAPI.getCustomerAsync)
 app.patch('/api/user', customerAPI.updateCustomerAsync)
-app.delete('/api/user', customerAPI.deleteCustomerAsync)
-
 
 // Employee routes
-app.get('/api/employees', employeeAPI.getEmployeesAsync)
-app.post('/api/employee/register', employeeAPI.createEmployeeAsync)
 app.post('/api/employee/signin', employeeAPI.signInEmployeeAsync)
 app.post('/api/employee/userRegister', employeeAPI.createCustomerAsync)
 app.get('/api/employee', employeeAPI.getEmployeeAsync)
 app.patch('/api/employee', employeeAPI.updateEmployeeAsync)
-app.delete('/api/employee', employeeAPI.deleteEmployeeAsync)
-
+app.delete('/api/employee/deleteUser', customerAPI.deleteCustomerAsync)
 
 // Manager routes
-app.get('/api/managers', managerAPI.getManagersAsync)
-app.post('/api/manager/register', managerAPI.createManagerAsync)
 app.post('/api/manager/signin', managerAPI.signInManagerAsync)
+app.post('/api/manager/employeeRegister', employeeAPI.createEmployeeAsync)
 app.get('/api/manager', managerAPI.getManagerAsync)
 app.patch('/api/manager', managerAPI.updateManagerAsync)
-app.delete('/api/manager', managerAPI.deleteManagerAsync)
+app.delete('/api/manager/employeeDelete', employeeAPI.deleteEmployeeAsync)
 
+// Admin routes
+app.post('/api/admin/managerRegister', managerAPI.createManagerAsync)
+app.delete('/api/admin/managerDelete', managerAPI.deleteManagerAsync)
+app.post('/api/admin/branchRegister', branchAPI.createBranchAsync)
+app.get('/api/admin/listUsers', customerAPI.getCustomersAsync)
+app.get('/api/admin/listEmployees', employeeAPI.getEmployeesAsync)
+app.get('/api/admin/listManagers', managerAPI.getManagersAsync)
+app.get('/api/admin/listBranches', branchAPI.getBranchesAsync)
+app.get('/api/admin/listFixedDeposits', fixedDepositAPI.getFixedDepositsAsync)
+app.get('/api/admin/listLoans', loanAPI.getLoansAsync) // works
 
 // Branch routes
-app.get('/api/branches', branchAPI.getBranchesAsync)
-app.post('/api/branch/register', branchAPI.createBranchAsync)
 app.get('/api/branch/:branchID', branchAPI.getBranchAsync)
 app.patch('/api/branch/:branchID', branchAPI.updateBranchAsync)
 app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 
 // fixed deposit routes
-app.get('/api/fixeddeposits', fixedDepositAPI.getFixedDepositsAsync)
 app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
 app.delete('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.deleteFixedDepositAsync)
 app.get('/api/fixeddeposit/customer/', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
 app.get('/api/fixeddeposit/account/:linkedAccountID', fixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
+
 /////// test with fronted
 app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
 app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDepositAsync)
 
 // loan routes
-app.get('/api/listLoans/', loanAPI.getLoansAsync) // works
 app.get('/api/loan/', loanAPI.getLoanAsync) // works
 app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works

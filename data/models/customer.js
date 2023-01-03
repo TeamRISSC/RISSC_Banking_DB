@@ -143,13 +143,10 @@ const updateCustomerAsync = async (req, res) => {
     }
 };
 
-
-
 module.exports = {
   Customer,
   getCustomersAsync,
   getCustomerAsync,
   signInCustomerAsync,
   updateCustomerAsync,
-  deleteCustomerAsync
 }

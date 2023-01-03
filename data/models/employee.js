@@ -49,27 +49,6 @@ class Employee{
     
 }
 
-
-// Async function to create a new employee
-const createEmployeeAsync = async (req, res) => {
-    try{  
-    const employee = new Employee(req)
-    
-    // Insert the employee into the employee table
-    const [result] = await db.connection.query('INSERT INTO employee SET ?', employee);
-    const insertedEmployeeId = result.insertId;
-    
-    res.status(200).json({
-      message: `Employee ${insertedEmployeeId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
-};
-
 // Async function to get a single employee
 const getEmployeeAsync = async (req, res) => {
     try{
@@ -145,25 +124,6 @@ const updateEmployeeAsync = async (req, res) => {
     }
 };
 
-// Async function to delete a employee
-const deleteEmployeeAsync = async (req, res) => {
-  try {
-    // Delete the employee from the employee table
-    const token = req.headers['x-access-token']
-    const employee = verifyToken(token)
-    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employee.ID]);
-    
-    res.status(200).json({
-      message: `Employee deleted successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};
-
 // Async function to create a new customer
 const createCustomerAsync = async (req, res) => {
   try{  
@@ -212,6 +172,7 @@ module.exports = {
   getEmployeesAsync,
   signInEmployeeAsync,
   updateEmployeeAsync,
-  deleteEmployeeAsync
+  deleteEmployeeAsync,
+  deleteCustomerAsync
 }
 

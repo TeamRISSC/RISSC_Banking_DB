@@ -4,6 +4,16 @@ create database bank;
 use bank;
 -- create the tables of the database
 
+CREATE TABLE admin (
+  ID            INT NOT NULL AUTO_INCREMENT,
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  PRIMARY KEY(ID),
+  UNIQUE(username)
+);
+
+
 CREATE TABLE customer (
   ID            INT NOT NULL AUTO_INCREMENT,
   type           VARCHAR(10)
@@ -132,7 +142,6 @@ CREATE TABLE transfer (
   date                    DATETIME,
   amount                  NUMERIC(10,2),
   remarks                 VARCHAR(50),
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (toAccountID) REFERENCES bank_account(accountNumber),
   FOREIGN KEY (fromAccountID) REFERENCES bank_account(accountNumber)
