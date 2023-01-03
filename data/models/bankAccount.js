@@ -183,6 +183,31 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
   }
 }
 
+// Async function to get all current accounts by customer ID
+const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
+  try{
+    // Select the account from the bank_account table
+    const token = req.headers['x-access-token']
+    console.log(token);
+    const customer = verifyToken(token);
+    console.log(customer)
+    const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Checking"]);
+    const account = rows[0];
+
+    if (!account) {
+      return res.status(404).json({
+      message: `no current accounts found for customer ${customer.ID}`
+     });
+   }
+   res.status(200).json(rows);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+}
+
 // exports
 module.exports = {
     BankAccount,
@@ -190,5 +215,6 @@ module.exports = {
     getAccountAsync,
     updateAccountAsync,
     deleteAccountAsync,
-    getSavingsAccountsByCustomerIDAsync
+    getSavingsAccountsByCustomerIDAsync,
+    getCurrentAccountsByCustomerIDAsync
 }
