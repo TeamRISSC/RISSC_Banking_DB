@@ -94,7 +94,6 @@ CREATE TABLE withdrawal (
   amount                  NUMERIC(10,2)
     check(amount > 0),
   date                    DATETIME,
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
@@ -120,7 +119,6 @@ CREATE TABLE deposit (
   amount                 NUMERIC(10,2)
       check(amount > 0),
   date                    DATETIME,
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
@@ -132,7 +130,6 @@ CREATE TABLE transfer (
   date                    DATETIME,
   amount                  NUMERIC(10,2),
   remarks                 VARCHAR(50),
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (toAccountID) REFERENCES bank_account(accountNumber),
   FOREIGN KEY (fromAccountID) REFERENCES bank_account(accountNumber)

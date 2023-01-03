@@ -40,10 +40,24 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
         const customer = verifyToken(token);
         console.log(customer)
         const [deposits] = await db.connection.query('SELECT * FROM bank.deposit WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
-        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1,date,type FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
+        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1,date FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
         const [transferIN] = await db.connection.query('SELECT * FROM bank.transfer WHERE toAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
-        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1,remarks,type FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
+        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1,remarks FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
 
+        // add type parameter to each transaction
+        deposits.forEach((deposit) => {
+            deposit.type = "deposit";
+        });
+        withdrawals.forEach((withdrawal) => {
+            withdrawal.type = "withdrawal";
+        });
+        transferIN.forEach((transfer) => {
+            transfer.type = "transferIN";
+        });
+        transferOUT.forEach((transfer) => {
+            transfer.type = "transferOUT";
+        });
+        
         // combine all transactions
         const transactions = deposits.concat(withdrawals, transferIN, transferOUT);
 
