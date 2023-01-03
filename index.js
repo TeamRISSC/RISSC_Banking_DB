@@ -78,7 +78,7 @@ app.patch('/api/loan/', loanAPI.updateLoanAsync)
 // online loan routes
 app.get('/api/onlineloans', onlineLoanAPI.getOnlineLoansAsync)
 app.get('/api/onlineloan/:onlineLoanID', onlineLoanAPI.getOnlineLoanAsync)
-app.get('/api/onlineloan/customer/:customerID', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
+app.get('/api/userOnlineLoans', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
 app.get('/api/onlineloan/fixeddeposit/:FDID', onlineLoanAPI.getOnlineLoanByFDIDAsync)
 app.delete('/api/onlineloan/:onlineLoanID', onlineLoanAPI.deleteOnlineLoanAsync)
 // test with fronted
