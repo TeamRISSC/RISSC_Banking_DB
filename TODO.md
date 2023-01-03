@@ -1,0 +1,12 @@
+Routes specified as needed by frontend
+- [ ] login user 
+- [ ] register user
+- [ ] create fixed deposit
+- [ ] create online loan
+- [ ] withdrawal
+- [ ] deposit
+- [ ] transfer
+- [ ] get savings accounts
+- [ ] get current accounts
+- [ ] get user online loans
+- [ ] get user transations
