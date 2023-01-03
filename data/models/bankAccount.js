@@ -1,4 +1,6 @@
-const {MySQLDBMySQLDB} = require('database.js')
+const {LoanSuper} = require("./loanSuper");
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
 const db = new MySQLDBMySQLDB()
 
 class BankAccount{
@@ -78,10 +80,9 @@ class BankAccount{
     
 }
 
-module.exports = {BankAccount}
 
 // Async function to create a new account
-exports.createAccountAsync = async (req, res) => {
+const createAccountAsync = async (req, res) => {
     try{  
     const account = new BankAccount(req)
     
@@ -101,7 +102,7 @@ exports.createAccountAsync = async (req, res) => {
 };
 
 // Async function to get a single account
-exports.getAccountAsync = async (accountId) => {
+const getAccountAsync = async (accountId) => {
     try{
     // Select the account from the bank_account table
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE id = ?', [accountId]);
@@ -122,7 +123,7 @@ exports.getAccountAsync = async (accountId) => {
 };
 
 // Async function to update a account
-exports.updateAccountAsync = async (accountId, updatedAccount) => {
+const updateAccountAsync = async (accountId, updatedAccount) => {
   try {
     // Update the account in the bank_account table
     await db.connection.query('UPDATE bank_account SET ? WHERE id = ?', [updatedAccount, accountId]);
@@ -141,7 +142,7 @@ exports.updateAccountAsync = async (accountId, updatedAccount) => {
 };
 
 // Async function to delete a account
-exports.deleteAccountAsync = async (accountId) => {
+const deleteAccountAsync = async (accountId) => {
   try {
     // Delete the account from the bank_account table
     await db.connection.query('DELETE FROM bank_account WHERE id = ?', [accountId]);
@@ -156,3 +157,38 @@ exports.deleteAccountAsync = async (accountId) => {
     });
   } 
 };
+
+// Async function to get all savings accounts by customer ID
+const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
+    try{
+    // Select the account from the bank_account table
+    const token = req.headers['x-access-token']
+    console.log(token);
+    const customer = verifyToken(token);
+    console.log(customer)
+    const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Savings"]);
+    const account = rows[0];
+
+    if (!account) {
+      return res.status(404).json({
+      message: `no savings accounts found for customer ${customer.ID}`
+     });
+   }
+   res.status(200).json(rows);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+}
+
+// exports
+module.exports = {
+    BankAccount,
+    createAccountAsync,
+    getAccountAsync,
+    updateAccountAsync,
+    deleteAccountAsync,
+    getSavingsAccountsByCustomerIDAsync
+}

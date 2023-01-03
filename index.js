@@ -13,6 +13,7 @@ const onlineLoanAPI = require('./data/models/onlineLoan')
 const loanInstallmentAPI = require('./data/models/loanInstallment')
 const onlineLoanInstallmentAPI = require('./data/models/onlineLoanInstallment')
 const transactionAPI = require('./data/models/transaction')
+const bankAccountAPI = require('./data/models/bankAccount')
 
 
 const app = express()
@@ -107,6 +108,9 @@ app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInsta
 
 // transation routes
 app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
+
+// bank account routes
+app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

@@ -7,7 +7,7 @@ Routes specified as needed by frontend
 - [ ] withdrawal
 - [ ] deposit
 - [ ] transfer
-- [ ] get savings accounts
+- [x] get savings accounts
 - [ ] get current accounts
 - [x] get user online loans
 - [x] get user loans
