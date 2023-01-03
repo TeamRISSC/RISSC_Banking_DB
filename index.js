@@ -35,7 +35,7 @@ app.post('/api/employee/signin', employeeAPI.signInEmployeeAsync)
 app.post('/api/employee/userRegister', employeeAPI.createCustomerAsync)
 app.get('/api/employee', employeeAPI.getEmployeeAsync)
 app.patch('/api/employee', employeeAPI.updateEmployeeAsync)
-app.delete('/api/employee/deleteUser', customerAPI.deleteCustomerAsync)
+
 
 // Manager routes
 app.post('/api/manager/signin', managerAPI.signInManagerAsync)
@@ -76,6 +76,7 @@ app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
 app.post('/api/loan', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
+app.get('/api/admin/listLoans/user', loanAPI.getLoanByCustomerIdForAdminAsync)
 
 // online loan routes
 app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)

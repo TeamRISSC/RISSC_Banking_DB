@@ -166,13 +166,11 @@ const deleteCustomerAsync = async (req, res) => {
 
 module.exports = {
   Employee,
-  createEmployeeAsync,
   createCustomerAsync,
   getEmployeeAsync,
   getEmployeesAsync,
   signInEmployeeAsync,
   updateEmployeeAsync,
-  deleteEmployeeAsync,
   deleteCustomerAsync
 }
 
