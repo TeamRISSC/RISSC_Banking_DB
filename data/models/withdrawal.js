@@ -1,6 +1,7 @@
 const {Transaction} = require("./transaction");
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
+
 class Withdrawal extends Transaction{
     constructor(req){
         super(req);
@@ -17,24 +18,33 @@ class Withdrawal extends Transaction{
 }
 
 
-module.exports = {Withdrawal}
-
 // Async function to create a new withdrawal
-exports.createWithdrawalAsync = async (req, res) => {
-    try{  
+const createWithdrawalAsync = async (req, res) => {
+  try{  
     const withdrawal = new Withdrawal(req)
     
     // Insert the withdrawal into the withdrawal table
-    const [result] = await db.connection.query('INSERT INTO withdrawal SET ?', withdrawal);
+    await db.connection.beginTransaction()
+    // Deduct withdrawal from the from Account
+    const [rows] = await db.connection.query('SELECT check_balance(?,?) as "check"', [withdrawal.accountNumber, withdrawal.amount])
+
+    if (rows[0]["check"] === -1){
+      throw new Error('Insufficient balance')
+    } 
+    await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
+                            [withdrawal.amount, withdrawal.fromAccountID])
+    const [result] = await db.connection.query('INSERT into withdrawal SET ?', withdrawal)
     const insertedWithdrawalId = result.insertId;
-    
+
+    await db.connection.commit()
     res.status(200).json({
       message: `Withdrawal ${insertedWithdrawalId} created successfully!`
     });
 
   } catch (error) {
+    db.connection.rollback()
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
@@ -60,38 +70,8 @@ exports.getWithdrawalAsync = async (withdrawalId) => {
   }
 };
 
-// Async function to update a withdrawal
-exports.updateWithdrawalAsync = async (withdrawalId, updatedWithdrawal) => {
-  try {
-    // Update the withdrawal in the withdrawal table
-    await db.connection.query('UPDATE withdrawal SET ? WHERE id = ?', [updatedWithdrawal, withdrawalId]);
+module.exports = {
+  Withdrawal,
+  createWithdrawalAsync
+}
 
-    // Select the updated withdrawal from the withdrawal table
-    const [rows] = await db.connection.query('SELECT * FROM withdrawal WHERE id = ?', [withdrawalId]);
-    const withdrawal = rows[0];
-
-    res.json(withdrawal);
-    
-    } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-    }
-};
-
-// Async function to delete a withdrawal
-exports.deleteWithdrawalAsync = async (withdrawalId) => {
-  try {
-    // Delete the withdrawal from the withdrawal table
-    await db.connection.query('DELETE FROM withdrawal WHERE id = ?', [withdrawalId]);
-    
-    res.status(200).json({
-      message: `Withdrawal ${insertedWithdrawalId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};

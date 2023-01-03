@@ -15,7 +15,8 @@ const loanInstallmentAPI = require('./data/models/loanInstallment')
 const onlineLoanInstallmentAPI = require('./data/models/onlineLoanInstallment')
 const transactionAPI = require('./data/models/transaction')
 const bankAccountAPI = require('./data/models/bankAccount')
-
+const transferAPI = require('./data/models/transfer')
+const withdrawalAPI = require('./data/models/withdrawal')
 
 const app = express()
 const port = server_config.port
@@ -117,6 +118,13 @@ app.get('/api/admin/listTransactions/user', transactionAPI.getTransactionsByCust
 app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)
 app.get('/api/userCurrentAccounts', bankAccountAPI.getCurrentAccountsByCustomerIDAsync)
 app.get('/api/admin/listAccounts/', bankAccountAPI.getAllAccountsAsync)
+
+
+// Transfer routes
+app.post('/api/transfer', transferAPI.createTransferAsync)
+
+// Withdrawal routes
+app.post('/api/withdraw', withdrawalAPI.createWithdrawalAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

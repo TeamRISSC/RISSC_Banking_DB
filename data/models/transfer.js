@@ -32,34 +32,46 @@ class Transfer extends Transaction{
 }
 
 
-module.exports = {Transfer}
-
 // Async function to create a new transfer
-exports.createTransferAsync = async (req, res) => {
+const createTransferAsync = async (req, res) => {
     try{  
     const transfer = new Transfer(req)
     
     // Insert the transfer into the transfer table
-    // Call the transfer_funds function
-    const [rows, fields] = await connection.query('SELECT transfer_funds(?, ?, ?, ?, ?) as transfer',
-        [transfer.fromAccount, transfer.toAccount, transfer.amount, transfer.date, transfer.remarks] );
-    
+    await db.connection.beginTransaction()
+    // Deduct transfer from the from Account
+    const [rows] = await db.connection.query('SELECT check_balance(?,?) as "check"', [transfer.fromAccountID, transfer.amount])
+
+    if (rows[0]["check"] === -1){
+      throw new Error('Insufficient balance')
+    } 
+    await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
+                            [transfer.amount, transfer.fromAccountID, transfer.amount])
+    // Add the transfer to the To Account
+    await db.connection.query('UPDATE bank_account SET balance = balance + ? WHERE accountNumber = ?', 
+                            [transfer.amount, transfer.toAccountID])
+    const [result] = await db.connection.query('INSERT into transfer SET ?', transfer)
+    const insertedTransferId = result.insertId;
+
+    await db.connection.commit()
     res.status(200).json({
-      message: `Transfer ${rows[0]['transfer']} created successfully!`
+      message: `Transfer ${insertedTransferId} created successfully!`
     });
 
   } catch (error) {
+    db.connection.rollback()
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
 
 // Async function to get a single transfer
-exports.getTransferAsync = async (transferId) => {
+const getTransferAsync = async (req, res) => {
     try{
     // Select the transfer fromAccountID the transfer table
-    const [rows] = await db.connection.query('SELECT * FROM transfer WHERE id = ?', [transferId]);
+    const transferID = req.body.transferID
+    const [rows] = await db.connection.query('SELECT * FROM transfer WHERE id = ?', [transferID]);
     const transfer = rows[0];
 
     if (!transfer) {
@@ -71,43 +83,13 @@ exports.getTransferAsync = async (transferId) => {
     
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
 
-// Async function to update a transfer
-exports.updateTransferAsync = async (transferId, updatedTransfer) => {
-  try {
-    // Update the transfer in the transfer table
-    await db.connection.query('UPDATE transfer SET ? WHERE id = ?', [updatedTransfer, transferId]);
 
-    // Select the updated transfer fromAccountID the transfer table
-    const [rows] = await db.connection.query('SELECT * FROM transfer WHERE id = ?', [transferId]);
-    const transfer = rows[0];
-
-    res.json(transfer);
-    
-    } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-    }
-};
-
-// Async function to delete a transfer
-exports.deleteTransferAsync = async (transferId) => {
-  try {
-    // Delete the transfer fromAccountID the transfer table
-    await db.connection.query('DELETE FROM transfer WHERE id = ?', [transferId]);
-    
-    res.status(200).json({
-      message: `Transfer ${insertedTransferId} created successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
-};
+module.exports = {
+  Transfer,
+  createTransferAsync
+}
