@@ -77,6 +77,7 @@ app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
 app.post('/api/loan', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
+app.get('/api/admin/listLoans/user', loanAPI.getLoanByCustomerIdForAdminAsync)
 
 // online loan routes
 app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)
@@ -110,6 +111,7 @@ app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInsta
 // transation routes
 app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
 app.get('/api/admin/listTransactions/', transactionAPI.getTransactionsAsync)
+app.get('/api/admin/listTransactions/user', transactionAPI.getTransactionsByCustomerIDForAdminAsync)
 
 // bank account routes
 app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)

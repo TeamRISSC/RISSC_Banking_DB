@@ -104,6 +104,29 @@ const getLoanByCustomerIdAsync = async (req, res) => {
   }
 };
 
+// Asyn function to get loan by customer id for admin
+const getLoanByCustomerIdForAdminAsync = async (req, res) => {
+  try{
+  // Select the loan from the loan table
+  const [rows] = await db.connection.query('SELECT * FROM loan WHERE customerID = ?', [req.body.customerID]);
+  const loan = rows[0];
+
+  if (!loan) {
+    return res.status(404).json({
+    message: `No loans found for ${req.body.customerID}`
+      
+    });
+  }
+  res.json({"loans": rows});
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+
+    });
+  }
+};
+
 ///// WIP below this point ////////////////
 
 // Async function to create a new loan
@@ -154,5 +177,6 @@ module.exports = {
     updateLoanAsync,
     deleteLoanAsync,
     getLoansAsync,
-    getLoanByCustomerIdAsync
+    getLoanByCustomerIdAsync,
+    getLoanByCustomerIdForAdminAsync
 }
