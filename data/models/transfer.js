@@ -8,7 +8,6 @@ class Transfer extends Transaction{
         this.fromAccountID = req.body.fromAccountID;
         this.toAccountID = req.body.toAccountID;
         this.remarks = req.body.remarks;
-        this.type = "Transfer";
     }
 
     // setters and getters
@@ -41,11 +40,12 @@ exports.createTransferAsync = async (req, res) => {
     const transfer = new Transfer(req)
     
     // Insert the transfer into the transfer table
-    const [result] = await db.connection.query('INSERT INTO transfer SET ?', transfer);
-    const insertedTransferId = result.insertId;
+    // Call the transfer_funds function
+    const [rows, fields] = await connection.query('SELECT transfer_funds(?, ?, ?, ?, ?) as transfer',
+        [transfer.fromAccount, transfer.toAccount, transfer.amount, transfer.date, transfer.remarks] );
     
     res.status(200).json({
-      message: `Transfer ${insertedTransferId} created successfully!`
+      message: `Transfer ${rows[0]['transfer']} created successfully!`
     });
 
   } catch (error) {

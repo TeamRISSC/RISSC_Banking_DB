@@ -5,7 +5,6 @@ class Withdrawal extends Transaction{
     constructor(req){
         super(req);
         this.accountNumber = req.body.accountNumber;
-        this.type = "Withdrawal";
     }
 
     // setters and getters

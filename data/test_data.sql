@@ -21,6 +21,12 @@ insert into branch (branchCode,name,address) values ('512','Colombo', '200, Colo
 insert into manager (name,salary,contactNumber, branchID, username, email, password) values ('Supun',1000,'0771234561','1','supun','supun@gmail.com','12345');
 insert into manager (name,salary,contactNumber, branchID, username, email, password) values ('Kasun',1000,'0771234562','2','kasun','kasun@gmail.com','12345');
 
+-- Insert admins
+insert into admin (username, password) values ('Chathura', '12345');
+insert into admin (username, password) values ('Isuru', '12345');
+insert into admin (username, password) values ('Supun', '12345');
+insert into admin (username, password) values ('Rovin', '12345');
+
 -- Insert customers
 insert into customer (type,name,address, contactNumber, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
                              '076652613', 'Chathura','chathura@gmail.com', '12345');

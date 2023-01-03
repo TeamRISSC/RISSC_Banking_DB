@@ -11,7 +11,7 @@ class Manager{
         this.contactNumber = req.body.contactNumber;
         this.username = req.body.username;
         this.email = req.body.email;
-        this.password = hashPassword(req.body.password);
+        this.password = req.body.password;
     }
     // setters and getters
     setID(ID){
@@ -42,18 +42,19 @@ class Manager{
 }
 
 
-// Async function to create a new manager
-const createManagerAsync = async (req, res) => {
-    try{  
-    const manager = new Manager(req)
-    
-    // Insert the manager into the manager table
-    const [result] = await db.connection.query('INSERT INTO manager SET ?', manager);
-    const insertedManagerId = result.insertId;
-    
-    res.status(200).json({
-      message: `Manager ${insertedManagerId} created successfully!`
-    });
+
+// Async function to create a new employee
+const createEmployeeAsync = async (req, res) => {
+  try{  
+  const employee = new Employee(req)
+  
+  // Insert the employee into the employee table
+  const [result] = await db.connection.query('INSERT INTO employee SET ?', employee);
+  const insertedEmployeeId = result.insertId;
+  
+  res.status(200).json({
+    message: `Employee ${insertedEmployeeId} created successfully!`
+  });
 
   } catch (error) {
     res.status(500).json({
@@ -61,6 +62,7 @@ const createManagerAsync = async (req, res) => {
     });
   }
 };
+
 
 // Async function to get a single manager
 const getManagerAsync = async (req, res) => {
@@ -95,7 +97,7 @@ const signInManagerAsync = async (req, res) => {
   try{
   // Select the manager from the manager table
   const [rows] = await db.connection.query('SELECT * FROM manager WHERE username = ? AND password = ?', 
-                                          [req.body.username, hashPassword(req.body.password)]);
+                                          [req.body.username, req.body.password]);
   const manager = rows[0];
 
   if (!manager) {
@@ -136,16 +138,16 @@ const updateManagerAsync = async (req, res) => {
     }
 };
 
-// Async function to delete a manager
-const deleteManagerAsync = async (req, res) => {
+// Async function to delete a employee
+const deleteEmployeeAsync = async (req, res) => {
   try {
+    // Delete the employee from the employee table
     const token = req.headers['x-access-token']
-    const manager = verifyToken(token)
-    // Delete the manager from the manager table
-    await db.connection.query('DELETE FROM manager WHERE ID = ?', [manager.ID]);
+    const employee = verifyToken(token)
+    await db.connection.query('DELETE FROM employee WHERE ID = ?', [employee.ID]);
     
     res.status(200).json({
-      message: `Manager deleted successfully!`
+      message: `Employee deleted successfully!`
     });
 
   } catch (error) {
@@ -156,12 +158,15 @@ const deleteManagerAsync = async (req, res) => {
 };
 
 
+
 module.exports = {
   Manager,
   createManagerAsync,
+  createEmployeeAsync,
   signInManagerAsync,
   getManagerAsync,
   getManagersAsync,
   updateManagerAsync,
-  deleteManagerAsync
+  deleteManagerAsync,
+  deleteEmployeeAsync
 }

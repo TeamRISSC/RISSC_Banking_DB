@@ -143,8 +143,6 @@ const updateCustomerAsync = async (req, res) => {
     }
 };
 
-
-
 module.exports = {
   Customer,
   getCustomersAsync,
