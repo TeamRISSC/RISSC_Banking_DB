@@ -69,7 +69,8 @@ class Customer{
 const getCustomerAsync = async (req, res) => {
   try{
   // Verify the token
-  const token = req.headers['x-access-token']
+  const token = req.headers.authorization.replace('Bearer ', '')
+  console.log(token);
   const customer = verifyToken(token)
 
   console.log(customer);
@@ -77,7 +78,7 @@ const getCustomerAsync = async (req, res) => {
     
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
@@ -96,7 +97,10 @@ const signInCustomerAsync = async (req, res) => {
      });
    }
    const token = signToken(customer)
-   res.status(200).json(token);
+   res.status(200).json({
+    "token" : token,
+    "role": "customer"
+   });
     
   } catch (error) {
     res.status(500).json({
@@ -123,7 +127,7 @@ const getCustomersAsync = async (req, res) => {
 const updateCustomerAsync = async (req, res) => {
   try {
     // Verify the token
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     let customer = verifyToken(token)
 
     // Update the customer in the customer table

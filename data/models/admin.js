@@ -35,7 +35,7 @@ const createManagerAsync = async (req, res) => {
 // Async function to delete a manager
 const deleteManagerAsync = async (req, res) => {
     try {
-      const token = req.headers['x-access-token']
+      const token = req.headers.authorization.replace('Bearer ', '')
       const manager = verifyToken(token)
       // Delete the manager from the manager table
       await db.connection.query('DELETE FROM manager WHERE ID = ?', [manager.ID]);
@@ -64,7 +64,10 @@ const signInManagerAsync = async (req, res) => {
         });
     }
     const token = signToken(manager)
-    res.status(200).json(token);
+    res.status(200).json({
+      "token" : token,
+      "role": "admin"
+     });
         
     } catch (error) {
         res.status(500).json({

@@ -162,7 +162,7 @@ const deleteAccountAsync = async (accountId) => {
 const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
     try{
     // Select the account from the bank_account table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     console.log(token);
     const customer = verifyToken(token);
     console.log(customer)
@@ -191,7 +191,7 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
 const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
   try{
     // Select the account from the bank_account table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     console.log(token);
     const customer = verifyToken(token);
     console.log(customer)

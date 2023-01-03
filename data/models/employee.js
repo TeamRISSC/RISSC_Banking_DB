@@ -53,7 +53,7 @@ class Employee{
 const getEmployeeAsync = async (req, res) => {
     try{
     // Select the employee from the employee table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     let employee = verifyToken(token)
     res.status(200).json(employee);
     
@@ -91,7 +91,10 @@ const signInEmployeeAsync = async (req, res) => {
    });
   }
   const token = signToken(employee)
-  res.status(200).json(token);
+  res.status(200).json({
+    "token" : token,
+    "role": "employee"
+   });
     
   } catch (error) {
     res.status(500).json({
@@ -105,7 +108,7 @@ const signInEmployeeAsync = async (req, res) => {
 const updateEmployeeAsync = async (req, res) => {
   try {
     // Update the employee in the employee table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     let employee = verifyToken(token)
 
     const updatedEmployee = new Employee(req)
@@ -148,7 +151,7 @@ const createCustomerAsync = async (req, res) => {
 const deleteCustomerAsync = async (req, res) => {
   try {
     // Delete the customer from the customer table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     const customer = verifyToken(token)
     await db.connection.query('DELETE FROM customer WHERE ID = ?', [customer.ID]);
 

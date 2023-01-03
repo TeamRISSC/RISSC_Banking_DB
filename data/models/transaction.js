@@ -34,7 +34,7 @@ class Transaction{
 const getTransactionsByCustomerIDAsync = async (req, res) => {
     try{
         // Select the loan from the loan table
-        const token = req.headers['x-access-token']
+        const token = req.headers.authorization.replace('Bearer ', '')
         console.log(token);
         const customer = verifyToken(token);
         console.log(customer)

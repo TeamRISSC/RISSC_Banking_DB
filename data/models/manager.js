@@ -68,7 +68,7 @@ const createEmployeeAsync = async (req, res) => {
 const getManagerAsync = async (req, res) => {
     try{
     // Select the manager from the manager table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     const manager = verifyToken(token)
     res.status(200).json(manager);
     
@@ -109,9 +109,10 @@ const signInManagerAsync = async (req, res) => {
   res.status(200).json(token);
     
   } catch (error) {
-    res.status(500).json({
-      error: error
-    });
+    res.status(200).json({
+      "token" : token,
+      "role": "manager"
+     });
   }
 };
 
@@ -119,7 +120,7 @@ const signInManagerAsync = async (req, res) => {
 const updateManagerAsync = async (req, res) => {
   try {
     // Verify the token
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     let manager = verifyToken(token)
     // Update the manager in the manager table
     const updatedManager = new Manager(req)
@@ -142,7 +143,7 @@ const updateManagerAsync = async (req, res) => {
 const deleteEmployeeAsync = async (req, res) => {
   try {
     // Delete the employee from the employee table
-    const token = req.headers['x-access-token']
+    const token = req.headers.authorization.replace('Bearer ', '')
     const employee = verifyToken(token)
     await db.connection.query('DELETE FROM employee WHERE ID = ?', [employee.ID]);
     

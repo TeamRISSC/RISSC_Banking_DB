@@ -128,7 +128,7 @@ const getFixedDepositsByCustomerIDAsync = async (req, res) => {
   try{
   // Select all fixed_deposits from the fixed_deposit table
   console.log(req.params)
-  const token = req.headers['x-access-token']
+  const token = req.headers.authorization.replace('Bearer ', '')
   console.log(token);
   const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.params.customerID]);
   res.json(rows);
