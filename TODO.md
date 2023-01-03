@@ -25,5 +25,5 @@ Routes specified as needed by frontend
 - [ ] get loans per user
 - [ ] get transactions per user
 - [ ] get all transactions
-- [ ] get all accounts
-- [ ] get all loans
+- [x] get all accounts
+- [x] get all loans
