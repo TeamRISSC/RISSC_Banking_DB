@@ -56,7 +56,7 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
         transferOUT.forEach((transfer) => {
             transfer.type = "transferOUT";
         });
-        
+
         // combine all transactions
         const transactions = deposits.concat(withdrawals, transferIN, transferOUT);
 
@@ -85,6 +85,16 @@ const getTransactionsAsync = async (req, res) => {
         // combine all transactions
         const transactions = withdrawals.concat(deposits, transfers);
         // sort by date most recent first
+
+        deposits.forEach((deposit) => {
+            deposit.type = "deposit";
+        });
+        withdrawals.forEach((withdrawal) => {
+            withdrawal.type = "withdrawal";
+        });
+        transfers.forEach((transfer) => {
+            transfer.type = "transfer";
+        });
         transactions.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
         res.status(200).json({"transactions":transactions});
 
