@@ -10,6 +10,7 @@ Routes specified as needed by frontend
 - [ ] get savings accounts
 - [ ] get current accounts
 - [ ] get user online loans
+- [x] get user loans
 - [ ] get user transations
 
 # ADMIN ROUTES
