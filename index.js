@@ -70,7 +70,7 @@ app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
 app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDepositAsync)
 
 // loan routes
-app.get('/api/loans', loanAPI.getLoansAsync) // works
+app.get('/api/listLoans/', loanAPI.getLoansAsync) // works
 app.get('/api/loan/', loanAPI.getLoanAsync) // works
 app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
@@ -78,7 +78,7 @@ app.post('/api/loan', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
 
 // online loan routes
-app.get('/api/onlineloans', onlineLoanAPI.getOnlineLoansAsync)
+app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)
 app.get('/api/onlineloan/:onlineLoanID', onlineLoanAPI.getOnlineLoanAsync)
 app.get('/api/userOnlineLoans', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
 app.get('/api/onlineloan/fixeddeposit/:FDID', onlineLoanAPI.getOnlineLoanByFDIDAsync)

@@ -51,7 +51,7 @@ const getLoansAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
   const [rows] = await db.connection.query('SELECT * FROM bank.loan');
-  res.status(200).json(rows);
+  res.status(200).json({"loans":rows});
 
   } catch (error) {
     res.status(500).json({

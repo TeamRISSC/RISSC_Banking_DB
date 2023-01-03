@@ -46,6 +46,10 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
 
         // combine all transactions
         const transactions = deposits.concat(withdrawals, transferIN, transferOUT);
+
+        // sort by date most recent first
+        transactions.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+        
         res.status(200).json({"transactions":transactions});
 
     } catch (error) {
