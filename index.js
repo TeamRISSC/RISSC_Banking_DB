@@ -30,7 +30,7 @@ app.get('/api/admin/listUsers', customerAPI.getCustomersAsync)
 app.post('/api/user/signin', customerAPI.signInCustomerAsync)
 app.get('/api/user', customerAPI.getCustomerAsync)
 app.patch('/api/user', customerAPI.updateCustomerAsync)
-app.delete('/api/user', customerAPI.deleteCustomerAsync)
+
 
 
 // Employee routes
