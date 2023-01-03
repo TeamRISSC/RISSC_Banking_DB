@@ -182,7 +182,7 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
     
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 }
@@ -211,7 +211,7 @@ const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
     
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 }
