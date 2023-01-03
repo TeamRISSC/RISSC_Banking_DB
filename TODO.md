@@ -1,5 +1,6 @@
 Routes specified as needed by frontend
 # USER ROUTES
+## post
 - [ ] login user 
 - [ ] register user
 - [ ] create fixed deposit
@@ -7,6 +8,7 @@ Routes specified as needed by frontend
 - [ ] withdrawal
 - [ ] deposit
 - [ ] transfer
+## get
 - [x] get savings accounts
 - [x] get current accounts
 - [x] get user online loans

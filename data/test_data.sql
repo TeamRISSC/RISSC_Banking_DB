@@ -28,11 +28,15 @@ insert into customer (type,name,address, contactNumber, username,email, password
                             '076652614', 'Kasun','kasun@gmail.com', '12345');
  
 -- Insert bank_accounts
-insert into bank_account values ('00001', '00001', '001', 'Chathura', 10000, 1000, 'Savings', 5,10,2);
+insert into bank_account values ('00001', '00001', '001', 'Chathura', 1000000, 1000, 'Savings', 5,10,2);
 insert into bank_account values ('00002', '00002', '002', 'Kasun', 20000, 1000, 'Savings', 5,10,2); 
+insert into bank_account values ('00007', '00001', '001', 'Chathura', 10000, 1000, 'Savings', 5,10,2);
+insert into bank_account values ('00008', '00002', '002', 'Kasun', 20000, 1000, 'Savings', 5,10,2);
 -- some current accounts
 insert into bank_account values ('00003', '00001', '001', 'Chathura', 10000, 1000, 'Checking', 5,10,2);
 insert into bank_account values ('00004', '00002', '002', 'Kasun', 20000, 1000, 'Checking', 5,10,2);
+insert into bank_account values ('00005', '00001', '001', 'Chathura', 10000, 1000, 'Checking', 5,10,2);
+insert into bank_account values ('00006', '00002', '002', 'Kasun', 20000, 1000, 'Checking', 5,10,2);
                             
 -- Insert fixed deposits
 insert into fixed_deposit (linkedAccountID,customerID,amount,period,interestRate,maturityDate) values ('00001', '00001', 10000, 1, 5,

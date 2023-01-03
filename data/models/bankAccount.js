@@ -169,12 +169,16 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Savings"]);
     const account = rows[0];
 
+    let total = 0;    
+    // add int value of balance to total
+    rows.forEach((e)=>(total += parseInt(e.balance)))
+
     if (!account) {
       return res.status(404).json({
       message: `no savings accounts found for customer ${customer.ID}`
      });
    }
-   res.status(200).json(rows);
+   res.status(200).json({"accounts":rows, "total":total});
     
   } catch (error) {
     res.status(500).json({
@@ -194,12 +198,16 @@ const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Checking"]);
     const account = rows[0];
 
+    let total = 0;    
+    // add int value of balance to total
+    rows.forEach((e)=>(total += parseInt(e.balance)))
+
     if (!account) {
       return res.status(404).json({
       message: `no current accounts found for customer ${customer.ID}`
      });
    }
-   res.status(200).json(rows);
+   res.status(200).json({"accounts":rows, "total":total});
     
   } catch (error) {
     res.status(500).json({
