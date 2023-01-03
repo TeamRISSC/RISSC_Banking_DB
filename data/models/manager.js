@@ -161,12 +161,10 @@ const deleteEmployeeAsync = async (req, res) => {
 
 module.exports = {
   Manager,
-  createManagerAsync,
   createEmployeeAsync,
   signInManagerAsync,
   getManagerAsync,
   getManagersAsync,
   updateManagerAsync,
-  deleteManagerAsync,
   deleteEmployeeAsync
 }
