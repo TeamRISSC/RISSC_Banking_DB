@@ -178,7 +178,7 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
       message: `no savings accounts found for customer ${customer.ID}`
      });
    }
-   res.status(200).json({"accounts":rows, "total":total});
+   res.status(200).json({"accounts":rows, "totalBalance":total});
     
   } catch (error) {
     res.status(500).json({
