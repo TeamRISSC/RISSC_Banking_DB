@@ -112,6 +112,7 @@ app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
 // bank account routes
 app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)
 app.get('/api/userCurrentAccounts', bankAccountAPI.getCurrentAccountsByCustomerIDAsync)
+app.get('/api/admin/listAccounts/', bankAccountAPI.getAllAccountsAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

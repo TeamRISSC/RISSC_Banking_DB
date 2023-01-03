@@ -16,14 +16,18 @@ Routes specified as needed by frontend
 - [x] get user transations
 
 # ADMIN ROUTES
+## post
 - [ ] register Admin
 - [ ] login admin
 - [ ] verify user
-- [x] get all user details
 - [ ] change account status
+
+## get
+- [x] get all user details
 - [ ] get accounts per user
 - [ ] get loans per user
 - [ ] get transactions per user
 - [ ] get all transactions
 - [x] get all accounts
 - [x] get all loans
+- [x] get all online loans
