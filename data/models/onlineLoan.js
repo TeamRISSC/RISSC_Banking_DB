@@ -29,7 +29,7 @@ const getOnlineLoansAsync = async (req, res) => {
     message: 'OnlineLoans not found'
     });
   }
-  res.json(online_loans);
+  res.json({"online_loans":online_loans});
 
   } catch (error) {
     res.status(500).json({
