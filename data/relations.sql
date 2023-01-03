@@ -104,7 +104,6 @@ CREATE TABLE withdrawal (
   amount                  NUMERIC(10,2)
     check(amount > 0),
   date                    DATETIME,
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
@@ -130,7 +129,6 @@ CREATE TABLE deposit (
   amount                 NUMERIC(10,2)
       check(amount > 0),
   date                    DATETIME,
-  type                  VARCHAR(20),
   PRIMARY KEY(ID),
   FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
@@ -180,14 +178,26 @@ CREATE TABLE online_loan_installment (
   PRIMARY KEY(ID),
   FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
 );
+
+-- drop users and flush previleges
+drop user 'admin'@'localhost';
+drop user 'employee'@'localhost';
+drop user 'manager'@'localhost';
+drop user 'customer'@'localhost';
+
+
 -- Users for the database
 CREATE USER 'customer'@'localhost' IDENTIFIED BY 'customer';
+flush privileges;
 CREATE USER 'employee'@'localhost' IDENTIFIED BY 'employee';
+flush privileges;
 CREATE USER 'manager'@'localhost' IDENTIFIED BY 'manager';
+flush privileges;
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+flush privileges;
 
 -- Grant all priviledges for all users
-grant all privileges on bank.* to admin;
-grant all privileges on bank.* to customer;
-grant all privileges on bank.* to manager;
-grant all privileges on bank.* to employee;
+grant all privileges on bank.* to 'admin'@'localhost';
+grant all privileges on bank.* to 'manager'@'localhost';
+grant all privileges on bank.* to 'employee'@'localhost';
+grant all privileges on bank.* to 'customer'@'localhost';

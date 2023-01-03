@@ -55,16 +55,16 @@ insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) v
 insert into online_loan (branchID,customerID,FDID,amount,applyDate,timePeriod) values ('00002', '00002','00002',20000,'2022-11-23', 5);
                                     
 -- Insert transfers
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00001', '00002', '2017-01-02', 1000.00,"opening account","transfer");
-insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values ('00002', '00001', '2017-01-05', 2000.00,"returning open account amount","transfer");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00001', '00002', '2017-01-02', 1000.00,"opening account");
+insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00002', '00001', '2017-01-05', 2000.00,"returning open account amount");
 
 -- Insert deposits
-insert into deposit (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"deposit");
-insert into deposit (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"deposit");
+insert into deposit (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
    
 -- Insert withdrawals
-insert into withdrawal (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"withdrawal");
-insert into withdrawal (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"withdrawal");
+insert into withdrawal (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
 
 -- Insert employees
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('001', 'Sandun', 1000, '0771234561','sandun','sandun@gmail.com','12345');

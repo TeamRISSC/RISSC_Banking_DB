@@ -148,5 +148,5 @@ module.exports = {
   getCustomersAsync,
   getCustomerAsync,
   signInCustomerAsync,
-  updateCustomerAsync,
+  updateCustomerAsync
 }

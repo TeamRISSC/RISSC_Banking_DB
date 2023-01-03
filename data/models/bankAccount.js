@@ -216,6 +216,22 @@ const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
   }
 }
 
+// Async function to get all accounts
+const getAllAccountsAsync = async (req, res) => {
+  try {
+    // Select all accounts from the bank_account table
+    const [rows] = await db.connection.query('SELECT * FROM bank_account');
+    const accounts = rows;
+
+    res.status(200).json({"accounts":accounts});
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
 // exports
 module.exports = {
     BankAccount,
@@ -224,5 +240,6 @@ module.exports = {
     updateAccountAsync,
     deleteAccountAsync,
     getSavingsAccountsByCustomerIDAsync,
-    getCurrentAccountsByCustomerIDAsync
+    getCurrentAccountsByCustomerIDAsync,
+    getAllAccountsAsync
 }
