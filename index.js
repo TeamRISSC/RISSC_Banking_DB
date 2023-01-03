@@ -108,6 +108,7 @@ app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInsta
 
 // transation routes
 app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
+app.get('/api/admin/listTransactions/', transactionAPI.getTransactionsAsync)
 
 // bank account routes
 app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)

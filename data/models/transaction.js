@@ -60,8 +60,33 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
     }
 };
 
+
+const getTransactionsAsync = async (req, res) => {
+    try{
+        // select all withdrawals from the withdrawal table
+        const [withdrawals] = await db.connection.query('SELECT * FROM bank.withdrawal');
+        // select all deposits from the deposit table
+        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit');
+        // select all transfers from the transfer table
+        const [transfers] = await db.connection.query('SELECT * FROM bank.transfer');
+        // combine all transactions
+        const transactions = withdrawals.concat(deposits, transfers);
+        // sort by date most recent first
+        transactions.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+        res.status(200).json({"transactions":transactions});
+
+    } catch (error) {
+        res.status(500).json({
+            message : "Error",
+            
+            error: error
+        });
+    }
+};
+
 // export 
 module.exports = { 
     Transaction,
-    getTransactionsByCustomerIDAsync
+    getTransactionsByCustomerIDAsync,
+    getTransactionsAsync
  };
