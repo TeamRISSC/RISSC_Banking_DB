@@ -12,6 +12,7 @@ const loanAPI = require('./data/models/loan')
 const onlineLoanAPI = require('./data/models/onlineLoan')
 const loanInstallmentAPI = require('./data/models/loanInstallment')
 const onlineLoanInstallmentAPI = require('./data/models/onlineLoanInstallment')
+const transactionAPI = require('./data/models/transaction')
 
 
 const app = express()
@@ -104,7 +105,8 @@ app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoan
 // test with frontend
 app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
 
-
+// transation routes
+app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

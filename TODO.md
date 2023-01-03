@@ -11,7 +11,7 @@ Routes specified as needed by frontend
 - [ ] get current accounts
 - [x] get user online loans
 - [x] get user loans
-- [ ] get user transations
+- [x] get user transations
 
 # ADMIN ROUTES
 - [ ] register Admin

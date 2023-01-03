@@ -49,6 +49,9 @@ insert into transfer (fromAccountID,toAccountID,date,amount,remarks,type) values
 insert into deposit (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"deposit");
 insert into deposit (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"deposit");
    
+-- Insert withdrawals
+insert into withdrawal (accountNumber,amount,date,type) value ('00001', 1000, '2017-01-01',"withdrawal");
+insert into withdrawal (accountNumber,amount,date,type) value ('00002', 2000, '2017-01-01',"withdrawal");
 
 -- Insert employees
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('001', 'Sandun', 1000, '0771234561','sandun','sandun@gmail.com','12345');
