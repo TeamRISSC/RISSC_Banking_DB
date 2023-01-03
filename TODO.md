@@ -1,13 +1,13 @@
 Routes specified as needed by frontend
 # USER ROUTES
 ## post
-- [ ] login user 
+- [] login user 
 - [ ] register user
 - [ ] create fixed deposit
 - [ ] create online loan
-- [ ] withdrawal
+- [x] withdrawal
 - [ ] deposit
-- [ ] transfer
+- [x] transfer
 ## get
 - [x] get savings accounts
 - [x] get current accounts
