@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
 
 // User routes
-app.get('/api/users', customerAPI.getCustomersAsync)
+app.get('/api/admin/listUsers', customerAPI.getCustomersAsync)
 app.post('/api/user/register', customerAPI.createCustomerAsync)
 app.post('/api/user/signin', customerAPI.signInCustomerAsync)
 app.get('/api/user', customerAPI.getCustomerAsync)
@@ -104,7 +104,7 @@ app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoan
 // test with frontend
 app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
 
-// 
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
