@@ -1,19 +1,44 @@
 // Contains the configurations for the server
 // txt file is a reference for the format
-
-let db_config = {
+const admin_config = {
     host:"localhost",
-    user:"root",
-    password:"root",
-    database:"bank",
-};
-
-let server_config = {
-    port:5000,
-    baseURI:"api/rissc/"
+    user:"admin",
+    password:"admin",
+    database:"bank"
 }
 
+const manager_config = {
+    host:"localhost",
+    user:"manager",
+    password:"manager",
+    database:"bank"
+}
+
+const employee_config = {
+    host:"localhost",
+    user:"employee",
+    password:"employee",
+    database:"bank"
+}
+
+const customer_config = {
+    host:"localhost",
+    user:"customer",
+    password:"customer",
+    database:"bank"
+}
+
+const server_config = {
+    port:5000
+}
+
+const secret = 'secret'
+
 module.exports = {
-    db_config,
-    server_config
-};
+    customer_config,
+    employee_config,
+    manager_config,
+    admin_config,
+    server_config,
+    secret
+}
