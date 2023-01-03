@@ -162,6 +162,7 @@ const deleteAccountAsync = async (accountId) => {
 const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
     try{
     // Select the account from the bank_account table
+    console.log(req);
     const token = req.headers.authorization.replace('Bearer ', '')
     console.log(token);
     const customer = verifyToken(token);
