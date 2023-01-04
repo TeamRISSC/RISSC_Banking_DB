@@ -2,8 +2,8 @@
 // txt file is a reference for the format
 const admin_config = {
     host:"localhost",
-    user:"azure",
-    password:"6#vWHD_$",
+    user:"admin",
+    password:"admin",
     database:"bank"
 }
 
