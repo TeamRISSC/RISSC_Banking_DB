@@ -21,12 +21,12 @@ Routes specified as needed by frontend
 - [ ] login admin
 - [ ] verify user
 - [ ] change account status
-
-## get
-- [x] get all user details
 - [ ] get accounts per user
 - [ ] get loans per user
 - [x] get transactions per user
+
+## get
+- [x] get all user details
 - [x] get all transactions
 - [x] get all accounts
 - [x] get all loans
