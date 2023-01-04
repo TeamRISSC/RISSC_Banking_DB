@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "online-banking-backend",
   "version": "1.0.0",
   "description": "RISSC Backend system to manage the backend services and database connection",
   "main": "index.js",
