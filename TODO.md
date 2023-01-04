@@ -21,8 +21,8 @@ Routes specified as needed by frontend
 - [ ] login admin
 - [ ] verify user
 - [ ] change account status
-- [ ] get accounts per user
-- [ ] get loans per user
+- [x] get accounts per user
+- [x] get loans per user
 - [x] get transactions per user
 
 ## get
