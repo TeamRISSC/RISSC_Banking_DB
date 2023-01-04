@@ -7,6 +7,7 @@ class LoanSuper {
         this.amount = req.body.amount;
         this.applyDate = req.body.applyDate;
         this.timePeriod = req.body.timePeriod;
+        this.linkedAccountID = req.body.linkedAccountID;
     }
 
     // setters and getters

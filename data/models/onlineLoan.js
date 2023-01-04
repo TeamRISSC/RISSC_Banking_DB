@@ -132,27 +132,47 @@ const deleteOnlineLoanAsync = async (req,res) => {
   } 
 };
 
-//////////// WIP //////////////
-
 // Async function to create a new online_loan
 const createOnlineLoanAsync = async (req, res) => {
-    try{  
-    const online_loan = new OnlineLoan(req)
-    
-    // Insert the online_loan into the online_loan table
-    const [result] = await db.connection.query('INSERT INTO online_loan SET ?', online_loan);
-    const insertedOnlineLoanId = result.insertId;
-    
-    res.status(200).json({
-      message: `OnlineLoan ${insertedOnlineLoanId} created successfully!`
-    });
+  try{  
+  const online_loan = new OnlineLoan(req)
+  // check if there's already an online loan with the same FDID
+  const [rows] = await db.connection.query('SELECT * FROM online_loan WHERE FDID = ?', [online_loan.FDID]);
+  const ext_loan = rows[0];
 
-  } catch (error) {
-    res.status(500).json({
-      error: error
+  if (ext_loan) {
+    return res.status(409).json({
+      message: `OnlineLoan with FDID ${online_loan.FDID} already exists`
     });
   }
+
+  // Insert the online_loan into the online_loan table
+  // start transaction
+  await db.connection.beginTransaction();
+  // add the amount to the customer's account
+  await db.connection.query('UPDATE bank_account SET balance = balance + ? WHERE accountNumber = ?', [online_loan.amount, online_loan.linkedAccountID]);
+  const [result] = await db.connection.query('INSERT INTO online_loan SET ?', online_loan);
+
+  const insertedOnlineLoanId = result.insertId;
+  
+  // commit transaction
+  await db.connection.commit();
+
+  res.status(200).json({
+    message: `OnlineLoan ${insertedOnlineLoanId} created successfully!`
+  });
+
+} catch (error) {
+  // rollback transaction
+  await db.connection.rollback();
+
+  res.status(500).json({
+    error: error.message
+  });
+}
 };
+
+//////////// WIP //////////////
 
 
 // Async function to update a online_loan

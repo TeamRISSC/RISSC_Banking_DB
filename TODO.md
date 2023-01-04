@@ -4,7 +4,7 @@ Routes specified as needed by frontend
 - [ ] login user 
 - [ ] register user
 - [ ] create fixed deposit
-- [ ] create online loan
+- [x] create online loan
 - [x] withdrawal
 - [x] deposit
 - [x] transfer
