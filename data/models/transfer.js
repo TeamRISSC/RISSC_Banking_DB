@@ -46,7 +46,7 @@ const createTransferAsync = async (req, res) => {
       throw new Error('Insufficient balance')
     } 
     await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
-                            [transfer.amount, transfer.fromAccountID, transfer.amount])
+                            [transfer.amount, transfer.fromAccountID])
     // Add the transfer to the To Account
     await db.connection.query('UPDATE bank_account SET balance = balance + ? WHERE accountNumber = ?', 
                             [transfer.amount, transfer.toAccountID])

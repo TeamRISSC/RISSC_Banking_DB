@@ -32,7 +32,7 @@ const createWithdrawalAsync = async (req, res) => {
       throw new Error('Insufficient balance')
     } 
     await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
-                            [withdrawal.amount, withdrawal.fromAccountID])
+                            [withdrawal.amount, withdrawal.accountNumber])
     const [result] = await db.connection.query('INSERT into withdrawal SET ?', withdrawal)
     const insertedWithdrawalId = result.insertId;
 
