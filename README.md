@@ -22,3 +22,9 @@ CS3043 - Database systems group project, Banking system project
 - customer
 - manager
 - employee
+
+
+## Parameters used
+customer - customerID
+employee - employeeID
+manager - managerID

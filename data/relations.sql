@@ -4,141 +4,203 @@ create database bank;
 use bank;
 -- create the tables of the database
 
-CREATE TABLE loan_installment (
-  loan_ID                 VARCHAR(20),
-  payment                 NUMERIC(10,2),
-  date_time               DATETIME,
-  installment_number      NUMERIC(3,0),
-  PRIMARY KEY(loan_ID)
-);
-
-CREATE TABLE customer (
-  customer_ID            VARCHAR(50),
-  customer_type           VARCHAR(10)
-      check (customer_type in ('Individual', 'Organization')),
-  name                    VARCHAR(100) NOT NULL,
-  address                 VARCHAR(500) NOT NULL,
-  phone_number            CHAR(10) NULL,
+CREATE TABLE admin (
+  ID            INT NOT NULL AUTO_INCREMENT,
   username                VARCHAR(30) NOT NULL,
   password                VARCHAR(256) NOT NULL,
-  PRIMARY KEY(customer_ID),
+  PRIMARY KEY(ID),
   UNIQUE(username)
 );
 
-CREATE TABLE manager (
-  manager_ID             VARCHAR(20),
-  name                    VARCHAR(100),
-  salary                  NUMERIC(10,2),
-  contact_number          VARCHAR(10),
-  PRIMARY KEY(manager_ID)
+
+CREATE TABLE customer (
+  ID            INT NOT NULL AUTO_INCREMENT,
+  type           VARCHAR(10)
+      check (type in ('Individual', 'Organization')),
+  name                    VARCHAR(100) NOT NULL,
+  address                 VARCHAR(500) NOT NULL,
+  contactNumber            CHAR(10) NULL,
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  PRIMARY KEY(ID),
+  UNIQUE(username)
 );
 
 CREATE TABLE branch (
-  branch_ID               VARCHAR(20) NOT NULL,
-  name                    VARCHAR(50) NOT NULL,
-  address                 VARCHAR(256) NOT NULL,
-  manager_ID              VARCHAR(20),
-  PRIMARY KEY(branch_ID),
-  FOREIGN KEY (manager_ID) REFERENCES manager(manager_ID)
-		on delete cascade 
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  branchCode         INT NOT NULL,
+  name               VARCHAR(50) NOT NULL,
+  address            VARCHAR(256) NOT NULL,
+  PRIMARY KEY(ID),
+  UNIQUE(branchCode)
+);
+
+CREATE TABLE manager (
+  ID                    INT NOT NULL AUTO_INCREMENT,
+  name                    VARCHAR(100),
+  salary                  NUMERIC(10,2),
+  contactNumber          VARCHAR(10),
+  branchID         INT NOT NULL,
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  PRIMARY KEY(ID),
+  UNIQUE(username)
 );
 
 CREATE TABLE employee (
-  employee_ID             VARCHAR(20),
-  branch_ID               VARCHAR(20),
+  ID                    INT NOT NULL AUTO_INCREMENT,
+  branchID              INT NOT NULL,
   name                    VARCHAR(100),
   salary                  NUMERIC(10,2),
-  contact_number          VARCHAR(10),
-  PRIMARY KEY(employee_ID),
-  FOREIGN KEY (branch_ID) REFERENCES branch(branch_ID)
+  contactNumber          VARCHAR(10),
+  username                VARCHAR(30) NOT NULL,
+  email                VARCHAR(256) NOT NULL,
+  password                VARCHAR(256) NOT NULL,
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  PRIMARY KEY(ID),
+  UNIQUE(username)
 );
 
 CREATE TABLE bank_account (
-  account_number          VARCHAR(10),
-  customer_ID             VARCHAR(50) NOT NULL,
-  branch_ID               VARCHAR(20) NOT NULL,
+  accountNumber          VARCHAR(10),
+  customerID             INT NOT NULL,
+  branchID               INT NOT NULL,
   name                    VARCHAR(100) NOT NULL,
   balance                 NUMERIC(10,2),
-  min_balance             NUMERIC(10,2),
-  account_type            VARCHAR(50)
-      check (account_type in ('Savings', 'Checking')),
-  interest_rate           NUMERIC(5,2),
-  max_withdrawals         NUMERIC(10,0),
-  current_withdrawals     NUMERIC(10,0),
-  PRIMARY KEY(account_number),
-  FOREIGN KEY (branch_ID) REFERENCES branch(branch_ID),
-  FOREIGN KEY (customer_ID) REFERENCES customer(customer_ID)
+  minBalance             NUMERIC(10,2),
+  accountType            VARCHAR(50)
+      check (accountType in ('Savings', 'Checking')),
+  interestRate           NUMERIC(5,2),
+  maxWithdrawals         NUMERIC(10,0),
+  currentWithdrawals     NUMERIC(10,0),
+  PRIMARY KEY(accountNumber),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  FOREIGN KEY (customerID) REFERENCES customer(ID)
 );
 
 
 CREATE TABLE fixed_deposit (
-  fixed_deposit_ID        VARCHAR(10),
-  linked_account_ID       VARCHAR(10),
-  customer_ID             VARCHAR(50),
+  ID        INT NOT NULL AUTO_INCREMENT,
+  linkedAccountID       VARCHAR(10),
+  customerID           INT NOT NULL,
   amount                  NUMERIC(10,2)
       check(amount > 0),
   period                  VARCHAR(50)
       check(period > 0),
-  interest_rate           NUMERIC(5,2),
-  maturity_date           DATETIME,
-  PRIMARY KEY(fixed_deposit_ID),
-  FOREIGN KEY (linked_account_ID) REFERENCES bank_account(account_number),
-  FOREIGN KEY (customer_ID) REFERENCES customer(customer_ID)
+  interestRate           NUMERIC(5,2),
+  maturityDate           DATETIME,
+  PRIMARY KEY(ID),
+  FOREIGN KEY (linkedAccountID) REFERENCES bank_account(accountNumber),
+  FOREIGN KEY (customerID) REFERENCES customer(ID)
 );
 
 CREATE TABLE withdrawal (
-  withdrawal_ID           VARCHAR(10),
-  account_number          VARCHAR(10),
+  ID            INT NOT NULL AUTO_INCREMENT,
+  accountNumber          VARCHAR(10),
   amount                  NUMERIC(10,2)
     check(amount > 0),
-  date_time               DATETIME,
-  PRIMARY KEY(withdrawal_ID),
-  FOREIGN KEY (account_number) REFERENCES bank_account(account_number)
+  date                    DATETIME,
+  PRIMARY KEY(ID),
+  FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE online_loan (
-  loan_ID                 VARCHAR(20),
-  branch_ID               VARCHAR(20),
-  customer_ID             VARCHAR(50),
-  FD_ID                   VARCHAR(20),
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  branchID           INT NOT NULL,
+  customerID         INT NOT NULL,
+  FDID               INT NOT NULL,
   amount                  NUMERIC(10,2)
       check(amount > 0),
-  apply_date              DATE,
-  time_period             NUMERIC(3,0),
-  PRIMARY KEY(loan_ID),
-  FOREIGN KEY (customer_ID) REFERENCES customer(customer_ID)
+  applyDate              DATE,
+  timePeriod             NUMERIC(3,0),
+  linkedAccountID       VARCHAR(10),
+  PRIMARY KEY(ID),
+  FOREIGN KEY (customerID) REFERENCES customer(ID),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  FOREIGN KEY (FDID) REFERENCES fixed_deposit(ID),
+  FOREIGN KEY (linkedAccountID) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE deposit (
-  deposit_ID              VARCHAR(10),
-  account_number          VARCHAR(10),
-  amount                  NUMERIC(10,2)
+  ID                    INT NOT NULL AUTO_INCREMENT,
+  accountNumber          VARCHAR(10),
+  amount                 NUMERIC(10,2)
       check(amount > 0),
-  date_time               DATETIME,
-  FOREIGN KEY (account_number) REFERENCES bank_account(account_number)
+  date                    DATETIME,
+  PRIMARY KEY(ID),
+  FOREIGN KEY (accountNumber) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE transfer (
-  invoice_ID              VARCHAR(50),
-  from_account_ID         VARCHAR(50),
-  to_account_ID           VARCHAR(50),
-  date_time               DATETIME,
+  ID              INT NOT NULL AUTO_INCREMENT,
+  fromAccountID         VARCHAR(10) NOT NULL,
+  toAccountID           VARCHAR(10) NOT NULL,
+  date                    DATETIME,
   amount                  NUMERIC(10,2),
   remarks                 VARCHAR(50),
-  FOREIGN KEY (to_account_ID) REFERENCES bank_account(account_number),
-  FOREIGN KEY (from_account_ID) REFERENCES bank_account(account_number)
+  PRIMARY KEY(ID),
+  FOREIGN KEY (toAccountID) REFERENCES bank_account(accountNumber),
+  FOREIGN KEY (fromAccountID) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE loan (
-  loan_ID                 VARCHAR(20),
-  branch_ID               VARCHAR(20),
-  customer_ID             VARCHAR(50),
+  ID                INT NOT NULL AUTO_INCREMENT,
+  branchID               INT NOT NULL,
+  customerID             INT NOT NULL,
   amount                  NUMERIC(10,2),
-  apply_date              DATE,
-  approve_date            DATE,
-  time_period             NUMERIC(3,0),
-  loan_type               VARCHAR(20),
-  PRIMARY KEY(loan_ID),
-  FOREIGN KEY (customer_ID) REFERENCES customer(customer_ID),
-  FOREIGN KEY (branch_ID) REFERENCES branch(branch_ID)
+  applyDate               DATE,
+  approveDate            DATE,
+  timePeriod             NUMERIC(3,0),
+  loanType               VARCHAR(20),
+  linkedAccountID        VARCHAR(10),
+  PRIMARY KEY(ID),
+  FOREIGN KEY (customerID) REFERENCES customer(ID),
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  FOREIGN KEY (linkedAccountID) REFERENCES bank_account(accountNumber)
 );
+
+CREATE TABLE loan_installment (
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  loanID             INT NOT NULL,
+  payment                 NUMERIC(10,2),
+  date                    DATETIME,
+  installmentNumber       NUMERIC(3,0),
+  PRIMARY KEY(ID),
+  FOREIGN KEY(loanID) REFERENCES loan(ID)
+  );
+
+CREATE TABLE online_loan_installment (
+  ID                 INT NOT NULL AUTO_INCREMENT,
+  onlineLoanID             INT NOT NULL,
+  payment                 NUMERIC(10,2),
+  date                    DATETIME,
+  installmentNumber       NUMERIC(3,0),
+  PRIMARY KEY(ID),
+  FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
+);
+
+-- drop users and flush previleges
+drop user 'admin'@'localhost';
+drop user 'employee'@'localhost';
+drop user 'manager'@'localhost';
+drop user 'customer'@'localhost';
+
+
+-- Users for the database
+CREATE USER 'customer'@'localhost' IDENTIFIED BY 'customer';
+flush privileges;
+CREATE USER 'employee'@'localhost' IDENTIFIED BY 'employee';
+flush privileges;
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'manager';
+flush privileges;
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+flush privileges;
+
+-- Grant all priviledges for all users
+grant all privileges on bank.* to 'admin'@'localhost';
+grant all privileges on bank.* to 'manager'@'localhost';
+grant all privileges on bank.* to 'employee'@'localhost';
+grant all privileges on bank.* to 'customer'@'localhost';
