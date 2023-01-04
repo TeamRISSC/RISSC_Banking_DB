@@ -1,28 +1,32 @@
 // Contains the configurations for the server
 // txt file is a reference for the format
 const admin_config = {
-    host:"localhost",
+    host:"127.0.0.1",
+    port:51940,
     user:"admin",
     password:"admin",
     database:"bank"
 }
 
 const manager_config = {
-    host:"localhost",
+    host:"127.0.0.1",
+    port:51940,
     user:"manager",
     password:"manager",
     database:"bank"
 }
 
 const employee_config = {
-    host:"localhost",
+    host:"127.0.0.1",
+    port:51940,
     user:"employee",
     password:"employee",
     database:"bank"
 }
 
 const customer_config = {
-    host:"localhost",
+    host:"127.0.0.1",
+    port:51940,
     user:"customer",
     password:"customer",
     database:"bank"
