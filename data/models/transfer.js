@@ -1,25 +1,28 @@
-const transaction = require("./transaction");
+const {Transaction} = require("./transaction");
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
+const db = new MySQLDBMySQLDB()
 
-class transfer extends transaction{
-    constructor(id, date, amount, from, to, remarks){
-        super(id, date, amount);
-        this.from = from;
-        this.to = to;
-        this.remarks = remarks;
+class Transfer extends Transaction{
+    constructor(req){
+        super(req);
+        this.fromAccountID = req.body.fromAccountID;
+        this.toAccountID = req.body.toAccountID;
+        this.remarks = req.body.remarks;
     }
 
     // setters and getters
-    setFrom(from){
-        this.from = from;
+    setFrom(fromAccountID){
+        this.fromAccountID = fromAccountID;
     }
     getFrom(){
-        return this.from;
+        return this.fromAccountID;
     }
-    setTo(to){
-        this.to = to;
+    setTo(toAccountID){
+        this.toAccountID = toAccountID;
     }
     getTo(){
-        return this.to;
+        return this.toAccountID;
     }
     setRemarks(remarks){
         this.remarks = remarks;
@@ -27,4 +30,75 @@ class transfer extends transaction{
     getRemarks(){
         return this.remarks;
     }
+}
+
+
+// Async function to create a new transfer
+const createTransferAsync = async (req, res) => {
+  try{
+    const token = req.headers.authorization.replace('Bearer ', '')
+    const customer = verifyToken(token)
+    const transfer = new Transfer(req)
+    
+    // Insert the transfer into the transfer table
+    await db.connection.beginTransaction()
+    const [rows] = await db.connection.query('SELECT check_balance(?,?,?) as "check"', 
+                        [transfer.fromAccountID, transfer.amount, customer.ID])
+
+    const check = rows[0]["check"]
+    if (check === -1){
+      throw new Error('Insufficient balance')
+    }
+    
+    if(check == -2){
+      throw new Error('Invalid Account')
+    }
+    
+    await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
+                            [transfer.amount, transfer.fromAccountID])
+    // Add the transfer to the To Account
+    await db.connection.query('UPDATE bank_account SET balance = balance + ? WHERE accountNumber = ?', 
+                            [transfer.amount, transfer.toAccountID])
+    const [result] = await db.connection.query('INSERT into transfer SET ?', transfer)
+    const insertedTransferId = result.insertId;
+
+    await db.connection.commit()
+    res.status(200).json({
+      message: `Transfer ${insertedTransferId} created successfully!`
+    });
+
+  } catch (error) {
+    db.connection.rollback()
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+// Async function to get a single transfer
+const getTransferAsync = async (req, res) => {
+    try{
+    // Select the transfer fromAccountID the transfer table
+    const transferID = req.body.transferID
+    const [rows] = await db.connection.query('SELECT * FROM transfer WHERE id = ?', [transferID]);
+    const transfer = rows[0];
+
+    if (!transfer) {
+      return res.status(404).json({
+      message: 'Transfer not found'
+     });
+   }
+   res.json(transfer);
+    
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+
+module.exports = {
+  Transfer,
+  createTransferAsync
 }

@@ -1,33 +1,22 @@
-const mysql = require("mysql")
-const {configurations} = require("../config/config")
+const mysql = require('mysql2/promise');
+const {admin_config} = require('../../src/config/config') 
 
-class MySQLDatabase {
-    constructor (){
-        this.connection = mysql.createConnection({
-            host: configurations.host,
-            user: configurations.user,
-            password: configurations.password,
-            database: configurations.database
-        })
 
-        this.connection.connect((err)=>{
-            if(err) throw err;
-            console.log("Connected");
-        })
-    }
+ class MySQLDBMySQLDB {
+  constructor(config) {
+     this.init(config)
+  }
 
-    query(sql, callback){
-        return this.connection.query(sql, callback);
-    }
-
-    preparedStatement(sql, values, callback){
-        return this.connection.query(sql, values, callback)
-    }
+  async init(config=admin_config){
+    this.connection = await mysql.createConnection({
+      host: config.host,
+      user: config.user,
+      password: config.password,
+      database: config.database
+    });
+  }
 }
 
-let db = new MySQLDatabase
-
-db.query("Select * from bank_account", (err, results) =>{
-    if(err) throw err;
-    else console.log(results)
-})
+module.exports={
+    MySQLDBMySQLDB
+}

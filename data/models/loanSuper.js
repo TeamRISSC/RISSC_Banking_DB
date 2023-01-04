@@ -1,11 +1,13 @@
-class loanSuper {
-    constructor(ID, branchID, customerID, amount, applyDate, timePeriod) {
-        this.ID = ID;
-        this.branchID = branchID;
-        this.customerID = customerID;
-        this.amount = amount;
-        this.applyDate = applyDate;
-        this.timePeriod = timePeriod;
+const {MySQLDBMySQLDB} = require('../../src/services/database')
+const db = new MySQLDBMySQLDB()
+class LoanSuper {
+    constructor(req) {
+        this.branchID = req.body.branchID;
+        this.customerID = req.body.customerID;
+        this.amount = req.body.amount;
+        this.applyDate = req.body.applyDate;
+        this.timePeriod = req.body.timePeriod;
+        this.linkedAccountID = req.body.linkedAccountID;
     }
 
     // setters and getters
@@ -48,4 +50,4 @@ class loanSuper {
 }
 
 // export
-module.exports = loanSuper;
+module.exports = {LoanSuper};
