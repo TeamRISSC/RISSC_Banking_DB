@@ -1,12 +1,12 @@
 Routes specified as needed by frontend
 # USER ROUTES
 ## post
-- [] login user 
+- [ ] login user 
 - [ ] register user
 - [ ] create fixed deposit
 - [ ] create online loan
 - [x] withdrawal
-- [ ] deposit
+- [x] deposit
 - [x] transfer
 ## get
 - [x] get savings accounts
@@ -14,6 +14,7 @@ Routes specified as needed by frontend
 - [x] get user online loans
 - [x] get user loans
 - [x] get user transations
+- [x] get user fixed deposits
 
 # ADMIN ROUTES
 ## post
@@ -24,6 +25,7 @@ Routes specified as needed by frontend
 - [x] get accounts per user
 - [x] get loans per user
 - [x] get transactions per user
+- [x] get fixed deposits per user
 
 ## get
 - [x] get all user details
@@ -31,3 +33,4 @@ Routes specified as needed by frontend
 - [x] get all accounts
 - [x] get all loans
 - [x] get all online loans
+- [x] get all fixed deposits

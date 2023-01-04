@@ -17,6 +17,7 @@ const transactionAPI = require('./data/models/transaction')
 const bankAccountAPI = require('./data/models/bankAccount')
 const transferAPI = require('./data/models/transfer')
 const withdrawalAPI = require('./data/models/withdrawal')
+const depositAPI = require('./data/models/deposit')
 
 const app = express()
 const port = server_config.port
@@ -63,10 +64,12 @@ app.patch('/api/branch/:branchID', branchAPI.updateBranchAsync)
 app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 
 // fixed deposit routes
-app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
+// app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
 app.delete('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.deleteFixedDepositAsync)
-app.get('/api/fixeddeposit/customer/', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
+app.get('/api/fixedDeposits', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
 app.get('/api/fixeddeposit/account/:linkedAccountID', fixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
+app.get('/api/admin/fixedDeposits/', fixedDepositAPI.getFixedDepositsAsync)
+app.post('/api/admin/fixedDeposits/user', fixedDepositAPI.getFixedDepositsByCustomerIDForAdminAsync)
 
 /////// test with fronted
 app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
@@ -127,6 +130,9 @@ app.post('/api/transfer', transferAPI.createTransferAsync)
 
 // Withdrawal routes
 app.post('/api/withdraw', withdrawalAPI.createWithdrawalAsync)
+
+// Deposit routes
+app.post('/api/deposit', depositAPI.createDepositAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

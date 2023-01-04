@@ -63,7 +63,7 @@ const getFixedDepositsAsync = async (req, res) => {
     try{
     // Select all fixed_deposits from the fixed_deposit table
     const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit');
-    res.json(rows);
+    res.json({"fixed_deposits":rows});
     
   } catch (error) {
     res.status(500).json({
@@ -127,11 +127,11 @@ const deleteFixedDepositAsync = async (req,res) => {
 const getFixedDepositsByCustomerIDAsync = async (req, res) => {
   try{
   // Select all fixed_deposits from the fixed_deposit table
-  console.log(req.params)
   const token = req.headers.authorization.replace('Bearer ', '')
   console.log(token);
-  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.params.customerID]);
-  res.json(rows);
+  const customer = verifyToken(token);
+  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [customer.ID]);
+  res.json({"fixed_deposits":rows});
 
   if (!rows[0]) {
     return res.status(404).json({
@@ -140,7 +140,7 @@ const getFixedDepositsByCustomerIDAsync = async (req, res) => {
   }
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
@@ -209,6 +209,26 @@ const updateFixedDepositAsync = async (req, res) => {
     }
 };
 
+// Async function to get fixed deposits by customer ID for admin
+const getFixedDepositsByCustomerIDForAdminAsync = async (req, res) => {
+  try{
+  // Select all fixed_deposits from the fixed_deposit table
+  console.log(req.body)
+  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.body.customerID]);
+  res.json({"fixed_deposits":rows});
+
+  if (!rows[0]) {
+    return res.status(404).json({
+    message: 'No Fixed Deposits found'
+   });
+  }
+  }
+  catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
 
 module.exports = {
   FixedDeposit,
@@ -218,5 +238,6 @@ module.exports = {
   getFixedDepositsByCustomerIDAsync,
   getFixedDepositsByLinkedAccountIDAsync,
   updateFixedDepositAsync,
-  deleteFixedDepositAsync
+  deleteFixedDepositAsync,
+  getFixedDepositsByCustomerIDForAdminAsync
 };
