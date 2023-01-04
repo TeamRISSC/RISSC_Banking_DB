@@ -7,7 +7,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "jest",
     "start": "node index"
   },
   "repository": {
