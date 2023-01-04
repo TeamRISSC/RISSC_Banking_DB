@@ -13,15 +13,9 @@ on:
       - main
 
 env:
-<<<<<<< HEAD
   AZURE_WEBAPP_NAME: RISSCBankingBackend    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '18.12.1'                # set this to the node version to use
-=======
-  AZURE_WEBAPP_NAME: OnlineBankingBackend   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.x'                # set this to the node version to use
->>>>>>> de8ca3f513b0a5aded6f00138d09ebfe894c9c95
 
 jobs:
   build:
