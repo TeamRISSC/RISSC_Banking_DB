@@ -1,4 +1,5 @@
 -- delete data from existing tables
+USE bank;
 delete from admin;
 delete from deposit;
 delete from fixed_deposit;
