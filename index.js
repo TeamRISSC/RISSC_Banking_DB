@@ -63,10 +63,12 @@ app.patch('/api/branch/:branchID', branchAPI.updateBranchAsync)
 app.delete('/api/branch/:branchID', branchAPI.deleteBranchAsync)
 
 // fixed deposit routes
-app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
+// app.get('/api/fixeddeposit/', fixedDepositAPI.getFixedDepositAsync)
 app.delete('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.deleteFixedDepositAsync)
-app.get('/api/fixeddeposit/customer/', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
+app.get('/api/fixedDeposits', fixedDepositAPI.getFixedDepositsByCustomerIDAsync)
 app.get('/api/fixeddeposit/account/:linkedAccountID', fixedDepositAPI.getFixedDepositsByLinkedAccountIDAsync)
+app.get('/api/admin/fixedDeposits/', fixedDepositAPI.getFixedDepositsAsync)
+app.post('/api/admin/fixedDeposits/user', fixedDepositAPI.getFixedDepositsByCustomerIDForAdminAsync)
 
 /////// test with fronted
 app.post('/api/fixeddeposit', fixedDepositAPI.createFixedDepositAsync)
