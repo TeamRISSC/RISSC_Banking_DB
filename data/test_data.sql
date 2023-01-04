@@ -62,12 +62,58 @@ insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00
 insert into transfer (fromAccountID,toAccountID,date,amount,remarks) values ('00002', '00001', '2017-01-05', 2000.00,"returning open account amount");
 
 -- Insert deposits
-insert into deposit (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 654, '2017-01-01');
 insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 456, '2017-02-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-02-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 987, '2017-03-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-03-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 850, '2017-04-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-04-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 950, '2017-05-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-05-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 350, '2017-06-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-06-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 688, '2017-07-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-07-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 955, '2017-08-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-08-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 789, '2017-09-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-09-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 658, '2017-10-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-10-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 1200, '2017-11-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-11-01');
+insert into deposit (accountNumber,amount,date) value ('00001', 350, '2017-12-01');
+insert into deposit (accountNumber,amount,date) value ('00002', 2000, '2017-12-01');
+
    
 -- Insert withdrawals
 insert into withdrawal (accountNumber,amount,date) value ('00001', 1000, '2017-01-01');
 insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-01-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 500, '2017-02-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-02-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 650, '2017-03-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-03-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 250, '2017-04-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-04-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 850, '2017-05-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-05-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 560, '2017-06-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-06-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 250, '2017-07-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-07-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 566, '2017-08-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-08-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 987, '2017-09-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-09-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 456, '2017-10-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-10-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 321, '2017-11-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-11-01');
+insert into withdrawal (accountNumber,amount,date) value ('00001', 564, '2017-12-01');
+insert into withdrawal (accountNumber,amount,date) value ('00002', 2000, '2017-12-01');
+
 
 -- Insert employees
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('001', 'Sandun', 1000, '0771234561','sandun','sandun@gmail.com','12345');
