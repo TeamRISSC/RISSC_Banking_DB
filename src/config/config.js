@@ -3,7 +3,7 @@
 const admin_config = {
     host:"localhost",
     user:"azure",
-    password:"admin",
+    password:"6#vWHD_$",
     database:"bank"
 }
 
