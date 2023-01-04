@@ -169,10 +169,18 @@ const getSavingsAccountsByCustomerIDAsync = async (req,res) => {
     console.log(customer)
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Savings"]);
     const account = rows[0];
+    const accounts = rows;
 
     let total = 0;    
     // add int value of balance to total
     rows.forEach((e)=>(total += parseInt(e.balance)))
+    // get branch from branch table
+    // and add to accounts object
+    for (let i = 0; i < accounts.length; i++) {
+      console.log(accounts[i].branchID)
+      const branch = await db.connection.query('SELECT name FROM branch WHERE id = ?', [accounts[i].branchID]);
+      accounts[i].branch = branch[0][0].name;
+    }
 
     if (!account) {
       return res.status(404).json({
@@ -198,10 +206,18 @@ const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
     console.log(customer)
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ? AND accountType = ?', [customer.ID, "Checking"]);
     const account = rows[0];
+    const accounts = rows;
 
     let total = 0;    
     // add int value of balance to total
     rows.forEach((e)=>(total += parseInt(e.balance)))
+    // get branch from branch table
+    // and add to accounts object
+    for (let i = 0; i < accounts.length; i++) {
+      console.log(accounts[i].branchID)
+      const branch = await db.connection.query('SELECT name FROM branch WHERE id = ?', [accounts[i].branchID]);
+      accounts[i].branch = branch[0][0].name;
+    }
 
     if (!account) {
       return res.status(404).json({
@@ -224,6 +240,14 @@ const getAllAccountsAsync = async (req, res) => {
     const [rows] = await db.connection.query('SELECT * FROM bank_account');
     const accounts = rows;
 
+    // get branch from branch table
+    // and add to accounts object
+    for (let i = 0; i < accounts.length; i++) {
+      console.log(accounts[i].branchID)
+      const branch = await db.connection.query('SELECT name FROM branch WHERE id = ?', [accounts[i].branchID]);
+      accounts[i].branch = branch[0][0].name;
+    }
+
     res.status(200).json({"accounts":accounts});
 
   } catch (error) {
@@ -239,6 +263,13 @@ const getAccountsByCustomerIDForAdminAsync = async (req, res) => {
     // Select all accounts from the bank_account table
     const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE customerID = ?', [req.body.customerID]);
     const accounts = rows;
+
+    // get branch from branch table
+    // and add to accounts object
+    for (let i = 0; i < accounts.length; i++) {
+      const branch = await db.connection.query('SELECT name FROM branch WHERE id = ?', [accounts[i].branchID]);
+      accounts[i].branch = branch[0][0].name;
+    }
 
     res.status(200).json({"accounts":accounts});
 
