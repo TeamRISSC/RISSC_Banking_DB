@@ -17,6 +17,7 @@ const transactionAPI = require('./data/models/transaction')
 const bankAccountAPI = require('./data/models/bankAccount')
 const transferAPI = require('./data/models/transfer')
 const withdrawalAPI = require('./data/models/withdrawal')
+const depositAPI = require('./data/models/deposit')
 
 const app = express()
 const port = server_config.port
@@ -129,6 +130,9 @@ app.post('/api/transfer', transferAPI.createTransferAsync)
 
 // Withdrawal routes
 app.post('/api/withdraw', withdrawalAPI.createWithdrawalAsync)
+
+// Deposit routes
+app.post('/api/deposit', depositAPI.createDepositAsync)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

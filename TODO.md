@@ -6,11 +6,11 @@ Routes specified as needed by frontend
 - [ ] create fixed deposit
 - [ ] create online loan
 - [x] withdrawal
-- [ ] deposit
+- [x] deposit
 - [x] transfer
 ## get
-- [ ] get savings accounts
-- [ ] get current accounts
+- [x] get savings accounts
+- [x] get current accounts
 - [x] get user online loans
 - [x] get user loans
 - [x] get user transations
@@ -22,7 +22,7 @@ Routes specified as needed by frontend
 - [ ] login admin
 - [ ] verify user
 - [ ] change account status
-- [ ] get accounts per user
+- [x] get accounts per user
 - [x] get loans per user
 - [x] get transactions per user
 - [x] get fixed deposits per user
@@ -30,7 +30,7 @@ Routes specified as needed by frontend
 ## get
 - [x] get all user details
 - [x] get all transactions
-- [ ] get all accounts
+- [x] get all accounts
 - [x] get all loans
 - [x] get all online loans
 - [x] get all fixed deposits
