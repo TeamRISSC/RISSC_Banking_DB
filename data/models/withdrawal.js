@@ -1,5 +1,7 @@
 const {Transaction} = require("./transaction");
 const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {verifyToken} = require('../../src/services/utils')
+
 const db = new MySQLDBMySQLDB()
 
 class Withdrawal extends Transaction{
@@ -20,17 +22,24 @@ class Withdrawal extends Transaction{
 
 // Async function to create a new withdrawal
 const createWithdrawalAsync = async (req, res) => {
-  try{  
+  try{
+    const token = req.headers.authorization.replace('Bearer ', '')
+    const customer = verifyToken(token)  
     const withdrawal = new Withdrawal(req)
     
     // Insert the withdrawal into the withdrawal table
     await db.connection.beginTransaction()
-    // Deduct withdrawal from the from Account
-    const [rows] = await db.connection.query('SELECT check_balance(?,?) as "check"', [withdrawal.accountNumber, withdrawal.amount])
+    const [rows] = await db.connection.query('SELECT check_balance(?,?,?) as "check"', 
+                        [withdrawal.accountNumber, transfer.amount, customer.ID])
 
-    if (rows[0]["check"] === -1){
+    const check = rows[0]["check"]
+    if (check === -1){
       throw new Error('Insufficient balance')
-    } 
+    }
+    
+    if(check == -2){
+      throw new Error('Invalid Account')
+    }
     await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
                             [withdrawal.amount, withdrawal.accountNumber])
     const [result] = await db.connection.query('INSERT into withdrawal SET ?', withdrawal)
