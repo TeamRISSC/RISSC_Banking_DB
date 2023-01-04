@@ -116,10 +116,12 @@ CREATE TABLE online_loan (
       check(amount > 0),
   applyDate              DATE,
   timePeriod             NUMERIC(3,0),
+  linkedAccountID       VARCHAR(10),
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
   FOREIGN KEY (branchID) REFERENCES branch(ID),
-  FOREIGN KEY (FDID) REFERENCES fixed_deposit(ID)
+  FOREIGN KEY (FDID) REFERENCES fixed_deposit(ID),
+  FOREIGN KEY (linkedAccountID) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE deposit (
@@ -153,9 +155,11 @@ CREATE TABLE loan (
   approveDate            DATE,
   timePeriod             NUMERIC(3,0),
   loanType               VARCHAR(20),
+  linkedAccountID        VARCHAR(10),
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
-  FOREIGN KEY (branchID) REFERENCES branch(ID)
+  FOREIGN KEY (branchID) REFERENCES branch(ID),
+  FOREIGN KEY (linkedAccountID) REFERENCES bank_account(accountNumber)
 );
 
 CREATE TABLE loan_installment (

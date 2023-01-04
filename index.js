@@ -91,7 +91,7 @@ app.get('/api/userOnlineLoans', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
 app.get('/api/onlineloan/fixeddeposit/:FDID', onlineLoanAPI.getOnlineLoanByFDIDAsync)
 app.delete('/api/onlineloan/:onlineLoanID', onlineLoanAPI.deleteOnlineLoanAsync)
 // test with fronted
-app.post('/api/onlineloan', onlineLoanAPI.createOnlineLoanAsync)
+app.post('/api/createOnlineLoan', onlineLoanAPI.createOnlineLoanAsync)
 app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
 
 // loan Installment routes

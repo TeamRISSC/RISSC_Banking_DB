@@ -51,6 +51,8 @@ const getLoansAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
   const [rows] = await db.connection.query('SELECT * FROM bank.loan');
+  // add loanType to the loan object as "loan"
+  rows.forEach(row => {row.loanType = "loan";});
   res.status(200).json({"loans":rows});
 
   } catch (error) {
@@ -95,6 +97,8 @@ const getLoanByCustomerIdAsync = async (req, res) => {
     message: `No loans found for ${customer.ID}`
     });
   }
+  // add loan type to the loan object as "loan"
+  rows.forEach(row => {row.loanType = "loan";});
   res.json({"loans": rows});
 
   } catch (error) {
