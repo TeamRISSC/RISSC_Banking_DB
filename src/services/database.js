@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const {admin_config} = require('../../src/config/config') 
+const {azure_config} = require('../../src/config/config') 
 
 
  class MySQLDBMySQLDB {
@@ -7,14 +7,8 @@ const {admin_config} = require('../../src/config/config')
      this.init(config)
   }
 
-  async init(config=admin_config){
-    this.connection = await mysql.createConnection({
-      host: config.host,
-      port: config.port,
-      user: config.user,
-      password: config.password,
-      database: config.database
-    });
+  async init(config=azure_config){
+    this.connection = await mysql.createConnection(azure_config);
   }
 }
 
