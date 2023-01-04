@@ -20,7 +20,7 @@ const withdrawalAPI = require('./data/models/withdrawal')
 const depositAPI = require('./data/models/deposit')
 
 const app = express()
-const port = process.env.PORT || server_config.port
+const port = server_config.port
 
 // Use the body-parser middleware to parse the request body
 app.use(bodyParser.json());
