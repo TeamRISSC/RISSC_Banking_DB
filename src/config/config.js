@@ -1,6 +1,6 @@
 // Contains the configurations for the server
 const admin_config = {
-    host:"localhost",
+    host:"127.0.0.1",
     port: process.env.WEBSITE_MYSQL_PORT || 51940,
     user:"admin",
     password:"admin",
@@ -8,7 +8,7 @@ const admin_config = {
 }
 
 const manager_config = {
-    host:"localhost",
+    host:"127.0.0.1",
     port: process.env.WEBSITE_MYSQL_PORT || 51940,
     user:"manager",
     password:"manager",
@@ -16,7 +16,7 @@ const manager_config = {
 }
 
 const employee_config = {
-    host:"localhost",
+    host:"127.0.0.1",
     port: process.env.WEBSITE_MYSQL_PORT || 51940,
     user:"employee",
     password:"employee",
@@ -24,7 +24,7 @@ const employee_config = {
 }
 
 const customer_config = {
-    host:"localhost",
+    host:"127.0.0.1",
     port: process.env.WEBSITE_MYSQL_PORT || 51940,
     user:"customer",
     password:"customer",
