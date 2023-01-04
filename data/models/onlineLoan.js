@@ -22,6 +22,8 @@ const getOnlineLoansAsync = async (req, res) => {
   try{
   // Select all online_loans from the online_loan table
   const [rows] = await db.connection.query('SELECT * FROM online_loan');
+  // add loanType to the online_loan object as "online"
+  rows.forEach(row => {row.loanType = "online";});
   const online_loans = rows;
     
   if (!online_loans) {
@@ -75,6 +77,8 @@ const getOnlineLoanByCustomerIDAsync = async (req,res) => {
       message: `No online loans found for ${customer.ID}`
       });
     }
+    // add loan type to the loan object as "online"
+    rows.forEach(row => {row.loanType = "online";});
     res.json({"Online_loans": rows});
   
     } catch (error) {
