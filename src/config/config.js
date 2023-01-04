@@ -45,6 +45,7 @@ const server_config = {
 const secret = 'secret'
 
 module.exports = {
+    azure_config,
     customer_config,
     employee_config,
     manager_config,
