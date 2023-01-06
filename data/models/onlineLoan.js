@@ -170,6 +170,9 @@ const createOnlineLoanAsync = async (req, res) => {
     });
   }
 
+  // set the linkedAccountID to the account linked to the Fixed Deposit
+  online_loan.linkedAccountID = fd.linkedAccountID;
+
   // Insert the online_loan into the online_loan table
   // start transaction
   await db.connection.beginTransaction();
