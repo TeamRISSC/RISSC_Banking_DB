@@ -31,7 +31,7 @@ insert into admin (username, password) values ('Rovin', '12345');
 
 -- Insert customers
 insert into customer (type,name,address, contactNumber, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
-                             '076652613', 'Chathura_customer','chathura@gmail.com', '12345');
+                             '076652613', 'Chathura','chathura@gmail.com', '12345');
 insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kasun', '002, Colombo',
                             '076652614', 'Kasun','kasun@gmail.com', '12345');
  
