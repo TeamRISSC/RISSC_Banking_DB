@@ -150,6 +150,26 @@ const createOnlineLoanAsync = async (req, res) => {
     });
   }
 
+  // check if the applied amount is more than 500,000
+  if (online_loan.amount > 500000) {
+    return res.status(409).json({
+      message: `Applied amount ${online_loan.amount} is more than 500,000`
+    });
+  }
+
+  // check if the applied amount is less than 60% of the customer's FD balance
+  const [rows1] = await db.connection.query('SELECT * FROM fixed_deposit WHERE ID = ?', [online_loan.FDID]);
+  const fd = rows1[0];
+  const fd_balance = fd.amount;
+  const applied_amount = online_loan.amount;
+  const percentage = (applied_amount/fd_balance)*100;
+  console.log(`percentage: ${percentage}`);
+  if (percentage > 60) {
+    return res.status(409).json({
+      message: `Applied amount ${applied_amount} is more than 60% of the FD balance ${fd_balance}`
+    });
+  }
+
   // Insert the online_loan into the online_loan table
   // start transaction
   await db.connection.beginTransaction();
