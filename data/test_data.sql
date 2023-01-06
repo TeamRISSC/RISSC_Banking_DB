@@ -125,17 +125,17 @@ insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,lo
 insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal','00002');
 
 -- Insert loan_installments
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2022-11-25', 1);
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-11-25', 1);
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2022-12-25', 2);
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2022-12-25', 2);
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00001', 1000, '2023-01-25', 3);
-insert into loan_installment (loanID,payment,date,installmentNumber) values ('00002', 2000, '2023-01-25', 3);
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-11-25', 1,"OnTime");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2022-11-25', 1,"OnTime");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-12-25', 2,"OnTime");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2022-12-25', 2,"Late");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2023-01-25', 3,"OnTime");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2023-01-25', 3,"Late");
 
 -- Insert online_loan_installments
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2022-11-25', 1);
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2022-11-25', 1);
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2022-12-25', 2);
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2022-12-25', 2);
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00001', 1000, '2023-01-25', 3);
-insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber) values ('00002', 2000, '2023-01-25', 3);
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-11-25', 1,"OnTime");
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00002', 2000, '2022-11-25', 1,"OnTime");
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-12-25', 2,"Late");
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00002', 2000, '2022-12-25', 2,"OnTime");
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00001', 1000, '2023-01-25', 3,"Late");
+insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00002', 2000, '2023-01-25', 3,"OnTime");

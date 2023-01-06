@@ -168,6 +168,8 @@ CREATE TABLE loan_installment (
   payment                 NUMERIC(10,2),
   date                    DATETIME,
   installmentNumber       NUMERIC(3,0),
+  status                  VARCHAR(20),
+  check (status in ('OnTime', 'Late')),
   PRIMARY KEY(ID),
   FOREIGN KEY(loanID) REFERENCES loan(ID)
   );
@@ -178,6 +180,8 @@ CREATE TABLE online_loan_installment (
   payment                 NUMERIC(10,2),
   date                    DATETIME,
   installmentNumber       NUMERIC(3,0),
+  status                  VARCHAR(20),
+  check (status in ('OnTime', 'Late')),
   PRIMARY KEY(ID),
   FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
 );
