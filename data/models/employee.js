@@ -82,23 +82,41 @@ const signInEmployeeAsync = async (req, res) => {
   try{
   // Select the employee from the employee table
   const [rows] = await db.connection.query('SELECT * FROM employee WHERE username = ? AND password = ?', 
-                                          [req.body.username, hashPassword(req.body.password)]);
+                                          [req.body.username, req.body.password]);
   const employee = rows[0];
 
-  if (!employee) {
+  // Select the manager from the manager table
+  const [rows2] = await db.connection.query('SELECT * FROM manager WHERE username = ? AND password = ?', 
+                                          [req.body.username, req.body.password]);
+  const manager = rows2[0];
+
+    // check if he is an employee
+    if (employee) {
+      const token = signToken(employee)
+      res.status(200).json({
+        "token" : token,
+        "role": "employee"
+    });
+    }
+      
+    // check if he is a manager
+    if (manager) {
+      const token = signToken(manager)
+      res.status(200).json({
+        "token" : token,
+        "role": "manager"
+    });
+    }
+
+  if (!employee && !manager) {
     return res.status(404).json({
     message: 'Invalid Employee ID or Password'
    });
   }
-  const token = signToken(employee)
-  res.status(200).json({
-    "token" : token,
-    "role": "employee"
-   });
-    
+
   } catch (error) {
     res.status(500).json({
-      error: error
+      error: error.message
     });
   }
 };
