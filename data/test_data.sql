@@ -131,6 +131,8 @@ insert into loan_installment (loanID,payment,date,installmentNumber,status) valu
 insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2022-12-25', 2,"Late");
 insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2023-01-25', 3,"OnTime");
 insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2023-01-25', 3,"Late");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2023-02-25', 4,"Late");
+insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00002', 2000, '2023-02-25', 4,"OnTime");
 
 -- Insert online_loan_installments
 insert into online_loan_installment (onlineLoanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-11-25', 1,"OnTime");

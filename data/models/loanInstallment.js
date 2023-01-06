@@ -1,5 +1,6 @@
 const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
+const {signToken, verifyToken} = require('../../src/services/utils')
 
 class LoanInstallment{
     constructor(req){
@@ -156,6 +157,29 @@ const updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstall
     }
 };
 
+// get late loan installments based on managers branch
+const getLateInstallmentsAsyncbyBranch = async (req, res) => {
+  try{
+    const token = req.headers.authorization.replace('Bearer ', '')
+    console.log(token);
+    const manager = verifyToken(token)
+    const branchID = manager.branchID;
+    console.log(manager);
+    console.log(branchID);
+    // Select all loan_installments from the loan_installment table
+    const [rows2] = await db.connection.query('SELECT * FROM loan_installment WHERE status = "Late" AND loanID IN (SELECT id FROM loan WHERE branchID = ?)', [branchID]);
+    const loan_installments = rows2;
+
+    res.json(loan_installments);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  }
+};
+
+
 module.exports = {
   LoanInstallment,
   createLoanInstallmentAsync,
@@ -163,5 +187,6 @@ module.exports = {
   updateLoanInstallmentAsync,
   deleteLoanInstallmentAsync,
   getLoanInstallmentsByLoanIdAsync,
-  getLoanInstallmentsAsync
+  getLoanInstallmentsAsync,
+  getLateInstallmentsAsyncbyBranch
 };
