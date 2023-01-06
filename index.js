@@ -18,6 +18,7 @@ const bankAccountAPI = require('./data/models/bankAccount')
 const transferAPI = require('./data/models/transfer')
 const withdrawalAPI = require('./data/models/withdrawal')
 const depositAPI = require('./data/models/deposit')
+const loanSuperAPI = require('./data/models/loanSuper')
 
 const app = express()
 const port = server_config.port
@@ -104,8 +105,9 @@ app.post('/api/loaninstallment', loanInstallmentAPI.createLoanInstallmentAsync)
 // if needed can get installments by customer id, just join with loan table and compare customer ID
 // test with fronted
 app.patch('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.updateLoanInstallmentAsync)
+
 // get late installments
-app.get('/api/manager/loaninstallment/late', loanInstallmentAPI.getLateInstallmentsAsyncbyBranch)
+app.get('/api/manager/lateinstallments/late', loanSuperAPI.getLateInstallmentsAsyncbyBranch)
 
 // online loan Installment routes
 app.get('/api/onlineloaninstallments', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsAsync)
