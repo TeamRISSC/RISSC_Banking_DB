@@ -122,6 +122,8 @@ app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInsta
 app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)
 app.get('/api/admin/listTransactions/', transactionAPI.getTransactionsAsync)
 app.post('/api/admin/listTransactions/user', transactionAPI.getTransactionsByCustomerIDForAdminAsync)
+// get all transactions for employee by branch
+app.get('/api/employee/listTransactions/', transactionAPI.getTransactionsByBranchAsync)
 
 // bank account routes
 app.get('/api/userSavingsAccounts', bankAccountAPI.getSavingsAccountsByCustomerIDAsync)

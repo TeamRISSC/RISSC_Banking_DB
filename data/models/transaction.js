@@ -147,10 +147,52 @@ const getTransactionsByCustomerIDForAdminAsync = async (req, res) => {
     }
 };
 
+// Async function to get transactions by branch of employee
+const getTransactionsByBranchAsync = async (req, res) => {
+    try{
+        // verify employee token (can also be a manager token)
+        const token = req.headers.authorization.replace('Bearer ', '')
+        console.log(token);
+        const employee = verifyToken(token)
+        const branchID = employee.branchID;
+        console.log(employee);
+        console.log(branchID);
+        // select all withdrawals from the withdrawal table
+        const [withdrawals] = await db.connection.query('SELECT * FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID]);
+        // select all deposits from the deposit table
+        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID]);
+        // select all transfers from the transfer table
+        const [transfers] = await db.connection.query('SELECT * FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE branchID = ?) OR toAccountID IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID, branchID]);
+        
+        deposits.forEach((deposit) => {
+            deposit.type = "deposit";
+        });
+        withdrawals.forEach((withdrawal) => {
+            withdrawal.type = "withdrawal";
+        });
+        transfers.forEach((transfer) => {
+            transfer.type = "transfer";
+        });
+
+        // combine all transactions
+        const transactions = withdrawals.concat(deposits, transfers);
+        // sort by date most recent first
+        transactions.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+        res.status(200).json({"transactions":transactions});
+
+    } catch (error) {
+        res.status(500).json({
+            message : "Error",
+            error: error.message
+        });
+    }
+};
+
 // export 
 module.exports = { 
     Transaction,
     getTransactionsByCustomerIDAsync,
     getTransactionsAsync,
-    getTransactionsByCustomerIDForAdminAsync
+    getTransactionsByCustomerIDForAdminAsync,
+    getTransactionsByBranchAsync
  };
