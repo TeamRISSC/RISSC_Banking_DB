@@ -159,7 +159,7 @@ CREATE TABLE loan (
   interestRate           NUMERIC(5,2) DEFAULT 0.1,
   loanType               VARCHAR(20),
   linkedAccountID        VARCHAR(10),
-  isApproved             BOOLEAN DEFAULT false;
+  isApproved             BOOLEAN DEFAULT false,
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
   FOREIGN KEY (branchID) REFERENCES branch(ID),

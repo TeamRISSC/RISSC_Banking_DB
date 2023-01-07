@@ -83,3 +83,6 @@ CREATE EVENT add_interest
       UPDATE bank_account
       SET balance = balance * (1 + interestRate)
       WHERE DATEDIFF(CURDATE(), createdDate) % 30 = 0;
+
+ALTER EVENT add_interest
+    ENABLE;

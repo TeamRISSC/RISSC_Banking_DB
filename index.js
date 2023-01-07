@@ -91,20 +91,20 @@ app.get('/api/onlineloan/:onlineLoanID', onlineLoanAPI.getOnlineLoanAsync)
 app.get('/api/userOnlineLoans', onlineLoanAPI.getOnlineLoanByCustomerIDAsync)
 app.get('/api/onlineloan/fixeddeposit/:FDID', onlineLoanAPI.getOnlineLoanByFDIDAsync)
 app.delete('/api/onlineloan/:onlineLoanID', onlineLoanAPI.deleteOnlineLoanAsync)
+app.post('/api/payonlineloaninstallments', onlineLoanInstallmentAPI.payOnlineLoanInstallments)
+
 // test with fronted
 app.post('/api/createOnlineLoan', onlineLoanAPI.createOnlineLoanAsync)
 app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
 
 // loan Installment routes
 app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
+app.post('/api/payloaninstallments', loanInstallmentAPI.payLoanInstallments)
 
 app.get('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.getLoanInstallmentAsync)
 app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteLoanInstallmentAsync)
-app.post('/api/loaninstallment', loanInstallmentAPI.createLoanInstallmentAsync)
 // if needed can get installments by customer id, just join with loan table and compare customer ID
-// test with fronted
-app.patch('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.updateLoanInstallmentAsync)
 
 // get late installments
 app.get('/api/manager/lateinstallments/late', loanSuperAPI.getLateInstallmentsAsyncbyBranch)
@@ -115,8 +115,6 @@ app.get('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstall
 app.get('/api/onlineloaninstallment/onlineloan/:onlineLoanID', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsByonlineLoanIDAsync)
 app.delete('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.deleteonlineLoanInstallmentIDAsync)
 app.post('/api/onlineloaninstallment', onlineLoanInstallmentAPI.createonlineLoanInstallmentIDAsync)
-// test with frontend
-app.patch('/api/onlineloaninstallment/:onlineLoanInstallmentID', onlineLoanInstallmentAPI.updateonlineLoanInstallmentIDAsync) 
 
 // transation routes
 app.get('/api/transactions', transactionAPI.getTransactionsByCustomerIDAsync)

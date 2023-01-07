@@ -66,3 +66,12 @@ Supun, Rovin - Create the Front End
 -   [ ] bank account
 -   [x] employee
 -   [x] manager
+
+## Functionality
+[] employees to create loan for customers
+[] managers to approve loans
+[x] triggers for creating online loan installments
+[x] triggers for creating loan installments
+[x] function to add interest to bank accounts
+[x] change state of a loan installment when a loan or online loan is paid
+[] route for paying loan installments
