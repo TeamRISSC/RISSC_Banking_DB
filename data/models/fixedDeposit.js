@@ -62,7 +62,7 @@ class FixedDeposit {
 const getFixedDepositsAsync = async (req, res) => {
     try{
     // Select all fixed_deposits from the fixed_deposit table
-    const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit');
+    const [rows] = await db.connection.query('SELECT * FROM fixed_deposit');
     res.json({"fixed_deposits":rows});
     
   } catch (error) {
@@ -130,7 +130,7 @@ const getFixedDepositsByCustomerIDAsync = async (req, res) => {
   const token = req.headers.authorization.replace('Bearer ', '')
   console.log(token);
   const customer = verifyToken(token);
-  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [customer.ID]);
+  const [rows] = await db.connection.query('SELECT * FROM fixed_deposit WHERE customerID = ?', [customer.ID]);
   res.json({"fixed_deposits":rows});
 
   if (!rows[0]) {
@@ -151,7 +151,7 @@ const getFixedDepositsByLinkedAccountIDAsync = async (req, res) => {
   try{
   // Select all fixed_deposits from the fixed_deposit table
   console.log(req.params)
-  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE linkedAccountID = ?', [req.params.linkedAccountID]);
+  const [rows] = await db.connection.query('SELECT * FROM fixed_deposit WHERE linkedAccountID = ?', [req.params.linkedAccountID]);
   res.json(rows);
 
   if (!rows[0]) {
@@ -214,7 +214,7 @@ const getFixedDepositsByCustomerIDForAdminAsync = async (req, res) => {
   try{
   // Select all fixed_deposits from the fixed_deposit table
   console.log(req.body)
-  const [rows] = await db.connection.query('SELECT * FROM bank.fixed_deposit WHERE customerID = ?', [req.body.customerID]);
+  const [rows] = await db.connection.query('SELECT * FROM fixed_deposit WHERE customerID = ?', [req.body.customerID]);
   res.json({"fixed_deposits":rows});
 
   if (!rows[0]) {

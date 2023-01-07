@@ -50,7 +50,7 @@ const getLoanAsync = async (req,res) => {
 const getLoansAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
-  const [rows] = await db.connection.query('SELECT * FROM bank.loan');
+  const [rows] = await db.connection.query('SELECT * FROM loan');
   // add loanType to the loan object as "loan"
   rows.forEach(row => {row.loanType = "loan";});
   res.status(200).json({"loans":rows});

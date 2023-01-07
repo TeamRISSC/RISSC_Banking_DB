@@ -38,10 +38,10 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
         console.log(token);
         const customer = verifyToken(token);
         console.log(customer)
-        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
-        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1 AS amount,date FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
-        const [transferIN] = await db.connection.query('SELECT * FROM bank.transfer WHERE toAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
-        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1 AS amount,remarks FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customer.ID]);
+        const [deposits] = await db.connection.query('SELECT * FROM deposit WHERE accountNumber IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customer.ID]);
+        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1 AS amount,date FROM withdrawal WHERE accountNumber IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customer.ID]);
+        const [transferIN] = await db.connection.query('SELECT * FROM transfer WHERE toAccountID IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customer.ID]);
+        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1 AS amount,remarks FROM transfer WHERE fromAccountID IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customer.ID]);
 
         // add type parameter to each transaction
         deposits.forEach((deposit) => {
@@ -77,11 +77,11 @@ const getTransactionsByCustomerIDAsync = async (req, res) => {
 const getTransactionsAsync = async (req, res) => {
     try{
         // select all withdrawals from the withdrawal table
-        const [withdrawals] = await db.connection.query('SELECT * FROM bank.withdrawal');
+        const [withdrawals] = await db.connection.query('SELECT * FROM withdrawal');
         // select all deposits from the deposit table
-        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit');
+        const [deposits] = await db.connection.query('SELECT * FROM deposit');
         // select all transfers from the transfer table
-        const [transfers] = await db.connection.query('SELECT * FROM bank.transfer');
+        const [transfers] = await db.connection.query('SELECT * FROM transfer');
         // combine all transactions
         const transactions = withdrawals.concat(deposits, transfers);
         // sort by date most recent first
@@ -112,10 +112,10 @@ const getTransactionsByCustomerIDForAdminAsync = async (req, res) => {
     try{
         // Select the loan from the loan table
         const customerID = req.body.customerID;
-        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customerID]);
-        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1 AS amount,date FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customerID]);
-        const [transferIN] = await db.connection.query('SELECT * FROM bank.transfer WHERE toAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customerID]);
-        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1 AS amount,remarks FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE customerID = ?)', [customerID]);
+        const [deposits] = await db.connection.query('SELECT * FROM deposit WHERE accountNumber IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customerID]);
+        const [withdrawals] = await db.connection.query('SELECT ID,accountNumber,amount*-1 AS amount,date FROM withdrawal WHERE accountNumber IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customerID]);
+        const [transferIN] = await db.connection.query('SELECT * FROM transfer WHERE toAccountID IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customerID]);
+        const [transferOUT] = await db.connection.query('SELECT ID,fromAccountID,toAccountID,date,amount*-1 AS amount,remarks FROM transfer WHERE fromAccountID IN (select accountNumber FROM bank_account WHERE customerID = ?)', [customerID]);
 
         // add type parameter to each transaction
         deposits.forEach((deposit) => {
@@ -158,11 +158,11 @@ const getTransactionsByBranchAsync = async (req, res) => {
         console.log(employee);
         console.log(branchID);
         // select all withdrawals from the withdrawal table
-        const [withdrawals] = await db.connection.query('SELECT * FROM bank.withdrawal WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID]);
+        const [withdrawals] = await db.connection.query('SELECT * FROM withdrawal WHERE accountNumber IN (select accountNumber FROM bank_account WHERE branchID = ?)', [branchID]);
         // select all deposits from the deposit table
-        const [deposits] = await db.connection.query('SELECT * FROM bank.deposit WHERE accountNumber IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID]);
+        const [deposits] = await db.connection.query('SELECT * FROM deposit WHERE accountNumber IN (select accountNumber FROM bank_account WHERE branchID = ?)', [branchID]);
         // select all transfers from the transfer table
-        const [transfers] = await db.connection.query('SELECT * FROM bank.transfer WHERE fromAccountID IN (select accountNumber FROM bank.bank_account WHERE branchID = ?) OR toAccountID IN (select accountNumber FROM bank.bank_account WHERE branchID = ?)', [branchID, branchID]);
+        const [transfers] = await db.connection.query('SELECT * FROM transfer WHERE fromAccountID IN (select accountNumber FROM bank_account WHERE branchID = ?) OR toAccountID IN (select accountNumber FROM bank_account WHERE branchID = ?)', [branchID, branchID]);
         
         deposits.forEach((deposit) => {
             deposit.type = "deposit";
