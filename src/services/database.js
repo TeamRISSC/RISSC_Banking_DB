@@ -8,13 +8,10 @@ const {admin_config} = require('../../src/config/config')
      this.init(config)
   }
 
-  async init(config=admin_config){
-    this.connection = await mysql.createConnection({
-      host: config.host,
-      user: config.user,
-      password: config.password,
-      database: config.database
-    });
+  async init(config){
+    this.connection = await mysql.createConnection(
+      process.env.MYSQLCONNSTR_localdb ? azure_config : admin_config
+    );
   }
 }
 
