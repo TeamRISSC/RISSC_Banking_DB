@@ -73,6 +73,7 @@ CREATE TABLE bank_account (
   minBalance             NUMERIC(10,2),
   accountType            VARCHAR(50)
       check (accountType in ('Savings', 'Checking')),
+  createdDate            DATETIME,
   interestRate           NUMERIC(5,2),
   maxWithdrawals         NUMERIC(10,0),
   currentWithdrawals     NUMERIC(10,0),
@@ -116,6 +117,7 @@ CREATE TABLE online_loan (
       check(amount > 0),
   applyDate              DATE,
   timePeriod             NUMERIC(3,0),
+  interestRate           NUMERIC(5,2) DEFAULT 0.1,
   linkedAccountID       VARCHAR(10),
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
@@ -152,10 +154,12 @@ CREATE TABLE loan (
   customerID             INT NOT NULL,
   amount                  NUMERIC(10,2),
   applyDate               DATE,
-  approveDate            DATE,
+  approveDate            DATE DEFAULT NULL,
   timePeriod             NUMERIC(3,0),
+  interestRate           NUMERIC(5,2) DEFAULT 0.1,
   loanType               VARCHAR(20),
   linkedAccountID        VARCHAR(10),
+  isApproved             BOOLEAN DEFAULT false;
   PRIMARY KEY(ID),
   FOREIGN KEY (customerID) REFERENCES customer(ID),
   FOREIGN KEY (branchID) REFERENCES branch(ID),
@@ -169,7 +173,7 @@ CREATE TABLE loan_installment (
   date                    DATETIME,
   installmentNumber       NUMERIC(3,0),
   status                  VARCHAR(20),
-  check (status in ('OnTime', 'Late')),
+  check (status in ('UnPaid', 'OnTime', 'Late')),
   PRIMARY KEY(ID),
   FOREIGN KEY(loanID) REFERENCES loan(ID)
   );
@@ -181,7 +185,7 @@ CREATE TABLE online_loan_installment (
   date                    DATETIME,
   installmentNumber       NUMERIC(3,0),
   status                  VARCHAR(20),
-  check (status in ('OnTime', 'Late')),
+  check (status in ('UnPaid', 'OnTime', 'Late')),
   PRIMARY KEY(ID),
   FOREIGN KEY(onlineLoanID) REFERENCES online_loan(ID)
 );
