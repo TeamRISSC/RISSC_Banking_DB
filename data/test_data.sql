@@ -32,8 +32,8 @@ insert into admin (username, password) values ('Rovin', '12345');
 -- Insert customers
 insert into customer (type,name,address, contactNumber, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
                              '076652613', 'Chathura','chathura@gmail.com', '12345');
-insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kasun', '002, Colombo',
-                            '076652614', 'Kasun','kasun@gmail.com', '12345');
+insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kumara', '002, Colombo',
+                            '076652614', 'Kumara','kumara@gmail.com', '12345');
  
 -- Insert bank_accounts
 insert into bank_account values ('00001', '00001', '001', 'Chathura', 2000, 1000, 'Savings', curdate(),5,10,2);
