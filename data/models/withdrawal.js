@@ -29,7 +29,7 @@ const createWithdrawalAsync = async (req, res) => {
     
     // Insert the withdrawal into the withdrawal table
     await db.connection.beginTransaction()
-    const [rows] = await db.connection.query('SELECT check_balance(?,?,?) as "check"', 
+    const [rows] = await db.connection.query('SELECT check_withdrawal(?,?,?) as "check"', 
                         [withdrawal.accountNumber, transfer.amount, customer.ID])
 
     const check = rows[0]["check"]
@@ -37,10 +37,13 @@ const createWithdrawalAsync = async (req, res) => {
       throw new Error('Insufficient balance')
     }
     
-    if(check == -2){
+    else if(check == -2){
       throw new Error('Invalid Account')
     }
-    await db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber = ?', 
+    else if(check == -3){
+      throw new Error('Maximum number of withdrawals reached')
+    }
+    await db.connection.query('UPDATE bank_account SET balance = balance - ? currentWithdrawals = currentWithdrawals + 1 WHERE accountNumber = ?', 
                             [withdrawal.amount, withdrawal.accountNumber])
     const [result] = await db.connection.query('INSERT into withdrawal SET ?', withdrawal)
     const insertedWithdrawalId = result.insertId;

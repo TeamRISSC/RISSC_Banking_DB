@@ -2,41 +2,6 @@ const {MySQLDBMySQLDB} = require('../../src/services/database')
 const db = new MySQLDBMySQLDB()
 const {signToken, verifyToken} = require('../../src/services/utils')
 
-class LoanInstallment{
-    constructor(req){
-        this.loanID = req.body.loanID;
-        this.payment = req.body.payment;
-        this.date = req.body.date;
-        this.installmentNumber = req.body.installmentNumber
-    }
-
-    // setters and getters
-    setLoanId(loanID){
-        this.loanID = loanID;
-    }
-    getLoanId(){
-        return this.loanID;
-    }
-    setPayment(amount){
-        this.payment = amount;
-    }
-    getPayment(){
-        return this.payment;
-    }
-    setDate(date){
-        this.date = date;
-    }
-    getDate(){
-        return this.date;
-    }
-    setInstallmentNumber(insNum){
-        this.installmentNumber = insNum;
-    }
-    getInstallmentNumber(){
-        return this.installmentNumber;
-    }
-}
-
 // Async function to get all loan_installments
 const getLoanInstallmentsAsync = async (req, res) => {
   try{
@@ -115,57 +80,54 @@ const deleteLoanInstallmentAsync = async (req,res) => {
   } 
 };
 
-///////////// WIP /////////////
+const payLoanInstallments = async (req, res) => {
+  try{
+      const token = req.headers.authorization.replace('Bearer ', '')
+      console.log(token);
+      const customer = verifyToken(token)
 
-// Async function to create a new loan_installment
-const createLoanInstallmentAsync = async (req, res) => {
-    try{  
-    const loan_installment = new LoanInstallment(req)
-    
-    // Insert the loan_installment into the loan_installment table
-    const [result] = await db.connection.query('INSERT INTO loan_installment SET ?', loan_installment);
-    const insertedLoanInstallmentId = result.insertId;
-    
-    res.status(200).json({
-      message: `LoanInstallment ${insertedLoanInstallmentId} created successfully!`
-    });
+      // Get details on the installment
+      let [rows] = await db.connection.query('SELECT * from loan_installment WHERE ID=?', [req.body.ID])
+      const installment = rows[0]
+      if(!installment) throw new Error("Invalid Installment ID")
 
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
+      // Get the linked account id
+      [rows] = await db.connection.query('SELECT * from bank_account WHERE ID IN (SELECT linkedAccountID from loan WHERE loanID=?)', [installment.loanID])
+      const account = rows[0]
+
+      // if balance is not enough
+      if(account.balance - installment.payment < account.minBalance) throw new Error("Invalid Balance")
+
+      await db.connection.beginTransaction()
+      // Subtract the payment from the account
+      db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber=?', [installment.payment, account.accountNumber])
+      
+      // Update the status of the loan
+      const today = new Date()
+      const duedate = new Date(installment.date)
+      if(today <= duedate)
+        db.connection.query('UPDATE loan_installment SET status=? WHERE ID=?', ['OnTime', installment.ID])
+      else
+        db.connection.query('UPDATE loan_installment SET status=? WHERE ID=?', [ 'Late', installment.ID])
+      
+      db.connection.commit()
+      res.status(200).json({
+        message: "Payment Successful"
+      })
+  }catch(error){
+      db.connection.rollback()
+      res.status(500).json({
+          error: error.message
+        });
   }
-};
-
-
-// Async function to update a loan_installment
-const updateLoanInstallmentAsync = async (loan_installmentId, updatedLoanInstallment) => {
-  try {
-    // Update the loan_installment in the loan_installment table
-    await db.connection.query('UPDATE loan_installment SET ? WHERE id = ?', [updatedLoanInstallment, loan_installmentId]);
-
-    // Select the updated loan_installment from the loan_installment table
-    const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE id = ?', [loan_installmentId]);
-    const loan_installment = rows[0];
-
-    res.json(loan_installment);
-    
-    } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-    }
-};
-
+}
 
 
 
 module.exports = {
-  LoanInstallment,
-  createLoanInstallmentAsync,
   getLoanInstallmentAsync,
-  updateLoanInstallmentAsync,
   deleteLoanInstallmentAsync,
   getLoanInstallmentsByLoanIdAsync,
-  getLoanInstallmentsAsync
+  getLoanInstallmentsAsync,
+  payLoanInstallments
 };

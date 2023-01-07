@@ -71,7 +71,7 @@ const getLateInstallmentsAsyncbyBranch = async (req, res) => {
   
     } catch (error) {
       res.status(500).json({
-        error: error
+        error: error.message
       });
     }
   };
@@ -79,5 +79,5 @@ const getLateInstallmentsAsyncbyBranch = async (req, res) => {
 // export
 module.exports = {
     LoanSuper,
-    getLateInstallmentsAsyncbyBranch
-};
+    getLateInstallmentsAsyncbyBranch,
+}; 

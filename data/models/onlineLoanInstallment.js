@@ -1,4 +1,5 @@
-const {MySQLDBMySQLDB} = require('../../src/services/database')
+const {MySQLDBMySQLDB} = require('../../src/services/database');
+const { verifyToken } = require('../../src/services/utils');
 const db = new MySQLDBMySQLDB()
 
 class onlineLoanInstallmentID{
@@ -136,34 +137,56 @@ const createonlineLoanInstallmentIDAsync = async (req, res) => {
 }
 };
 
-///////////// WIP /////////////
 
+const payOnlineLoanInstallments = async (req, res) => {
+  try{
+      const token = req.headers.authorization.replace('Bearer ', '')
+      console.log(token);
+      const customer = verifyToken(token)
 
-// Async function to update a online_loan_installment
-const updateonlineLoanInstallmentIDAsync = async (online_loan_installmentId, updatedonlineLoanInstallmentID) => {
-  try {
-    // Update the online_loan_installment in the online_loan_installment table
-    await db.connection.query('UPDATE online_loan_installment SET ? WHERE id = ?', [updatedonlineLoanInstallmentID, online_loan_installmentId]);
+      // Get details on the installment
+      let [rows] = await db.connection.query('SELECT * from online_loan_installment WHERE ID=?', [req.body.ID])
+      const installment = rows[0]
+      if(!installment) throw new Error("Invalid Installment ID")
 
-    // Select the updated online_loan_installment from the online_loan_installment table
-    const [rows] = await db.connection.query('SELECT * FROM online_loan_installment WHERE id = ?', [online_loan_installmentId]);
-    const online_loan_installment = rows[0];
+      // Get the linked account id
+      [rows] = await db.connection.query('SELECT * from bank_account WHERE ID IN (SELECT linkedAccountID from loan WHERE onlineLoanID=?)', [installment.onlineLoanID])
+      const account = rows[0]
 
-    res.json(online_loan_installment);
-    
-    } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-    }
-};
+      // if balance is not enough
+      if(account.balance - installment.payment < account.minBalance) throw new Error("Invalid Balance")
+
+      await db.connection.beginTransaction()
+      // Subtract the payment from the account
+      db.connection.query('UPDATE bank_account SET balance = balance - ? WHERE accountNumber=?', [installment.payment, account.accountNumber])
+      
+      // Update the status of the loan
+      const today = new Date()
+      const duedate = new Date(installment.date)
+      if(today <= duedate)
+        db.connection.query('UPDATE online_loan_installment SET status=? WHERE ID=?', ['OnTime', installment.ID])
+      else
+        db.connection.query('UPDATE online_loan_installment SET status=? WHERE ID=?', [ 'Late', installment.ID])
+      
+      db.connection.commit()
+      res.status(200).json({
+        message: "Payment Successful"
+      })
+  }catch(error){
+      db.connection.rollback()
+      res.status(500).json({
+          error: error.message
+        });
+  }
+}
+
 
 module.exports = {
   onlineLoanInstallmentID,
   createonlineLoanInstallmentIDAsync,
   getonlineLoanInstallmentIDAsync,
-  updateonlineLoanInstallmentIDAsync,
   deleteonlineLoanInstallmentIDAsync,
   getonlineLoanInstallmentIDsByonlineLoanIDAsync,
-  getonlineLoanInstallmentIDsAsync
+  getonlineLoanInstallmentIDsAsync,
+  payOnlineLoanInstallments
 };
