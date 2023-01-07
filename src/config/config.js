@@ -35,7 +35,7 @@ const customer_config = {
 }
 
 const server_config = {
-    port:5000
+    port: process.env.PORT || 5000
 }
 
 const secret = 'secret'
