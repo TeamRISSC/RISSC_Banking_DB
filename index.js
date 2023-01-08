@@ -90,6 +90,7 @@ app.post('/api/employee/createLoanRequest', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
 app.post('/api/admin/listLoans/user', loanAPI.getLoanByCustomerIdForAdminAsync)
 app.get('/api/listLoans/', loanAPI.getLoansAsync)
+app.post('/api/manager/approveLoan', loanAPI.approveLoanAsync)
 
 // online loan routes
 app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)
