@@ -86,7 +86,7 @@ app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDeposi
 app.get('/api/loans', loanAPI.getLoanAsync) // works
 app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
-app.post('/api/loan', loanAPI.createLoanAsync)
+app.post('/api/employee/createLoanRequest', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
 app.post('/api/admin/listLoans/user', loanAPI.getLoanByCustomerIdForAdminAsync)
 app.get('/api/listLoans/', loanAPI.getLoansAsync)

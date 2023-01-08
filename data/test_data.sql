@@ -121,8 +121,8 @@ insert into employee (branchID,name,salary,contactNumber,username,email,password
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('002', 'Saman', 1000, '0771234562','saman','saman@gmail.com','12345');
 
 -- Insert loans
-insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business','00001');
-insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal','00002');
+insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID,isApproved) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business','00001','1');
+insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID,isApproved) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal','00002','1');
 
 -- Insert loan_installments
 insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-11-25', 1,"OnTime");
