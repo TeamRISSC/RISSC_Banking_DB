@@ -61,7 +61,7 @@ CREATE DEFINER=`admin`@`localhost` TRIGGER `online_loan_AFTER_INSERT` AFTER INSE
   set installment = new.amount * (1+new.interestRate) / new.timePeriod;
   
   
-  while i <= new.timePeriod do
+  while i <= new.timePeriod*12 do
 	insert into online_loan_installment(onlineLoanID, payment, date, installmentNumber, status)
     values (new.ID, installment, adddate(new.applyDate, interval i month), i, 'UnPaid');
     set i = i+1;
@@ -76,7 +76,7 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `loan_AFTER_UPDATE` AFTER UPDATE ON `l
     set i = 1;
     set installment = new.amount * (1+new.interestRate) / new.timePeriod;
     
-    while i <= new.timePeriod do
+    while i <= new.timePeriod*12 do
     insert into loan_installment(loanID, payment, date, installmentNumber, status)
       values (new.ID, installment, adddate(new.approveDate, interval i month), i, 'UnPaid');
       set i = i+1;
