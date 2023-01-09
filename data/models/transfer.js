@@ -49,8 +49,8 @@ const createTransferAsync = async (req, res) => {
     
     // Insert the transfer into the transfer table
     await db.connection.beginTransaction()
-    const [rows] = await db.connection.query('SELECT check_balance(?,?,?) as "check"', 
-                        [transfer.fromAccountID, transfer.amount, customer.ID])
+    const [rows] = await db.connection.query('SELECT check_balance(?,?,?,?) as "check"', 
+                        [transfer.fromAccountID, transfer.toAccountID, transfer.amount, customer.ID])
 
     const check = rows[0]["check"]
     if (check === -1){
