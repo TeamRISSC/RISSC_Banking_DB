@@ -173,6 +173,18 @@ const createOnlineLoanAsync = async (req, res) => {
   // set the linkedAccountID to the account linked to the Fixed Deposit
   online_loan.linkedAccountID = fd.linkedAccountID;
 
+  // set the interest rate to 10%
+  online_loan.interestRate = 0.10;
+  
+  // set customerID to the customer who owns the FD
+  online_loan.customerID = fd.customerID;
+
+  // set branchID to the branch where the linked account is located
+  const [rows2] = await db.connection.query('SELECT * FROM bank_account WHERE accountNumber = ?', [online_loan.linkedAccountID]);
+  const account = rows2[0];
+  online_loan.branchID = account.branchID;
+
+
   // Insert the online_loan into the online_loan table
   // start transaction
   await db.connection.beginTransaction();

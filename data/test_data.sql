@@ -32,8 +32,8 @@ insert into admin (username, password) values ('Rovin', '12345');
 -- Insert customers
 insert into customer (type,name,address, contactNumber, username, email, password) values ('Individual', 'Chathura', '001, Kandy',
                              '076652613', 'Chathura','chathura@gmail.com', '12345');
-insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kasun', '002, Colombo',
-                            '076652614', 'Kasun','kasun@gmail.com', '12345');
+insert into customer (type,name,address, contactNumber, username,email, password) value ('Individual', 'Kumara', '002, Colombo',
+                            '076652614', 'Kumara','kumara@gmail.com', '12345');
  
 -- Insert bank_accounts
 insert into bank_account values ('00001', '00001', '001', 'Chathura', 2000, 1000, 'Savings', curdate(),5,10,2);
@@ -121,8 +121,8 @@ insert into employee (branchID,name,salary,contactNumber,username,email,password
 insert into employee (branchID,name,salary,contactNumber,username,email,password) values ('002', 'Saman', 1000, '0771234562','saman','saman@gmail.com','12345');
 
 -- Insert loans
-insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business','00001');
-insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal','00002');
+insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID,isApproved) values ('001', '00001', 10000,'2022-11-23','2022-11-25',5,'Business','00001','1');
+insert into loan (branchID,customerID,amount,applyDate,approveDate,timePeriod,loanType,linkedAccountID,isApproved) values ('002', '00002', 20000,'2022-11-23','2022-11-25',5,'Personal','00002','1');
 
 -- Insert loan_installments
 insert into loan_installment (loanID,payment,date,installmentNumber,status) values ('00001', 1000, '2022-11-25', 1,"OnTime");

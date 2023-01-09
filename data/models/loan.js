@@ -50,7 +50,7 @@ const getLoanAsync = async (req,res) => {
 const getLoansAsync = async (req, res) => {
   try{
   // Select the loan from the loan table
-  const [rows] = await db.connection.query('SELECT * FROM bank.loan');
+  const [rows] = await db.connection.query('SELECT * FROM loan');
   // add loanType to the loan object as "loan"
   rows.forEach(row => {row.loanType = "loan";});
   res.status(200).json({"loans":rows});
@@ -173,6 +173,46 @@ const updateLoanAsync = async (loanId, updatedLoan) => {
     }
 };
 
+// Async function to approve a loan
+const approveLoanAsync = async (req, res) => {
+  try {
+
+    console.log(req.body)
+    // get the loan from the loan table
+    const [rows1] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [req.body.loanID]);
+    const loan = rows1[0];
+
+    console.log(loan)
+    if (!loan) {
+      return res.status(404).json({
+      message: 'Loan not found'
+      });
+    }
+
+    // change loan status to approved
+    loan.isApproved = '1'
+
+    // set approved date to today
+    loan.approveDate = req.body.approveDate
+
+    console.log(loan)
+
+    // Update the loan in the loan table
+    await db.connection.query('UPDATE loan SET ? WHERE id = ?', [loan, loan.ID]);
+
+    // Select the updated loan from the loan table
+    const [rows2] = await db.connection.query('SELECT * FROM loan WHERE id = ?', [loan.ID]);
+    const updatedLoan = rows2[0];
+
+    res.json(updatedLoan);
+    
+    } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+    }
+};
+
 
 module.exports = {
     Loan,
@@ -182,5 +222,6 @@ module.exports = {
     deleteLoanAsync,
     getLoansAsync,
     getLoanByCustomerIdAsync,
-    getLoanByCustomerIdForAdminAsync
+    getLoanByCustomerIdForAdminAsync,
+    approveLoanAsync
 }

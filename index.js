@@ -25,6 +25,12 @@ const port = server_config.port
 
 // Use the body-parser middleware to parse the request body
 app.use(bodyParser.json());
+// Accept these headers to avoid CORS errors on the client side
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Default Route
 app.get('/', (req, res) => res.send("Welcome to RISSC Banking API"))
@@ -80,10 +86,11 @@ app.patch('/api/fixeddeposit/:fixedDepositID', fixedDepositAPI.updateFixedDeposi
 app.get('/api/loans', loanAPI.getLoanAsync) // works
 app.delete('/api/loan/', loanAPI.deleteLoanAsync)
 app.get('/api/userLoans', loanAPI.getLoanByCustomerIdAsync) // works
-app.post('/api/loan', loanAPI.createLoanAsync)
+app.post('/api/employee/createLoanRequest', loanAPI.createLoanAsync)
 app.patch('/api/loan/', loanAPI.updateLoanAsync)
 app.post('/api/admin/listLoans/user', loanAPI.getLoanByCustomerIdForAdminAsync)
 app.get('/api/listLoans/', loanAPI.getLoansAsync)
+app.post('/api/manager/approveLoan', loanAPI.approveLoanAsync)
 
 // online loan routes
 app.get('/api/listOnlineLoans/', onlineLoanAPI.getOnlineLoansAsync)

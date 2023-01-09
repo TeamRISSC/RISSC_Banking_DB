@@ -234,10 +234,15 @@ const getCurrentAccountsByCustomerIDAsync = async (req,res) => {
 }
 
 // Async function to get all accounts
+// modified to get all from the branch of the employee
 const getAllAccountsAsync = async (req, res) => {
   try {
     // Select all accounts from the bank_account table
-    const [rows] = await db.connection.query('SELECT * FROM bank_account');
+    const token = req.headers.authorization.replace('Bearer ', '')
+    console.log(token);
+    const employee = verifyToken(token);
+    console.log(employee)
+    const [rows] = await db.connection.query('SELECT * FROM bank_account WHERE branchID = ?', [employee.branchID]);
     const accounts = rows;
 
     // get branch from branch table
