@@ -2,7 +2,7 @@ CREATE DEFINER=`admin`@`localhost` FUNCTION `check_balance`(account_number VARCH
     DETERMINISTIC
 BEGIN
   DECLARE acc_balance, min_balance DECIMAL DEFAULT 0;
-  DECLARE to_account VARCHAR(10);
+  DECLARE to_account VARCHAR(10) DEFAULT '';
   
   -- Get the balance of the account
   SELECT balance, minBalance INTO acc_balance, min_balance 
@@ -15,7 +15,9 @@ BEGIN
   WHERE accountNumber = to_account_number;
   
   -- If invalid account is requested
-  IF not acc_balance or not to_account THEN
+  IF not acc_balance THEN
+	RETURN -2;
+  ELSEIF not to_account THEN
 	RETURN -2;
   -- If the balance is not sufficient, throw an error
   ELSEIF (acc_balance - amount) < min_balance THEN

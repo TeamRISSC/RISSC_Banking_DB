@@ -41,11 +41,11 @@ const createTransferAsync = async (req, res) => {
     const transfer = new Transfer(req)
     
     // checking if toAccount is valid
-    const [toACC] = await db.connection.query('SELECT * from bank_account where accountNumber = ?',[transfer.toAccountID])
-    const checkAcc = toACC[0]
-    if (!checkAcc){
-      throw new Error ('Invaid Account number')
-    }
+    // const [toACC] = await db.connection.query('SELECT * from bank_account where accountNumber = ?',[transfer.toAccountID])
+    // const checkAcc = toACC[0]
+    // if (!checkAcc){
+    //   throw new Error ('Invaid Account number')
+    // }
     
     // Insert the transfer into the transfer table
     await db.connection.beginTransaction()
