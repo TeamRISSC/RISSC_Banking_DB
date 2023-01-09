@@ -1,15 +1,21 @@
-CREATE DEFINER=`admin`@`localhost` FUNCTION `check_balance`(account_number VARCHAR(10), amount DECIMAL, customer_ID DECIMAL) RETURNS int
+CREATE DEFINER=`admin`@`localhost` FUNCTION `check_balance`(account_number VARCHAR(10), to_account_number VARCHAR(10), amount DECIMAL, customer_ID DECIMAL) RETURNS int
     DETERMINISTIC
 BEGIN
   DECLARE acc_balance, min_balance DECIMAL DEFAULT 0;
-  -- Get the balance of the account
+  DECLARE to_account VARCHAR(10);
   
+  -- Get the balance of the account
   SELECT balance, minBalance INTO acc_balance, min_balance 
   FROM bank_account 
   WHERE accountNumber = account_number AND customerID = customer_ID;
   
+  -- Check if the to account is valid
+  SELECT accountNumber into to_account
+  FROM bank_account
+  WHERE accountNumber = to_account_number;
+  
   -- If invalid account is requested
-  IF not acc_balance THEN
+  IF not acc_balance or not to_account THEN
 	RETURN -2;
   -- If the balance is not sufficient, throw an error
   ELSEIF (acc_balance - amount) < min_balance THEN
@@ -17,6 +23,7 @@ BEGIN
   END IF;
   RETURN 1;
 END
+
 
 -- Function to check if the withdrawal is valid
 CREATE DEFINER=`admin`@`localhost` FUNCTION `check_withdrawal`(
