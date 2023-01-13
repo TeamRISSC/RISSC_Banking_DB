@@ -46,7 +46,9 @@ const getLoanInstallmentAsync = async (req,res) => {
     message: 'Loan Installment not found'
    });
  }
- res.json(loan_installment);
+ res.json({
+  "installments":loan_installment
+ });
   
 } catch (error) {
   res.status(500).json({
