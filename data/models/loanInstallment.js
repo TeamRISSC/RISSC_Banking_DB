@@ -39,15 +39,13 @@ const getLoanInstallmentAsync = async (req,res) => {
                                                [req.body.loanID, customer.ID]);
   }
   
-  const loan_installment = rows[0];
-  
   if (!loan_installment) {
     return res.status(404).json({
     message: 'Loan Installment not found'
    });
  }
  res.json({
-  installments: loan_installment
+  installments: rows
  });
   
 } catch (error) {
