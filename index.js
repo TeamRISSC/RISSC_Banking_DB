@@ -111,7 +111,7 @@ app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteL
 // if needed can get installments by customer id, just join with loan table and compare customer ID
 
 // get late installments
-app.get('/api/manager/lateinstallments/late', loanSuperAPI.getLateInstallmentsAsyncbyBranch)
+app.get('/api/manager/installments/late', loanSuperAPI.getLateInstallmentsAsyncbyBranch)
 
 // online loan Installment routes
 app.get('/api/onlineloaninstallments', onlineLoanInstallmentAPI.getonlineLoanInstallmentIDsAsync)
