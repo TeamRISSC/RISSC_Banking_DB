@@ -21,13 +21,29 @@ const getLoanInstallmentsAsync = async (req, res) => {
 // Async function to get a single loan_installment
 const getLoanInstallmentAsync = async (req,res) => {
   try{
-  // Select the loan_installment from the loan_installment table
-  const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE id = ?', [req.params.loanInstallmentID]);
-  const loan_installment = rows[0];
+  // Verify the token
+  const token = req.headers.authorization.replace('Bearer ', '')
+  console.log(token);
+  const customer = verifyToken(token)
+  let rows;
 
+  // Select the loan_installment from the loan_installment table
+  const type = req.params.loanType;
+  if(type == "loan"){
+    [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE loanID IN (SELECT ID from loan WHERE ID = ? AND customerID = ?)', 
+                                            [req.params.loanID, customer.ID]);
+  }
+  else{
+    // Select the online_loan_installment from the online_loan_installment table
+    console.log (req.params.onlineLoanInstallmentID)
+    [rows] = await db.connection.query('SELECT * FROM online_loan_installment WHERE onlineLoanID IN (SELECT ID from online_loan WHERE ID=? AND customerID = ?) ',
+                                               [req.params.loanID, customer.ID]);
+  }
+  const loan_installment = rows[0];
+  
   if (!loan_installment) {
     return res.status(404).json({
-    message: 'LoanInstallment not found'
+    message: 'Loan Installment not found'
    });
  }
  res.json(loan_installment);
