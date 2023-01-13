@@ -80,6 +80,24 @@ const getLoanInstallmentsByLoanIdAsync = async (req, res) => {
   }
 };
 
+// Async function to delete a loan_installment
+const deleteLoanInstallmentAsync = async (req,res) => {
+  try {
+    // Delete the loan_installment from the loan_installment table
+    console.log(req.body.loanInstallmentID);
+    await db.connection.query('DELETE FROM loan_installment WHERE id = ?', [req.body.loanInstallmentID]);
+    
+    res.status(200).json({
+      message: `LoanInstallment ${req.body.loanInstallmentID} deleted successfully!`
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error
+    });
+  } 
+};
+
 const payLoanInstallments = async (req, res) => {
   try{
       const token = req.headers.authorization.replace('Bearer ', '')
@@ -126,6 +144,7 @@ const payLoanInstallments = async (req, res) => {
 
 module.exports = {
   getLoanInstallmentAsync,
+  deleteLoanInstallmentAsync,
   getLoanInstallmentsByLoanIdAsync,
   getLoanInstallmentsAsync,
   payLoanInstallments
