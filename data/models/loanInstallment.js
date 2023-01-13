@@ -28,15 +28,15 @@ const getLoanInstallmentAsync = async (req,res) => {
   let rows;
 
   // Select the loan_installment from the loan_installment table
-  const type = req.params.loanType;
+  const type = req.body.loanType;
   if(type == "loan"){
     [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE loanID IN (SELECT ID from loan WHERE ID = ? AND customerID = ?)', 
-                                            [req.params.loanID, customer.ID]);
+                                            [req.body.loanID, customer.ID]);
   }
   else{
     // Select the online_loan_installment from the online_loan_installment table
     [rows] = await db.connection.query('SELECT * FROM online_loan_installment WHERE onlineLoanID IN (SELECT ID from online_loan WHERE ID=? AND customerID = ?) ',
-                                               [req.params.loanID, customer.ID]);
+                                               [req.body.loanID, customer.ID]);
   }
   
   const loan_installment = rows[0];
@@ -62,12 +62,12 @@ const getLoanInstallmentAsync = async (req,res) => {
 const getLoanInstallmentsByLoanIdAsync = async (req, res) => {
   try{
     // Select all loan_installments from the loan_installment table
-    const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE loanID = ?', [req.params.loanID]);
+    const [rows] = await db.connection.query('SELECT * FROM loan_installment WHERE loanID = ?', [req.body.loanID]);
     const loan_installments = rows;
 
     if (!loan_installments) {
       return res.status(404).json({
-      message: `LoanInstallments not found for loanID ${req.params.loanID}`
+      message: `LoanInstallments not found for loanID ${req.body.loanID}`
         
       });
     }
@@ -78,24 +78,6 @@ const getLoanInstallmentsByLoanIdAsync = async (req, res) => {
       error: error
     });
   }
-};
-
-// Async function to delete a loan_installment
-const deleteLoanInstallmentAsync = async (req,res) => {
-  try {
-    // Delete the loan_installment from the loan_installment table
-    console.log(req.params.loanInstallmentID);
-    await db.connection.query('DELETE FROM loan_installment WHERE id = ?', [req.params.loanInstallmentID]);
-    
-    res.status(200).json({
-      message: `LoanInstallment ${req.params.loanInstallmentID} deleted successfully!`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  } 
 };
 
 const payLoanInstallments = async (req, res) => {
