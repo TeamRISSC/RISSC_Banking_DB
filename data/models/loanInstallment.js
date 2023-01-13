@@ -39,7 +39,7 @@ const getLoanInstallmentAsync = async (req,res) => {
                                                [req.body.loanID, customer.ID]);
   }
   
-  if (!loan_installment) {
+  if (!rows[0]) {
     return res.status(404).json({
     message: 'Loan Installment not found'
    });
