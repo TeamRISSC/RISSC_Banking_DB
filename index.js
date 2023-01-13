@@ -105,10 +105,9 @@ app.post('/api/createOnlineLoan', onlineLoanAPI.createOnlineLoanAsync)
 app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
 
 // loan Installment routes
-app.get('/api/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
-app.post('/api/payloaninstallments', loanInstallmentAPI.payLoanInstallments)
+app.get('/api/admin/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
 
-app.get('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.getLoanInstallmentAsync)
+app.get('/api/loaninstallments/', loanInstallmentAPI.getLoanInstallmentAsync)
 app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteLoanInstallmentAsync)
 // if needed can get installments by customer id, just join with loan table and compare customer ID
