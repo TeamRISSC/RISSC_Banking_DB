@@ -105,8 +105,6 @@ app.post('/api/createOnlineLoan', onlineLoanAPI.createOnlineLoanAsync)
 app.patch('/api/onlineloan/:onlineLoanID', onlineLoanAPI.updateOnlineLoanAsync)
 
 // loan Installment routes
-app.get('/api/admin/loaninstallments', loanInstallmentAPI.getLoanInstallmentsAsync)
-
 app.get('/api/loaninstallments/', loanInstallmentAPI.getLoanInstallmentAsync)
 app.get('/api/loaninstallment/loan/:loanID', loanInstallmentAPI.getLoanInstallmentsByLoanIdAsync)
 app.delete('/api/loaninstallment/:loanInstallmentID', loanInstallmentAPI.deleteLoanInstallmentAsync)
