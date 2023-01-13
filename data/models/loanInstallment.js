@@ -35,10 +35,10 @@ const getLoanInstallmentAsync = async (req,res) => {
   }
   else{
     // Select the online_loan_installment from the online_loan_installment table
-    console.log (req.params.onlineLoanInstallmentID)
     [rows] = await db.connection.query('SELECT * FROM online_loan_installment WHERE onlineLoanID IN (SELECT ID from online_loan WHERE ID=? AND customerID = ?) ',
                                                [req.params.loanID, customer.ID]);
   }
+  
   const loan_installment = rows[0];
   
   if (!loan_installment) {
@@ -47,7 +47,7 @@ const getLoanInstallmentAsync = async (req,res) => {
    });
  }
  res.json({
-  "installments":loan_installment
+  installments: loan_installment
  });
   
 } catch (error) {
