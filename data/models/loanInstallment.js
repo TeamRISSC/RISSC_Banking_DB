@@ -126,7 +126,6 @@ const payLoanInstallments = async (req, res) => {
 
 module.exports = {
   getLoanInstallmentAsync,
-  deleteLoanInstallmentAsync,
   getLoanInstallmentsByLoanIdAsync,
   getLoanInstallmentsAsync,
   payLoanInstallments
