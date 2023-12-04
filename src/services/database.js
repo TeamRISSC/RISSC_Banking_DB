@@ -10,7 +10,7 @@ const {admin_config} = require('../../src/config/config')
 
   async init(config){
     this.connection = await mysql.createConnection(
-      process.env.MYSQLCONNSTR_localdb ? azure_config : admin_config
+      azure_config
     );
   }
 }
