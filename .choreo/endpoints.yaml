@@ -1,5 +1,5 @@
 version: 1.0,
 name: RISSC_DB,
-port: 5000,
+port: 8080,
 type: REST,
 networkVisibility: Public
