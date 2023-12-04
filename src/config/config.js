@@ -1,10 +1,10 @@
 // Contains the configurations for the server
 const azure_config = {
-    host:"127.0.0.1",
+    host:"process.env.WEBSITE_MYSQL_HOST",
     port: process.env.WEBSITE_MYSQL_PORT || 51940,
-    user:"azure",
-    password:"6#vWHD_$",
-    database:"localdb"
+    user:"process.env.WEBSITE_MYSQL_USER || admin",
+    password:"process.env.WEBSITE_MYSQL_PASSWORD",
+    database:"process.env.WEBSITE_MYSQL_DB"
 }
 const admin_config = {
     host:"localhost",
